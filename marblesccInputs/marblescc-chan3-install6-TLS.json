@@ -1,0 +1,24 @@
+{
+    "channelID": "_ch3",
+    "chaincodeID": "marbles_cc",
+    "chaincodeVer": "v0",
+    "transType": "install",
+    "nProcPerOrg": "1",
+    "TLS": "enabled",
+    "channelOpt": {
+        "name":  "testorgschannel3",
+        "action":  "create",
+        "orgName": [
+            "org6"
+        ]
+    },
+    "deploy": {
+        "chaincodePath": "github.com/hyperledger/fabric-test/fabric/examples/chaincode/go/marbles02",
+        "metadataPath": "/home/ibmadmin/gopath/src/github.com/hyperledger/fabric-test/fabric/examples/chaincode/go/marbles02/META-INF",
+        "fcn": "init",
+        "args": []
+    },
+    "SCFile": [
+		{"ServiceCredentials":"SCFiles/config-chan3-TLS.json"}
+	]
+}
