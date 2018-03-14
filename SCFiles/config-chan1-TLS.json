@@ -27,14 +27,14 @@
 			"username": "admin",
 			"secret": "adminpw",
                         "peer0": {
-				"requests": "grpcs://172.16.50.153:7061",
-				"events": "grpcs://172.16.50.153:6051",
+				"requests": "grpcs://172.16.50.153:7051",
+				"events": "grpcs://172.16.50.153:7053",
                                 "server-hostname": "peer0.org1.example.com",
                                 "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
 			},
 			"peer1": {
-                                "requests": "grpcs://172.16.50.153:7062",
-                                "events": "grpcs://172.16.50.153:6052",
+                                "requests": "grpcs://172.16.50.153:8051",
+                                "events": "grpcs://172.16.50.153:8053",
                                 "server-hostname": "peer1.org1.example.com",
                                 "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
 			}
@@ -47,14 +47,14 @@
 			"comName": "example.com",
 			"ordererID": "orderer0",
 			"ca": {
-                             "url":"https://172.16.50.153:7055",
+                             "url":"https://172.16.50.153:8054",
 			     "name": "ca1"
                         },
 			"username": "admin",
 			"secret": "adminpw",
 			"peer0": {
-				"requests": "grpcs://172.16.50.153:7063",
-				"events": "grpcs://172.16.50.153:6053",
+				"requests": "grpcs://172.16.50.153:9051",
+				"events": "grpcs://172.16.50.153:9053",
                                 "server-hostname": "peer0.org2.example.com",
                                 "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem"
 			}
