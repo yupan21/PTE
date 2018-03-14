@@ -9,8 +9,8 @@
 			        "adminPath": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp",
 			        "comName": "example.com",
                                 "url": "grpcs://172.16.50.153:7050",
-                                "server-hostname": "orderer0.example.com",
-                                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+                                "server-hostname": "orderer.example.com",
+                                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
                         }
                 },
 		"org1": {
