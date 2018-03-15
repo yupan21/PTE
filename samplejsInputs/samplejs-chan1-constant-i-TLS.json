@@ -16,7 +16,7 @@
     "TLS": "enabled",
     "channelOpt": {
         "name": "mychannel",
-        "action":  "create",
+        "action":  "",
         "orgName": [
             "org1",
             "org2"
