@@ -57,30 +57,7 @@ The command is located in `PTE/CITest/scripts`
         FAB-7204-4q: samplecc Node JS chaincode, 4 processes X 100 invokes, TLS, levelDB
         FAB-7331-4i: samplecc Node JS chaincode, 4 processes X 10000 invokes, TLS, levelDB, 1 channel, event listener: per transaction
         FAB-7332-4i: samplecc Node JS chaincode, 4 processes X 10000 invokes, TLS, levelDB, 2 channel, event listener: per transaction
-        FAB-7329-4i: samplecc Node JS chaincode, 4 processes X 10000 invokes, TLS, levelDB, 1 channel, channel event service, event listener: per transaction
-        FAB-7246-4i: samplecc Node JS chaincode, 4 processes X 10000 invokes, TLS, levelDB, 2 channel, channel event service, event listener: per transaction
-        FAB-7333-4i: samplecc Node JS chaincode, 4 processes X 10000 invokes, TLS, levelDB, 1 channel, filtered block event service, event listener: per transaction
-        FAB-7334-4i: samplecc Node JS chaincode, 4 processes X 10000 invokes, TLS, levelDB, 2 channel, filtered block event service, event listener: per block
-        FAB-7627-16i: samplecc GO chaincode, 16 processes X 10000 invokes, TLS, levelDB, 8 channel, peer event service, event listener: per block
-        FAB-7627-16q: samplecc GO chaincode, 16 processes X 10000 queries, TLS, levelDB, 8 channel
-        FAB-7647-1i: latency mode, samplecc GO chaincode, 1 process X 10000 invokes, TLS, levelDB, 1 channel, peer event service, event listener: per block
-        FAB-7647-1q: latency mode, samplecc GO chaincode, 1 process X 10000 queries, TLS, levelDB, 1 channel
-        FAB-7929-8i: smoke test, samplecc GO chaincode, 8 processes X 100 invokes, TLS, levelDB, 4 channel, channel event service, event listener: per block
-        FAB-7929-8q: smoke test, samplecc GO chaincode, 8 processes X 100 queries, TLS, levelDB, 4 channel
-        FAB-8192-4i: marbles02 GO chaincode, 4 processes X 1000 invokes, TLS, CouchDB, 2 channel, channel event service with block listener
-        FAB-8199-4q: marbles02 GO chaincode, 4 processes X 1000 queries, TLS, CouchDB, 2 channel
-        FAB-8200-4q: marbles02 GO chaincode, 4 processes X 1000 rich queries (queryMarblesByOwner), TLS, CouchDB, 2 channels
-        FAB-8201-4q: marbles02 GO chaincode, 4 processes X 1000 rich queries (queryMarbles: owner and docType), TLS, CouchDB, 2 channels
-        marbles02-4q: ledgers synchronization (for FAB-8192, FAB-8199, FAB-8200, FAB-8201), marbles02 GO chaincode, 4 processes X 10 queries, TLS, CouchDB, 2 channels
-        FAB-8384-4i: samplecc NodeJS chaincode, 4 processes X 750,000 invokes to 4 peers, TLS, levelDB, 2 channel, 2 endorsers, channel event service with block listener
-        FAB-8384-4q: ledger synchronization for FAB-8384-4i, samplecc NodeJS chaincode, 4 processes X 100 queries to 4 peers, TLS, levelDB, 2 channel
-        FAB-8414-4i: samplecc NodeJS chaincode, 4 processes X 750,000 invokes to 2 peers, TLS, levelDB, 2 channel, 2 endorsers, channel event service with block listener
-        FAB-8414-4q: ledger synchronization for FAB-8414-4i, samplecc NodeJS chaincode, 4 processes X 100 queries to 2 peers, TLS, levelDB, 2 channel
-        FAB-8208-64i: samplecc chaincode, 32 processes invokes longrun, TLS, levelDB, 32 org, 8 channel, filtered block event service
-        FAB-8208-64q: ledger synchronization for FAB-8208-64i, samplecc chaincode, 32 processes X 100 queries, TLS, levelDB, 32 org, 8 channel
-        FAB-6813-4i: marbles02 GO chaincode, 4 processes X 1000 invokes, TLS, CouchDB with indexing, 2 channel, channel event service with block listener
 
-    **Note that a query testcase requires execution of corresponding invoke testcase first to avoid errors due to the absence of transactions.**
 
 * ### Examples
 
@@ -131,18 +108,6 @@ The command is located in `PTE/CITest/scripts`
         FAB-7204-4i.sh: execute FAB-7204-4i (TPS result not applicable)
         FAB-7331-4i.sh: execute FAB-7331-4i
         FAB-7332-4i.sh: execute FAB-7332-4i
-        FAB-7246-4i.sh: execute FAB-7246-4i
-        FAB-7329-4i.sh: execute FAB-7329-4i
-        FAB-7333-4i.sh: execute FAB-7333-4i
-        FAB-7334-4i.sh: execute FAB-7334-4i
-        FAB-7627-16i.sh: execute FAB-7627-16i
-        FAB-7647-1i.sh: execute FAB-7647-1i
-        FAB-7929-8i.sh: execute FAB-7929-8i
-        FAB-8192-4i.sh: execute FAB-8192-4i, FAB-8199-4q, FAB-8200-4q, FAB-8201-4q
-        FAB-8384-4i.sh: execute FAB-8384-4i
-        FAB-8414-4i.sh: execute FAB-8414-4i
-        FAB-8208-64i.sh: execute FAB-8208-64i
-        FAB-6813-4i.sh: execute FAB-6813-4i, FAB-8199-4q, FAB-8200-4q, FAB-8201-4q
 
 
 * ### Network

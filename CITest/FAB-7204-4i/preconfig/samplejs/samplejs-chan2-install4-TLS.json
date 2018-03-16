@@ -1,16 +1,14 @@
 {
     "channelID": "_ch2",
-    "chaincodeID": "marbles_cc",
+    "chaincodeID": "sample_js",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",
     "transMode": "Simple",
-    "transType": "instantiate",
+    "transType": "install",
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
-    "nOrderer": "1",
-    "nPeer": "4",
-    "nProcPerOrg": "4",
+    "nProcPerOrg": "1",
     "nRequest": "1000",
     "runDur": "600",
     "TLS": "enabled",
@@ -18,7 +16,7 @@
         "name":  "testorgschannel2",
         "action":  "create",
         "orgName": [
-            "org3"
+            "org2"
         ]
     },
     "burstOpt": {
@@ -35,28 +33,19 @@
         "constFreq": "1",
         "devFreq": "0"
     },
-    "ccType": "marblescc",
+    "ccType": "ccchecker",
     "ccOpt": {
         "keyStart": "50000",
         "payLoadMin": "1024",
         "payLoadMax": "1024"
     },
     "deploy": {
-        "chaincodePath": "github.com/hyperledger/fabric-test/fabric/examples/chaincode/go/marbles02",
+        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/samplecc/node",
         "fcn": "init",
+        "language": "node",
         "args": []
     },
-    "invoke": {
-        "query": {
-            "fcn": "invoke",
-            "args": ["get", "a1"]
-        },
-        "move": {
-            "fcn": "invoke",
-            "args": ["put", "a1","1"]
-        }
-    },
     "SCFile": [
-		{"ServiceCredentials":"SCFiles/config-chan2-TLS.json"}
+		{"ServiceCredentials":"CITest/CISCFiles/config-chan1-TLS.json"}
 	]
 }

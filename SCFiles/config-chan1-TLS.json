@@ -5,19 +5,19 @@
 		        "orderer0": {
 			        "name": "OrdererOrg",
 			        "mspid": "OrdererOrg",
-			        "mspPath": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config",
-			        "adminPath": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp",
+			        "mspPath": "/opt/debug-tool/artifacts/channel/crypto-config",
+			        "adminPath": "/opt/debug-tool/artifacts/channel/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp",
 			        "comName": "example.com",
                                 "url": "grpcs://172.16.50.153:7050",
                                 "server-hostname": "orderer.example.com",
-                                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+                                "tls_cacerts": "/opt/debug-tool/artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
                         }
                 },
 		"org1": {
-			"name": "PeerOrg1",
-			"mspid": "PeerOrg1",
-			"mspPath": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config",
-			"adminPath": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp",
+			"name": "peerOrg1",
+			"mspid": "Org1MSP",
+			"mspPath": "/opt/debug-tool/artifacts/channel/crypto-config",
+			"adminPath": "/opt/debug-tool/artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp",
 			"comName": "example.com",
 			"ordererID": "orderer0",
 			"ca": {
@@ -30,33 +30,13 @@
 				"requests": "grpcs://172.16.50.153:7051",
 				"events": "grpcs://172.16.50.153:7053",
                                 "server-hostname": "peer0.org1.example.com",
-                                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
+                                "tls_cacerts": "/opt/debug-tool/artifacts/channel/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
 			},
 			"peer1": {
-                                "requests": "grpcs://172.16.50.153:8051",
-                                "events": "grpcs://172.16.50.153:8053",
+                                "requests": "grpcs://172.16.50.153:7056",
+                                "events": "grpcs://172.16.50.153:7058",
                                 "server-hostname": "peer1.org1.example.com",
-                                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
-			}
-		},
-		"org2": {
-			"name": "PeerOrg2",
-			"mspid": "PeerOrg2",
-			"mspPath": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config",
-			"adminPath": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp",
-			"comName": "example.com",
-			"ordererID": "orderer0",
-			"ca": {
-                             "url":"https://172.16.50.153:8054",
-			     "name": "ca1"
-                        },
-			"username": "admin",
-			"secret": "adminpw",
-			"peer0": {
-				"requests": "grpcs://172.16.50.153:9051",
-				"events": "grpcs://172.16.50.153:9053",
-                                "server-hostname": "peer0.org2.example.com",
-                                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-samples/first-network/crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem"
+                                "tls_cacerts": "/opt/debug-tool/artifacts/channel/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
 			}
 		}
         }

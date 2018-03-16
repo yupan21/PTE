@@ -29,27 +29,16 @@ if [ $cc == "all" ]; then
             echo "[$0] ***************************************************"
             echo "[$0] *******   install chaincode: $c1      *******"
             echo "[$0] ***************************************************"
-
-            runInstall=`ls CITest/$PrecfgDir/preconfig/$cc/runCases*install*`
-            echo "runInstall $runInstall"
-            for ri in $runInstall; do
-               echo "./pte_driver.sh $ri"
-               ./pte_driver.sh $ri
-               sleep 60s
-            done
+            ./pte_driver.sh CITest/$PrecfgDir/preconfig/$c1/runCases-$c1"-install-TLS.txt"
+            #./pte_driver.sh CITest/preconfig/$c1/runCases-$c1"-install-TLS.txt"
+            sleep 20s
 
             echo "[$0] ***************************************************"
             echo "[$0] *******   instantiate chaincode: $c1  *******"
             echo "[$0] ***************************************************"
-
-            runInstan=`ls CITest/$PrecfgDir/preconfig/$cc/runCases*instantiate*`
-            echo "runInstan $runInstan"
-            for ri in $runInstan; do
-               echo "./pte_driver.sh $ri"
-               ./pte_driver.sh $ri
-               sleep 60s
-            done
-
+            ./pte_driver.sh CITest/$PrecfgDir/preconfig/$c1/runCases-$c1"-instantiate-TLS.txt"
+            #./pte_driver.sh CITest/preconfig/$c1/runCases-$c1"-instantiate-TLS.txt"
+            sleep 120s
         fi
     done
 else
@@ -61,26 +50,13 @@ else
         echo "[$0] ***************************************************"
         echo "[$0] *******   install chaincode: $cc      *******"
         echo "[$0] ***************************************************"
-
-        runInstall=`ls CITest/$PrecfgDir/preconfig/$cc/runCases*install*`
-        echo "runInstall $runInstall"
-        for ri in $runInstall; do
-           echo "./pte_driver.sh $ri"
-           ./pte_driver.sh $ri
-           sleep 60s
-        done
+        ./pte_driver.sh CITest/$PrecfgDir/preconfig/$cc/runCases-$cc"-install-TLS.txt"
+        sleep 20s
 
         echo "[$0] ***************************************************"
         echo "[$0] *******   instantiate chaincode: $cc  *******"
         echo "[$0] ***************************************************"
-
-        runInstan=`ls CITest/$PrecfgDir/preconfig/$cc/runCases*instantiate*`
-        echo "runInstan $runInstan"
-        for ri in $runInstan; do
-           echo "./pte_driver.sh $ri"
-           ./pte_driver.sh $ri
-           sleep 60s
-        done
+        ./pte_driver.sh CITest/$PrecfgDir/preconfig/$cc/runCases-$cc"-instantiate-TLS.txt"
 
     fi
 fi

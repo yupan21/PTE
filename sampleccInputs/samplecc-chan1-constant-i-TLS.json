@@ -1,25 +1,24 @@
 {
-    "channelID": "_ch1",
-    "chaincodeID": "sample_cc",
+    "channelID": "",
+    "chaincodeID": "example01",
     "chaincodeVer": "v0",
-    "logLevel": "ERROR",
-    "invokeCheck": "TRUE",
+    "logLevel": "DEBUG",
+    "invokeCheck": "False",
     "transMode": "Constant",
     "transType": "Invoke",
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
-    "peerFailover": "TRUE",
-    "ordererFailover": "TRUE",
+    "peerFailover": "False",
+    "ordererFailover": "False",
     "nProcPerOrg": "1",
-    "nRequest": "1000",
+    "nRequest": "100000",
     "runDur": "600",
     "TLS": "enabled",
     "channelOpt": {
         "name": "mychannel",
         "action":  "",
         "orgName": [
-            "org1",
-            "org2"
+            "org1"
         ]
     },
     "burstOpt": {
@@ -33,13 +32,12 @@
         "mixFreq": "3000"
     },
     "constantOpt": {
-        "recHist": "HIST",
+        "recHist": "noHIST",
         "constFreq": "0",
         "devFreq": "0"
     },
     "listOpt": {
-        "org1": ["peer0", "peer1"],
-        "org2": ["peer0", "peer1"]
+        "org1": ["peer0"]
     },
     "eventOpt": {
         "type": "Channel",
