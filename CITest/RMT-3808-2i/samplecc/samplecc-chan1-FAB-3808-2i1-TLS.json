@@ -8,7 +8,7 @@
     "transType": "Invoke",
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
-    "nProcPerOrg": "1",
+    "nProcPerOrg": "5",
     "nRequest": "0",
     "runDur": "600",
     "TLS": "enabled",
