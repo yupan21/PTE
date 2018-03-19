@@ -9,8 +9,8 @@
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
     "nProcPerOrg": "1",
-    "nRequest": "10000",
-    "runDur": "0",
+    "nRequest": "0",
+    "runDur": "600",
     "TLS": "enabled",
     "channelOpt": {
         "name": "testorgschannel1",

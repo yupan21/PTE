@@ -25,5 +25,5 @@ bash ./get_peerStats.sh -r RMT-3808-2i -p peer0.org1.example.com peer0.org2.exam
 #### execute testcase RMT-3811-2q: 2 threads queries, golevelDB
 bash ./test_driver.sh -t RMT-3811-2q
 #### gather TPS from PTE log
-grep Summary ../Logs/RMT-3811-2q*.log | grep "QUERY" >> $CWD/$PREFIX"_RMT-3808-2i.log"
+# grep Summary ../Logs/RMT-3811-2q*.log | grep "QUERY" >> $CWD/$PREFIX"_RMT-3808-2i.log"
 
