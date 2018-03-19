@@ -12,7 +12,7 @@ function printHelp {
 
    echo " "
    echo "Usage: "
-   echo " ./$CMD <TestCase>"
+   echo " bash $CMD <TestCase>"
    echo "      where TestCase must be the name of the dircetory where the test case resides"
    echo " "
    echo " available TestCase:"
@@ -37,8 +37,8 @@ function printHelp {
    echo "    FAB-3835-4q: 4 processes X 10000 queries, TLS"
    echo " "
    echo " example: "
-   echo " ./$CMD -t FAB-3983-i-TLS"
-   echo " ./$CMD -t FAB-3989-4i-TLS"
+   echo " bash $CMD -t FAB-3983-i-TLS"
+   echo " bash $CMD -t FAB-3989-4i-TLS"
    exit
 
 }

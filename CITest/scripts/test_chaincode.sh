@@ -29,15 +29,15 @@ if [ $cc == "all" ]; then
             echo "[$0] ***************************************************"
             echo "[$0] *******   install chaincode: $c1      *******"
             echo "[$0] ***************************************************"
-            ./pte_driver.sh CITest/$PrecfgDir/preconfig/$c1/runCases-$c1"-install-TLS.txt"
-            #./pte_driver.sh CITest/preconfig/$c1/runCases-$c1"-install-TLS.txt"
+            bash pte_driver.sh CITest/$PrecfgDir/preconfig/$c1/runCases-$c1"-install-TLS.txt"
+            #bash pte_driver.sh CITest/preconfig/$c1/runCases-$c1"-install-TLS.txt"
             sleep 20s
 
             echo "[$0] ***************************************************"
             echo "[$0] *******   instantiate chaincode: $c1  *******"
             echo "[$0] ***************************************************"
-            ./pte_driver.sh CITest/$PrecfgDir/preconfig/$c1/runCases-$c1"-instantiate-TLS.txt"
-            #./pte_driver.sh CITest/preconfig/$c1/runCases-$c1"-instantiate-TLS.txt"
+            bash pte_driver.sh CITest/$PrecfgDir/preconfig/$c1/runCases-$c1"-instantiate-TLS.txt"
+            #bash pte_driver.sh CITest/preconfig/$c1/runCases-$c1"-instantiate-TLS.txt"
             sleep 120s
         fi
     done
@@ -50,13 +50,13 @@ else
         echo "[$0] ***************************************************"
         echo "[$0] *******   install chaincode: $cc      *******"
         echo "[$0] ***************************************************"
-        ./pte_driver.sh CITest/$PrecfgDir/preconfig/$cc/runCases-$cc"-install-TLS.txt"
+        bash pte_driver.sh CITest/$PrecfgDir/preconfig/$cc/runCases-$cc"-install-TLS.txt"
         sleep 20s
 
         echo "[$0] ***************************************************"
         echo "[$0] *******   instantiate chaincode: $cc  *******"
         echo "[$0] ***************************************************"
-        ./pte_driver.sh CITest/$PrecfgDir/preconfig/$cc/runCases-$cc"-instantiate-TLS.txt"
+        bash pte_driver.sh CITest/$PrecfgDir/preconfig/$cc/runCases-$cc"-instantiate-TLS.txt"
 
     fi
 fi

@@ -8,7 +8,7 @@
 
 if [ $# -gt 2 ]; then
     echo "[$0] invalid number of arguments: $#"
-    ./test_help.sh test_pte.sh
+    bash test_help.sh test_pte.sh
     exit
 fi
 
@@ -33,7 +33,7 @@ fi
 if [[ ! -e CITest/$TCase ]]; then
     echo "The test case [CITest/$TCase] does not exist"
     cd $ScriptsDir
-    ./test_help.sh test_driver.sh
+    bash test_help.sh test_driver.sh
     exit
 fi
 
@@ -43,12 +43,12 @@ if [ $TCase == "robust-i-TLS" ]; then
     # robustness test: in addition to pte_mgr.sh, requires test_robust.sh to restart orderers and peers
     tCurr=`date +%m%d%H%M%S`
     echo "*************** [$0] executing: ***************"
-    echo "    ./pte_mgr.sh CITest/$TCase/samplecc/PTEMgr-$TCase.txt >& $LogsDir/$TCase"_"$tCurr.log"
-    echo "    ./pte_mgr.sh CITest/$TCase/samplecc/PTEMgr-$TCase.txt >& $LogsDir/$TCase"_"$tCurr.log" > $LogsDir/$TCase"_"$tCurr.log
+    echo "    bash pte_mgr.sh CITest/$TCase/samplecc/PTEMgr-$TCase.txt >& $LogsDir/$TCase"_"$tCurr.log"
+    echo "    bash pte_mgr.sh CITest/$TCase/samplecc/PTEMgr-$TCase.txt >& $LogsDir/$TCase"_"$tCurr.log" > $LogsDir/$TCase"_"$tCurr.log
     sleep 20s
-    ./pte_mgr.sh CITest/$TCase/samplecc/PTEMgr-$TCase.txt $TSTART >> $LogsDir/$TCase"_"$tCurr.log 2>&1 &
+    bash pte_mgr.sh CITest/$TCase/samplecc/PTEMgr-$TCase.txt $TSTART >> $LogsDir/$TCase"_"$tCurr.log 2>&1 &
     cd $ScriptsDir
-    ./test_robust.sh
+    bash test_robust.sh
     echo "[$0] kill node processes"
     kill -9 $(ps -a | grep node | awk '{print $1}')
 else
@@ -65,10 +65,10 @@ else
             cd $PTEDir
             for pte in $ptemgr; do
                 echo "*************** [$0] executing: ***************"
-                echo "    ./pte_mgr.sh CITest/$TCase/$cc/$pte > $LogsDir/$TCase"_"$tCurr.log"
-                echo "    ./pte_mgr.sh CITest/$TCase/$cc/$pte > $LogsDir/$TCase"_"$tCurr.log" > $LogsDir/$TCase"_"$tCurr.log
+                echo "    bash pte_mgr.sh CITest/$TCase/$cc/$pte > $LogsDir/$TCase"_"$tCurr.log"
+                echo "    bash pte_mgr.sh CITest/$TCase/$cc/$pte > $LogsDir/$TCase"_"$tCurr.log" > $LogsDir/$TCase"_"$tCurr.log
                 sleep 20s
-                ./pte_mgr.sh CITest/$TCase/$cc/$pte $TStart >> $LogsDir/$TCase"_"$tCurr.log 2>&1
+                bash pte_mgr.sh CITest/$TCase/$cc/$pte $TStart >> $LogsDir/$TCase"_"$tCurr.log 2>&1
             done
         fi
     done

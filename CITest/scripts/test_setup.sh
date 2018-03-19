@@ -22,7 +22,7 @@ git clone https://github.com/hyperledger/fabric-test
 cd $FabricTestDir
 ### git submodule update --init --recursive
 cd $FabricTestDir/fabric/scripts
-### ./bootstrap-1.0.0.sh
+### bash bootstrap-1.0.0.sh
 
 # install sdk-node
 cd $SDKDir

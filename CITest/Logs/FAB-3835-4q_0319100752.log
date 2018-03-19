@@ -1,14 +1,14 @@
-    ./pte_mgr.sh CITest/FAB-3835-4q/samplecc/PTEMgr-FAB-3835-4q-TLS.txt > /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs/FAB-3835-4q_0319100752.log
+    bash pte_mgr.sh CITest/FAB-3835-4q/samplecc/PTEMgr-FAB-3835-4q-TLS.txt > /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs/FAB-3835-4q_0319100752.log
 num 2
 driver type supported: driver=pte
 driver type supported: driver=pte
 PTE Array: CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt
 executing 2 PTE requests
 nPTE: 2, tStart: 1521425310206
-./pte_driver.sh CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt 0 1521425310206 &
-./pte_driver.sh CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt 1 1521425310206 &
-./pte_driver.sh inFile= CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt, tStart=1521425310206 iPTE=0 
-./pte_driver.sh inFile= CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt, tStart=1521425310206 iPTE=1 
+bash pte_driver.sh CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt 0 1521425310206 &
+bash pte_driver.sh CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt 1 1521425310206 &
+bash pte_driver.sh inFile= CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt, tStart=1521425310206 iPTE=0 
+bash pte_driver.sh inFile= CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt, tStart=1521425310206 iPTE=1 
 sdk type supported: sdk=node
 sdk type supported: sdk=node
 Node Array: CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q1-TLS.json

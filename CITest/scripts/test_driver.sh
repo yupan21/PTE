@@ -19,7 +19,7 @@ TStart=0
 function testDriverHelp {
 
    echo "Usage: "
-   echo " ./test_driver.sh [opt] [values]"
+   echo " bash test_driver.sh [opt] [values]"
    echo "    -e: environment setup, default=no"
    echo "    -n: create network, default=no"
    echo "    -m: directory where test_nl.sh, preconfig, chaincode to be used to create network, default=scripts"
@@ -51,10 +51,10 @@ function testDriverHelp {
    echo "    FAB-3834-4q: 4 processes X 10000 queries, TLS"
    echo " "
    echo " example: "
-   echo " ./test_driver.sh -n -m FAB-3808-2i -p -c samplecc -t FAB-3808-2i: create a network, create/join channels, install/instantiate samplecc chaincode using setting in FAB-3808-2i, and execute test case FAB-3808-2i"
-   echo " ./test_driver.sh -n -p -c all -t FAB-3989-4i-TLS FAB-3989-4q-TLS: create a network, create/join channel and install/instantiate all chaincodes using default setting and execute two test cases"
-   echo " ./test_driver.sh -n -p -c samplecc: create a network, create/join channels, install/instantiate chaincode samplecc using default setting"
-   echo " ./test_driver.sh -t FAB-3811-2q FAB-3808-2i: execute test cases (FAB-3811-2q and FAB-3808-2i)"
+   echo " bash test_driver.sh -n -m FAB-3808-2i -p -c samplecc -t FAB-3808-2i: create a network, create/join channels, install/instantiate samplecc chaincode using setting in FAB-3808-2i, and execute test case FAB-3808-2i"
+   echo " bash test_driver.sh -n -p -c all -t FAB-3989-4i-TLS FAB-3989-4q-TLS: create a network, create/join channel and install/instantiate all chaincodes using default setting and execute two test cases"
+   echo " bash test_driver.sh -n -p -c samplecc: create a network, create/join channels, install/instantiate chaincode samplecc using default setting"
+   echo " bash test_driver.sh -t FAB-3811-2q FAB-3808-2i: execute test cases (FAB-3811-2q and FAB-3808-2i)"
    exit
 }
 
@@ -122,7 +122,7 @@ CIDir=$GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CI
 CWD=$PWD
 # setup test environment
 if [ $SETUP == "setup" ]; then
-    ./test_setup.sh
+    bash test_setup.sh
     cd $CWD
     echo "[$0] current dir: $PWD"
     sleep 60
@@ -136,7 +136,7 @@ if [ $NL == "create" ]; then
         NLDir="scripts"
     fi
     cd $CIDir/$NLDir
-    ./test_nl.sh
+    bash test_nl.sh
     cd $CWD
     echo "[$0] current dir: $PWD"
     sleep 60
@@ -144,7 +144,7 @@ fi
 
 # channel and chaincode
 if [ $CHANNEL == "create" ]; then
-    ./test_channel.sh $PrecfgDir
+    bash test_channel.sh $PrecfgDir
     cd $CWD
     echo "[$0] current dir: $PWD"
     sleep 60
@@ -152,7 +152,7 @@ fi
 
 # channel and chaincode
 if [ $CHAINCODE != "noCC" ]; then
-    ./test_chaincode.sh $CHAINCODE $PrecfgDir
+    bash test_chaincode.sh $CHAINCODE $PrecfgDir
     cd $CWD
     echo "[$0] current dir: $PWD"
     sleep 60
@@ -161,7 +161,7 @@ fi
 # execute PTE
 # ledger synch-up
 if [ $SYNCHUP == "synchup" ]; then
-    ./test_pte.sh "FAB-query-TLS" $TStart
+    bash test_pte.sh "FAB-query-TLS" $TStart
     cd $CWD
     echo "[$0] current dir: $PWD"
     sleep 60
@@ -173,7 +173,7 @@ echo "[$0] current dir: $PWD"
 
 for t in "${TCases[@]}"
 do
-    ./test_pte.sh $t $TStart
+    bash test_pte.sh $t $TStart
     sleep 100
 done
 

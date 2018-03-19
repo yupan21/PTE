@@ -14,7 +14,7 @@ PREFIX="result"   # result log prefix
 cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
 
 #### Lauch network and synch-up ledger
-./test_driver.sh -n -m RMT-3808-2i -p -c samplecc -t RMT-3811-2q
+bash test_driver.sh -n -m RMT-3808-2i -p -c samplecc 
 #### remove PTE log from synch-up ledger run
 # rm -f ../Logs/RMT-3811-2q*.log
 
