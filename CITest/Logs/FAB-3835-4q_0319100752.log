@@ -1,0 +1,407 @@
+    ./pte_mgr.sh CITest/FAB-3835-4q/samplecc/PTEMgr-FAB-3835-4q-TLS.txt > /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs/FAB-3835-4q_0319100752.log
+num 2
+driver type supported: driver=pte
+driver type supported: driver=pte
+PTE Array: CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt
+executing 2 PTE requests
+nPTE: 2, tStart: 1521425310206
+./pte_driver.sh CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt 0 1521425310206 &
+./pte_driver.sh CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt 1 1521425310206 &
+./pte_driver.sh inFile= CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q1-TLS.txt, tStart=1521425310206 iPTE=0 
+./pte_driver.sh inFile= CITest/FAB-3835-4q/samplecc/runCases-FAB-3835-4q2-TLS.txt, tStart=1521425310206 iPTE=1 
+sdk type supported: sdk=node
+sdk type supported: sdk=node
+Node Array: CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q1-TLS.json
+Node Array: CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q2-TLS.json
+executing 1 node requests
+iPTE: 0, nInstances: 1, tStart: 1521425310206
+executing 1 node requests
+execution: CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q1-TLS.json
+iPTE: 1, nInstances: 1, tStart: 1521425310206
+execution: CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q2-TLS.json
+no python requests
+no java requests
+no python requests
+no java requests
+[32minfo[39m: [PTE 1 main]: input parameters: Nid=0, uiFile=CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q2-TLS.json, tStart=1521425310206 PTEid=1
+[32minfo[39m: [PTE 1 main]: Nid: 0, chaincode_id: sample_cc_ch1, chaincode_ver: v0
+[32minfo[39m: [PTE 1 main]: TLS: ENABLED
+[32minfo[39m: [PTE 1 main]: channelName: testorgschannel1
+[32minfo[39m: [PTE 1 main]: channelOrgName.length: 1, channelOrgName: org2
+[32minfo[39m: [PTE 1 main]: svcFile;  CITest/CISCFiles/config-chan1-TLS.json
+[32minfo[39m: [PTE 1 main]: GOPATH:  /opt/go
+[32minfo[39m: [PTE 1 main]: nProcPerOrg  2
+[32minfo[39m: [PTE 1 main]: [performance_main] org= org2, org Name= PeerOrg2
+[32minfo[39m: [PTE 0 main]: input parameters: Nid=0, uiFile=CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q1-TLS.json, tStart=1521425310206 PTEid=0
+[32minfo[39m: [PTE 0 main]: Nid: 0, chaincode_id: sample_cc_ch1, chaincode_ver: v0
+[32minfo[39m: [PTE 0 main]: TLS: ENABLED
+[32minfo[39m: [PTE 0 main]: channelName: testorgschannel1
+[32minfo[39m: [PTE 0 main]: channelOrgName.length: 1, channelOrgName: org1
+[32minfo[39m: [PTE 0 main]: svcFile;  CITest/CISCFiles/config-chan1-TLS.json
+[32minfo[39m: [PTE 0 main]: GOPATH:  /opt/go
+[32minfo[39m: [PTE 0 main]: nProcPerOrg  2
+[32minfo[39m: [PTE 0 main]: [performance_main] org= org1, org Name= PeerOrg1
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] input parameters: uiFile=CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q1-TLS.json, tStart=1521425310206
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] TLS: ENABLED
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] targetPeers: ORGANCHOR
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] channelOrgName.length: 1, channelOrgName: org1
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] eventhub registration: Transaction, timeout: 240000
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] invokeCheck:  TRUE
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] chaincode_id: sample_cc_ch1
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] svcFile: CITest/CISCFiles/config-chan1-TLS.json, org: org1
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] input parameters: uiFile=CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q2-TLS.json, tStart=1521425310206
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] TLS: ENABLED
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] targetPeers: ORGANCHOR
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] channelOrgName.length: 1, channelOrgName: org2
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] eventhub registration: Transaction, timeout: 240000
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] invokeCheck:  TRUE
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] chaincode_id: sample_cc_ch1
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] svcFile: CITest/CISCFiles/config-chan1-TLS.json, org: org2
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: goPath:  /opt/go
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] transMode: Constant, transType: Invoke, invokeType: Query, nRequest: 10000
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] input parameters: peerFO=FALSE, ordererFO=FALSE, peerFOList=TARGETPEERS, peerFOMethod=ROUNDROBIN
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] runForever: 0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] keyIdx:  0=1
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] keyPayLoad:  0=2
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] ccchecker chaincode setting: keyStart=0 payLoadMin=1024 payLoadMax=1024
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 pte-execRequest] ccType: ccchecker, keyStart: 0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: goPath:  /opt/go
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] transMode: Constant, transType: Invoke, invokeType: Query, nRequest: 10000
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] input parameters: uiFile=CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q2-TLS.json, tStart=1521425310206
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] input parameters: peerFO=FALSE, ordererFO=FALSE, peerFOList=TARGETPEERS, peerFOMethod=ROUNDROBIN
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] runForever: 0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] keyIdx:  0=1
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] keyPayLoad:  0=2
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] ccchecker chaincode setting: keyStart=0 payLoadMin=1024 payLoadMax=1024
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 pte-execRequest] ccType: ccchecker, keyStart: 0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] TLS: ENABLED
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] targetPeers: ORGANCHOR
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] channelOrgName.length: 1, channelOrgName: org2
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] eventhub registration: Transaction, timeout: 240000
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] invokeCheck:  TRUE
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] chaincode_id: sample_cc_ch1
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] svcFile: CITest/CISCFiles/config-chan1-TLS.json, org: org2
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: goPath:  /opt/go
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] transMode: Constant, transType: Invoke, invokeType: Query, nRequest: 10000
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] input parameters: peerFO=FALSE, ordererFO=FALSE, peerFOList=TARGETPEERS, peerFOMethod=ROUNDROBIN
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] runForever: 0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] keyIdx:  0=1
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] keyPayLoad:  0=2
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] ccchecker chaincode setting: keyStart=0 payLoadMin=1024 payLoadMax=1024
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 pte-execRequest] ccType: ccchecker, keyStart: 0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] input parameters: uiFile=CITest/FAB-3835-4q/samplecc/samplecc-chan1-FAB-3835-4q1-TLS.json, tStart=1521425310206
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] TLS: ENABLED
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] targetPeers: ORGANCHOR
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] channelOrgName.length: 1, channelOrgName: org1
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] eventhub registration: Transaction, timeout: 240000
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] invokeCheck:  TRUE
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] chaincode_id: sample_cc_ch1
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] svcFile: CITest/CISCFiles/config-chan1-TLS.json, org: org1
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: goPath:  /opt/go
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] transMode: Constant, transType: Invoke, invokeType: Query, nRequest: 10000
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] input parameters: peerFO=FALSE, ordererFO=FALSE, peerFOList=TARGETPEERS, peerFOMethod=ROUNDROBIN
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] runForever: 0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] keyIdx:  0=1
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] keyPayLoad:  0=2
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] ccchecker chaincode setting: keyStart=0 payLoadMin=1024 payLoadMax=1024
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 pte-execRequest] ccType: ccchecker, keyStart: 0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE util]:  >>>> getting the org admin
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE util]:  org1 admin_cert undefined
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE util]:  >>>> getting the org admin
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE util]:  org2 admin_cert undefined
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE util]:  >>>> getting the org admin
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE util]:  org2 admin_cert undefined
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE util]:  >>>> getting the org admin
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE util]:  org1 admin_cert undefined
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 execTransMode] Successfully loaded user 'admin'
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org1:0:%s assignOrdererList] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org1:0 assignOrdererList] file does not exist: /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 assignOrdererList] orderer list: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer1.example.com","grpc.default_authority":"orderer1.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5006","_endpoint":{"addr":"localhost:5006","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer2.example.com","grpc.default_authority":"orderer2.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5007","_endpoint":{"addr":"localhost:5007","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}]
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org1:0:orderer0 channelAddOrderer] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 channelAddOrderer] orderer: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 setCurrOrdererId] currOrdererId: 0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 assignThreadOrgAnchorPeer] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 execTransMode] Successfully loaded user 'admin'
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org2:0:%s assignOrdererList] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 assignThreadOrgAnchorPeer] Peers:   grpc.ssl_target_name_override=peer0.org1.example.com, grpc.default_authority=peer0.org1.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7061, addr=localhost:7061, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 setCurrPeerId] currPeerId:   0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 execTransMode] peerList:  grpc.ssl_target_name_override=peer0.org1.example.com, grpc.default_authority=peer0.org1.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7061, addr=localhost:7061, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 execTransMode] execTransMode: tCurr= 1521425293951, tStart= 1521425310206, time to wait=16255
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org2:0 assignOrdererList] file does not exist: /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 assignOrdererList] orderer list: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer1.example.com","grpc.default_authority":"orderer1.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5006","_endpoint":{"addr":"localhost:5006","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer2.example.com","grpc.default_authority":"orderer2.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5007","_endpoint":{"addr":"localhost:5007","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}]
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org2:0:orderer0 channelAddOrderer] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 channelAddOrderer] orderer: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 setCurrOrdererId] currOrdererId: 0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 assignThreadOrgAnchorPeer] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 assignThreadOrgAnchorPeer] Peers:   grpc.ssl_target_name_override=peer0.org2.example.com, grpc.default_authority=peer0.org2.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7063, addr=localhost:7063, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 setCurrPeerId] currPeerId:   0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 execTransMode] peerList:  grpc.ssl_target_name_override=peer0.org2.example.com, grpc.default_authority=peer0.org2.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7063, addr=localhost:7063, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 execTransMode] execTransMode: tCurr= 1521425293956, tStart= 1521425310206, time to wait=16250
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 execTransMode] Successfully loaded user 'admin'
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org2:1:%s assignOrdererList] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org2:1 assignOrdererList] file does not exist: /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 assignOrdererList] orderer list: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer1.example.com","grpc.default_authority":"orderer1.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5006","_endpoint":{"addr":"localhost:5006","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer2.example.com","grpc.default_authority":"orderer2.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5007","_endpoint":{"addr":"localhost:5007","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}]
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org2:1:orderer0 channelAddOrderer] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 channelAddOrderer] orderer: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 setCurrOrdererId] currOrdererId: 0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 assignThreadOrgAnchorPeer] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 execTransMode] Successfully loaded user 'admin'
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org1:1:%s assignOrdererList] 
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 assignThreadOrgAnchorPeer] Peers:   grpc.ssl_target_name_override=peer0.org2.example.com, grpc.default_authority=peer0.org2.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7063, addr=localhost:7063, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 setCurrPeerId] currPeerId:   0
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 execTransMode] peerList:  grpc.ssl_target_name_override=peer0.org2.example.com, grpc.default_authority=peer0.org2.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7063, addr=localhost:7063, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 execTransMode] execTransMode: tCurr= 1521425293966, tStart= 1521425310206, time to wait=16240
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org1:1 assignOrdererList] file does not exist: /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 assignOrdererList] orderer list: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer1.example.com","grpc.default_authority":"orderer1.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5006","_endpoint":{"addr":"localhost:5006","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}},{"_options":{"grpc.ssl_target_name_override":"orderer2.example.com","grpc.default_authority":"orderer2.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5007","_endpoint":{"addr":"localhost:5007","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}]
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id:ordererID=0:testorgschannel1:org1:1:orderer0 channelAddOrderer] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 channelAddOrderer] orderer: [{"_options":{"grpc.ssl_target_name_override":"orderer0.example.com","grpc.default_authority":"orderer0.example.com","grpc.primary_user_agent":"grpc-node/1.9.1"},"_url":"grpcs://localhost:5005","_endpoint":{"addr":"localhost:5005","creds":{}},"_request_timeout":45000,"_ordererClient":{"$channel":{}}}] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 setCurrOrdererId] currOrdererId: 0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 assignThreadOrgAnchorPeer] 
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 assignThreadOrgAnchorPeer] Peers:   grpc.ssl_target_name_override=peer0.org1.example.com, grpc.default_authority=peer0.org1.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7061, addr=localhost:7061, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 setCurrPeerId] currPeerId:   0
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 execTransMode] peerList:  grpc.ssl_target_name_override=peer0.org1.example.com, grpc.default_authority=peer0.org1.example.com, grpc.primary_user_agent=grpc-node/1.9.1, _url=grpcs://localhost:7061, addr=localhost:7061, , _request_timeout=45000, , _name=null
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 execTransMode] execTransMode: tCurr= 1521425293971, tStart= 1521425310206, time to wait=16235
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: recHist:  HIST
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 execModeConstant] tStart 1521425310206, tLocal 1521425310293
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 execModeConstant] Constant Freq: 0 ms, variance Freq: 0 ms
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: recHist:  HIST
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 execModeConstant] tStart 1521425310206, tLocal 1521425310296
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 execModeConstant] Constant Freq: 0 ms, variance Freq: 0 ms
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: recHist:  HIST
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 execModeConstant] tStart 1521425310206, tLocal 1521425310303
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 execModeConstant] Constant Freq: 0 ms, variance Freq: 0 ms
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: recHist:  HIST
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 execModeConstant] tStart 1521425310206, tLocal 1521425310303
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 execModeConstant] Constant Freq: 0 ms, variance Freq: 0 ms
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=1000, elapsed time= 8639
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=1000, elapsed time= 8685
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=1000, elapsed time= 8689
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=1000, elapsed time= 8757
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=2000, elapsed time= 17052
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=2000, elapsed time= 17084
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=2000, elapsed time= 17125
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=2000, elapsed time= 17185
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=3000, elapsed time= 25362
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=3000, elapsed time= 25431
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=3000, elapsed time= 25441
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=3000, elapsed time= 25522
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=4000, elapsed time= 33654
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=4000, elapsed time= 33720
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=4000, elapsed time= 33820
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=4000, elapsed time= 33849
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=5000, elapsed time= 41880
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=5000, elapsed time= 42027
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=5000, elapsed time= 42124
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=5000, elapsed time= 42138
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=6000, elapsed time= 50325
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=6000, elapsed time= 50482
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=6000, elapsed time= 50528
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=6000, elapsed time= 50637
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=7000, elapsed time= 58683
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=7000, elapsed time= 58795
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=7000, elapsed time= 58817
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=7000, elapsed time= 59022
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=8000, elapsed time= 66886
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=8000, elapsed time= 67022
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=8000, elapsed time= 67145
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=8000, elapsed time= 67318
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=9000, elapsed time= 75094
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=9000, elapsed time= 75191
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=9000, elapsed time= 75294
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=9000, elapsed time= 75442
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 isExecDone] invokes(Query) sent: number=10000, elapsed time= 83389
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 invoke_query_const] query result response_payloads length: 1
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 invoke_query_const] query result: 15cb5bdd3a218a5f0447ae426805d664d22e927d5f76e64cb7a6cd1661833378b1001254ae8a3b4ee9bfd22c49b4e71f30756c50566f6c06374d4dfa751799b4e7bb652fd6fb5f52412588d9307c924d2afb39352772a7cb5117b13393c4a489bdb8dcf302e800b4fe948302452f2b9b2c8057c439385920ce59557bf6a6c13d6049d23f75b94b96dd975e20a4c84bc1cb6f30cdbfa260c48338b5da020279c65df78261268b431d68924443a3f453a4099b35e32f792762274944133aceec07d88824d020d37c5e02f392ecb40706b6d15a53f9526566e1854f969894e6f88cfc6dfa2f0fbb815a438da125868285f3a15dbfe61744e594d5c3d8662f9839dfe2b969ba8d0a4b9045802a2b139c31bfc20f861ae378660a0d1ea3a3d025c7ad4f491e8cff81983b4c06cab52d9886a6c23b7d68ced2d91ff43a3f123a55d6172f0e44aed05efdb3ccaf54aa1014fd50f51f91fd5ebea907439839c004dcf7ad3c77dad50368c350f6d9b7bdf55d6786ccbce5c3728b16583fbf50a109b86663db97d3fc5e45aafbd0cd0e043efafe0cb47c1cc45b0d6efe9d447be46923e00cf0e7b31a4f9bdc8adf50eac759d9953f33ae46ccc744fc8675dc94b179ec4d7acff2e0b173777c537596f3b684fc60d595ff41f97a346d610d43e2a9414da423dfafaa58b063874c645ddf54b70f1aa5faada0e9d1a3691941892d7bf5377fef
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:1 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83389 ms, timestamp: start 1521425310296 end 1521425393685,Throughput=119.92 TPS
+
+[32minfo[39m: [PTE 0 main]: Child proc exited, procId=1 ,exit code=0
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 isExecDone] invokes(Query) sent: number=10000, elapsed time= 83450
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 invoke_query_const] query result response_payloads length: 1
+[32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 invoke_query_const] query result: 72441489b30d54ddf898f62cd339a008b6e610ece4eabe394863a200ded977059849b82ed7c02443f685f8f6ab6ab271b9639903c1f1a2900b9b6efb3eec6132c0049d00eb34e8dff360912eae9c50151adbb62c4e145e4b1089f79e3bc98ed93dd14c17ccb1f2100aaf486484688336dc6466e562774e7c96792ac097af26612263b6da3320baa614be350df7900e4e68b17a5325e0b4103ab856f4a64fdd90feb1bc59620778d3795d6d775343fa871d3347ba80b8c2f1dabe2a37d5122daa3700ee01160b23a6e095978f804f278e8d4a431912a8cf8332fc9f2cfb53ae0cfd69101d4157364c53c1af5081b16d0e45206bc89e965fc3733b9ffee6130bfda08b5a31a9e19207bf4375abe34c2b5be61b5d70df5c9b2c5b6607f4d994fadec168ec27ce87e88f88df5aba5987b8204b3c47dbe7d003df955df9b865c5d07ced651e81b19ded300f3e1721e8415eb820d2a16bf7b86112acc9e845f5365330e6f7688b99bb9cb28e9ef227a13978f551a928093e58578911664c0c083ddf7caf4136cd0cf308e1e818c104e7b2bd680d1bca6bda234c1554b68498bafd1331e2f19c2e9eea8250f4bf6832343b1e8d1e824c577dce7fdf66d537e8ac3b99be038bbe2a040c9bd623d2684749fa0dc5b73e4ee964c81d468f20ce1d5b557f4ce96adef413332d7460caf7c68da90a6fef0a878464dd3cfeafb67d03836b41f4
+
+[32minfo[39m: [PTE 0 main]: stdout: [32minfo[39m: [PTE 0 exec]: [Nid:chan:org:id=0:testorgschannel1:org1:0 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83451 ms, timestamp: start 1521425310293 end 1521425393744,Throughput=119.83 TPS
+
+[32minfo[39m: [PTE 0 main]: Child proc exited, procId=2 ,exit code=0
+[32minfo[39m: [PTE 0 main]: Test Summary[0]: [Nid:chan:org:id=0:testorgschannel1:org1:1 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83389 ms, timestamp: start 1521425310296 end 1521425393685,Throughput=119.92 TPS
+[32minfo[39m: [PTE 0 main]: Test Summary[1]: [Nid:chan:org:id=0:testorgschannel1:org1:0 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83451 ms, timestamp: start 1521425310293 end 1521425393744,Throughput=119.83 TPS
+[32minfo[39m: [PTE 0 main]: Test Summary: Total 2 Threads run completed
+[32minfo[39m: [PTE 0 main]: Test Summary:Total  QUERY transaction=20000, the Min duration is 83389 ms,the Max duration is 83451 ms,Avg duration=83420 ms, total throughput=239.75 TPS
+[32minfo[39m: [PTE 0 main]: [performance_main] pte-main:completed:
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 isExecDone] invokes(Query) sent: number=10000, elapsed time= 83637
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 invoke_query_const] query result response_payloads length: 1
+[32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 invoke_query_const] query result: 8211e3eedaf2e8aeaec4cbf5c9fc59a7845f85662dcb129a61ee6e161f1b578d0c12350467f5b075da473a61bd1825c72b44a9923b281e94b4e65af1e32827300ac2100b51d8d2fb3a041dc459e9b910487cd60f4ca989aee4d3e7b8515ce1a3a9469601025809497f88f79528c4336cc48c8a8448c046d9b5d94de47961e99db5733348804c04b7807ca4b6b4048f9ae6ebd299366c9576728e7e23b1ee08b7cc32b2bc139403cf0173b5e8db1282fcb18bcc3096e624af05c17238901696c14bdc994f5433286b5e26e0f4555eef40595c8cd8271edb3ebce298ea5242de0ac049726ff042b6fa7a955124363012a27eb38ecc238192380aea84e6d9e1367719e8d22c88a2bd8beefbff5b38abcc4ab5e7fed7393f0e2afa0b82d80e3fe6dc58f7b1d147880401b28cbcbf7af79f8d10b3c8ff26a4efb8fe6127239d669ab24bf8360c43ade441772d4cef82dd3a447d2935117a6cc2b9e389ccbc35884fbe064f9a3ab0e21b04d3a48a9221ffdc86d92f2f05a82bcc15e4d4a9c704aca15ad1f481f406481565ac0d86850b9212637cbf3569bb298577c9206729dc39769a68f86b84e5fd5afa8f02c7521435fabeebcecf2582e489ce3a85c976df012330ccad7884291ae96bdcefa3d988700adf5ad2f574260c47d135a3db37dd9ab9fe326242d101b24a9b1adc9eb71f0d3f9bc99195702d8129ff4f316c983b95d788
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:0 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83637 ms, timestamp: start 1521425310303 end 1521425393940,Throughput=119.56 TPS
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 isExecDone] invokes(Query) sent: number=10000, elapsed time= 83641
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 invoke_query_const] query result response_payloads length: 1
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 invoke_query_const] query result: 7808cefc57b8f1488b5377638d899edb26e3559dbc7576a4f1e1c9264ac49430210a002ba4198147df74d9680d5b6027743540b2f84b39e432d0f4042a550af1544b47716eff7d8765a6660efb546bf4e0246e86d28992f11f3e58d79cfa9ad3b13aaa34618a2a7e0cbade1dd79e1eff3e69e777998868c2b04022cd23b293ec618369987f60e134d625bc3a6fed4f0f96eedec1f041aa4141cf835118ba7b392a8b9e4997a25703dc3f2b9d4a27a35fc46a80f9477ea5aad49efeb1115cc02d2b7f332fa8fb02f03013ddc1d197b0703199bd974875fadf1bb7908cf8a7ad4ce0d631a7d9c74c371db40c28ab728e94da65b3784d088abeb260d95e0ecc1d5670f7f7518d3eff278d9c623ae3d4efa1793dbf6517dedd4381bd90ce1bd114da8c19521bc1a4151875e189481984bbc84b255a575debf2545cbff7f6594c06bfb0ad6d6c30877df891f06358d5c7e2c64dd11b8694aaea6f7bf0342bfcc8002c70cdfabfe7fef98af587e621463241b1d6804f5c12e72b7ad6f8b202f638d34d4973b04ad217f67fc76a0cfc8385ebf546985a207fb44b386ed3e5a716a8df8b879ad730056bd8b8f82940c0f74d42222de82ccdcaa2cad701a6f3249518c4df2ce7c77afd03ae7abb0cfa80b5b50584887d36672194f344ddaddf1c290de86d6f72942eed5741d870a2bfc13387b11e91abfb8eea5fa3c190914443e22ffe14
+
+[32minfo[39m: [PTE 1 main]: stdout: [32minfo[39m: [PTE 1 exec]: [Nid:chan:org:id=0:testorgschannel1:org2:1 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83641 ms, timestamp: start 1521425310303 end 1521425393944,Throughput=119.56 TPS
+
+[32minfo[39m: [PTE 1 main]: Child proc exited, procId=1 ,exit code=0
+[32minfo[39m: [PTE 1 main]: Child proc exited, procId=2 ,exit code=0
+[32minfo[39m: [PTE 1 main]: Test Summary[0]: [Nid:chan:org:id=0:testorgschannel1:org2:0 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83637 ms, timestamp: start 1521425310303 end 1521425393940,Throughput=119.56 TPS
+[32minfo[39m: [PTE 1 main]: Test Summary[1]: [Nid:chan:org:id=0:testorgschannel1:org2:1 invoke_query_const] pte-exec:completed 10000 transaction Invoke(Query) in 83641 ms, timestamp: start 1521425310303 end 1521425393944,Throughput=119.56 TPS
+[32minfo[39m: [PTE 1 main]: Test Summary: Total 2 Threads run completed
+[32minfo[39m: [PTE 1 main]: Test Summary:Total  QUERY transaction=20000, the Min duration is 83637 ms,the Max duration is 83641 ms,Avg duration=83639 ms, total throughput=239.12 TPS
+[32minfo[39m: [PTE 1 main]: [performance_main] pte-main:completed:
