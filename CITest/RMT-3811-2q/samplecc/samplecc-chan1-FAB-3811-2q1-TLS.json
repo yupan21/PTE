@@ -8,7 +8,7 @@
     "transType": "Invoke",
     "invokeType": "Query",
     "targetPeers": "OrgAnchor",
-    "nProcPerOrg": "5",
+    "nProcPerOrg": "40",
     "nRequest": "0",
     "runDur": "600",
     "TLS": "enabled",
