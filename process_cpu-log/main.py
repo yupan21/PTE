@@ -53,8 +53,8 @@ def readLog(fileName):
                     tag = False
                     index_1 = i.find("start")
                     index_2 = i.find("end")
-                    # index_3 = i.find(",Throughput")
-                    index_3 = i.find(", #event")
+                    index_3 = i.find(",Throughput")
+                    # index_3 = i.find(", #event")
                     tStart = i[index_1+5:index_2].replace(" ", "")
                     tEnd = i[index_2+3:index_3].replace(" ", "")
                 # summary.append(i)
@@ -65,7 +65,8 @@ def __main__():
     # You should modify you own data
     fileName_1 = "pte_test_3_19_153.txt"
     fileName_2 = "pte_test_3_19_151.txt"
-    LogfileName = "RMT-3808-2i_0319172226.log"
+    # LogfileName = "RMT-3808-2i_0319175605.log"
+    LogfileName = "RMT-3811-2q_0319181219.log"
     tStart, tEnd = readLog(LogfileName)
     # print(summary)
     # tStart = 1521451381010

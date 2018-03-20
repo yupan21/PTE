@@ -1,5 +1,10 @@
 ## Fabric test configuration
 
+## Requirements:
++ pandas
++ numpy
++ psutil
+
 
 
 NL option:
