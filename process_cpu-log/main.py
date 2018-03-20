@@ -1,4 +1,5 @@
-# import pandas as pd
+from __future__ import print_function
+import sys
 import statistics
 import os
 from datetime import datetime
@@ -67,22 +68,22 @@ def readLog(fileName):
                         if index_4 > -1 and index_5 < 2:
                             print("Unreceived events:", i[index_4:index_5])
                     else:
-                        index_3 = i[index_2:].find(",")
+                        index_3 = i[index_2:].find(",")+index_2
                     tStart = i[index_1+5:index_2].replace(" ", "")
                     tEnd = i[index_2+3:index_3].replace(" ", "")
     return int(tStart), int(tEnd)
 
 
 def __main__():
+    arg = sys.argv
+    print(arg)
     # You should modify you own data
     fileName_1 = "pte_0320_blockchainmaster151.txt"
     fileName_2 = "pte_0320_blockchainmonion153.txt"
     # LogfileName = "RMT-3808-2i_0319175605.log"
-    LogfileName = "RMT-3808-2i_0320104308.log"
+    LogfileName = "RMT-3811-2q_0320153843.log"
     tStart, tEnd = readLog(LogfileName)
     # print(summary)
-    # tStart = 1521451381010
-    # tEnd = 1521448856460
     # run code
     elasep = int((tEnd-tStart)/1000)
     tStart, tEnd = __initTime(tStart, tEnd)

@@ -7,6 +7,8 @@
 #
 
 ########## CI test ##########
+chmod +x /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/manage_host.sh
+bash /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/manage_host.sh
 
 CWD=$PWD
 PREFIX="result"   # result log prefix
@@ -26,4 +28,8 @@ cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITes
 bash ./test_driver.sh -t RMT-3811-2q
 #### gather TPS from PTE log
 # grep Summary ../Logs/RMT-3811-2q*.log | grep "QUERY" >> $CWD/$PREFIX"_RMT-3808-2i.log"
+
+chmod +x /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/calculate.sh
+cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
+bash /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/calculate.sh
 
