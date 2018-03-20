@@ -1,1 +1,0 @@
-sdk=node CITest/FAB-3807-4i/preconfig/samplecc/samplecc-chan1-instantiate-TLS.json
