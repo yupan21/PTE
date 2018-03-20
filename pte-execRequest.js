@@ -1071,7 +1071,8 @@ function eventRegisterBlock() {
                             invoke_query_simple(0);
                         }
                         if ( remain > 0 ) {
-                            console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
+                            // console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
+                            console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] unreceived number: %d', Nid, channelName, org, pid, remain);
                         }
 
                         evtDisconnect();
@@ -1110,7 +1111,7 @@ function eventRegister(tx, cb) {
                 var remain = Object.keys(txidList).length;
                 logger.info('[Nid:chan:org:id=%d:%s:%s:%d TIMEOUT eventRegister] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid,  evtRcv, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcv/(tCurr-tLocal)*1000).toFixed(2));
                 if ( remain > 0 ) {
-                    console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] unreceived: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
+                    console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] unreceived: %d ', Nid, channelName, org, pid, remain );
                 }
                 latency_output();
 
@@ -1140,7 +1141,7 @@ function eventRegister(tx, cb) {
                             invoke_query_simple(0);
                         }
                         if ( remain > 0 ) {
-                            console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, txidList);
+                            console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] unreceived number: %d ', Nid, channelName, org, pid);
                         }
 
                         evtDisconnect();
@@ -1520,7 +1521,8 @@ function invoke_move_const_evtBlock(freq) {
                         logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] completed %d, evtTimoutCnt %d, unceived events %d, %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, evtTimeoutCnt, remain, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
                         var remain = Object.keys(txidList).length;
                         if ( remain > 0 ) {
-                            console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] unreceived events(%d), txidList', Nid, channelName, org, pid, remain, txidList);
+                            // console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] unreceived events(%d), txidList', Nid, channelName, org, pid, remain, txidList);
+                            console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] unreceived events(%d)', Nid, channelName, org, pid, remain);
                         }
                         return;
                     }
@@ -1633,7 +1635,8 @@ function invoke_move_const(freq) {
                         var remain = Object.keys(txidList).length;
                         logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] completed %d, evtTimoutCnt %d, unceived events %d, %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, evtTimeoutCnt, remain, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
                         if ( remain > 0 ) {
-                            console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] unreceived events(%d), txidList', Nid, channelName, org, pid, remain, txidList);
+                            console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] unreceived events(%d)', Nid, channelName, org, pid, remain);
+                            // console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] unreceived events(%d), txidList', Nid, channelName, org, pid, remain, txidList);
                         }
                         return;
                     }

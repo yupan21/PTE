@@ -8,7 +8,7 @@
     "transType": "Invoke",
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
-    "nProcPerOrg": "40",
+    "nProcPerOrg": "25",
     "nRequest": "0",
     "runDur": "600",
     "TLS": "enabled",
@@ -29,7 +29,7 @@
         "mixFreq": "3000"
     },
     "constantOpt": {
-        "recHist": "HIST",
+        "recHist": "noHIST",
         "constFreq": "0",
         "devFreq": "0"
     },

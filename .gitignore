@@ -1,3 +1,6 @@
 node_modules
 CITest/Logs
+CITest/FAB
 Constant*
+.vscode/launch.json
+process_cpu-log/.DS_Store
