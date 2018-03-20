@@ -75,13 +75,13 @@ def readLog(fileName):
 
 
 def __main__():
-    arg = sys.argv
+    arg = sys.argv[1:]
     print(arg)
     # You should modify you own data
     fileName_1 = "pte_0320_blockchainmaster151.txt"
     fileName_2 = "pte_0320_blockchainmonion153.txt"
     # LogfileName = "RMT-3808-2i_0319175605.log"
-    LogfileName = "RMT-3811-2q_0320153843.log"
+    LogfileName = "RMT-3808-2i_0320184010.log"
     tStart, tEnd = readLog(LogfileName)
     # print(summary)
     # run code
