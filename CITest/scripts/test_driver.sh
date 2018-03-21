@@ -125,7 +125,7 @@ if [ $SETUP == "setup" ]; then
     bash test_setup.sh
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # bring up network
@@ -139,7 +139,7 @@ if [ $NL == "create" ]; then
     bash test_nl.sh
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # channel and chaincode
@@ -147,7 +147,7 @@ if [ $CHANNEL == "create" ]; then
     bash test_channel.sh $PrecfgDir
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # channel and chaincode
@@ -155,7 +155,7 @@ if [ $CHAINCODE != "noCC" ]; then
     bash test_chaincode.sh $CHAINCODE $PrecfgDir
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # execute PTE
@@ -164,7 +164,7 @@ if [ $SYNCHUP == "synchup" ]; then
     bash test_pte.sh "FAB-query-TLS" $TStart
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 cd $CWD
@@ -174,7 +174,7 @@ echo "[$0] current dir: $PWD"
 for t in "${TCases[@]}"
 do
     bash test_pte.sh $t $TStart
-    sleep 100
+    sleep 10
 done
 
 exit

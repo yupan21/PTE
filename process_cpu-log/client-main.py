@@ -49,10 +49,11 @@ def readLog(path,fileName):
             # find a summary list
             if i != "" and i.find("Test Summary") > -1:
                 if i.find("Test Summary:Total") > -1:
-                    index_1 = i.find("transaction=")
-                    index_2 = i.find(", ")
-                    index_3 = i.find("total throughput=")
-                    print("Total", i[index_1:index_2], "/", i[index_3:])
+                    # index_1 = i.find("transaction=")
+                    # index_2 = i.find(", ")
+                    # index_3 = i.find("total throughput=")
+                    # print("Total", i[index_1:index_2], "/", i[index_3:])
+                    print(i[10:])
                 # filter the invoke check
                 if i.find("timestamp:") > -1 and tag == True:
                     tag = False
