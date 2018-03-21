@@ -8,9 +8,9 @@
     "transType": "Invoke",
     "invokeType": "Query",
     "targetPeers": "OrgAnchor",
-    "nProcPerOrg": "1",
-    "nRequest": "10",
-    "runDur": "0",
+    "nProcPerOrg": "40",
+    "nRequest": "0",
+    "runDur": "600",
     "TLS": "enabled",
     "channelOpt": {
         "name": "testorgschannel1",
