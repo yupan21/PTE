@@ -1,7 +1,7 @@
 const fs = require('fs');
 var args = process.argv.slice(2);
 
-filepath = "../"+args[0]+"/samplecc-chan1-FAB-3808-2i1-TLS.json"
+filepath = "../"+args[0]+"/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json"
 
 let config = fs.readFileSync(filepath);
 let config_data = JSON.parse(config)

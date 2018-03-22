@@ -14,7 +14,7 @@ echo "[$0] PrecfgDir: $PrecfgDir"
 # PTE: create/join channels
 CWD=$PWD
 
-cd $SDKDir/test/PTE
+cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE
 
 echo "[$0] create channel"
 echo " ./pte_driver.sh CITest/$PrecfgDir/preconfig/channels/runCases-chan-create-TLS.txt"
@@ -24,7 +24,7 @@ echo " ./pte_driver.sh CITest/$PrecfgDir/preconfig/channels/runCases-chan-create
     for ri in $runCreate; do
        echo "./pte_driver.sh $ri"
        ./pte_driver.sh $ri
-       sleep 60s
+       sleep 6s
     done
 
 echo "[$0] join channel"
@@ -35,7 +35,7 @@ echo " ./pte_driver.sh CITest/$PrecfgDir/preconfig/channels/runCases-chan-join-T
     for ri in $runJoin; do
        echo "./pte_driver.sh $ri"
        ./pte_driver.sh $ri
-       sleep 60s
+       sleep 6s
     done
 
 

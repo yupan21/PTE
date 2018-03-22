@@ -47,7 +47,7 @@ if [ $cc == "all" ]; then
             for ri in $runInstan; do
                echo "./pte_driver.sh $ri"
                ./pte_driver.sh $ri
-               sleep 60s
+               sleep 6s
             done
 
         fi
@@ -67,7 +67,7 @@ else
         for ri in $runInstall; do
            echo "./pte_driver.sh $ri"
            ./pte_driver.sh $ri
-           sleep 60s
+           sleep 6s
         done
 
         echo "[$0] ***************************************************"
@@ -79,7 +79,7 @@ else
         for ri in $runInstan; do
            echo "./pte_driver.sh $ri"
            ./pte_driver.sh $ri
-           sleep 60s
+           sleep 6s
         done
 
     fi
