@@ -1,6 +1,6 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "marbles_cc",
+    "chaincodeID": "sample_cc",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",

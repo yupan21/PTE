@@ -122,10 +122,10 @@ CIDir=$GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CI
 CWD=$PWD
 # setup test environment
 if [ $SETUP == "setup" ]; then
-    ./test_setup.sh
+    bash./test_setup.sh
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # bring up network
@@ -136,35 +136,35 @@ if [ $NL == "create" ]; then
         NLDir="scripts"
     fi
     cd $CIDir/$NLDir
-    ./test_nl.sh
+    bash ./test_nl.sh
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # channel and chaincode
 if [ $CHANNEL == "create" ]; then
-    ./test_channel.sh $PrecfgDir
+    sudo ./test_channel.sh $PrecfgDir
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # channel and chaincode
 if [ $CHAINCODE != "noCC" ]; then
-    ./test_chaincode.sh $CHAINCODE $PrecfgDir
+    bash ./test_chaincode.sh $CHAINCODE $PrecfgDir
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 # execute PTE
 # ledger synch-up
 if [ $SYNCHUP == "synchup" ]; then
-    ./test_pte.sh "FAB-query-TLS" $TStart
+    bash ./test_pte.sh "FAB-query-TLS" $TStart
     cd $CWD
     echo "[$0] current dir: $PWD"
-    sleep 60
+    sleep 6
 fi
 
 cd $CWD
@@ -173,8 +173,8 @@ echo "[$0] current dir: $PWD"
 
 for t in "${TCases[@]}"
 do
-    ./test_pte.sh $t $TStart
-    sleep 100
+    bash ./test_pte.sh $t $TStart
+    sleep 10
 done
 
 exit

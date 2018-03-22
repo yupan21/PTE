@@ -54,9 +54,9 @@ bash /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/pro
 
 # start network ---
 echo "connecting to client host ans startup the network "
-ssh root@172.16.50.153 -i ~/.ssh/id_rsa "cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto; \
+ssh root@172.16.50.153 -i ~/.ssh/id_rsa "cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts; \
     echo \"changing network ...\"; \
-    python config-network.py -o 3 -x 2 -r 2 -p 2 -n 1 -t solo -f test -w 0.0.0.0 -S enabled -c 2s -l INFO -B 500 ;\
+    python config-network.py RMT-auto -o 3 -x 2 -r 2 -p 2 -n 1 -t solo -f test -w 0.0.0.0 -S enabled -c 2s -l INFO -B 500 ;\
     chmod +x ./test_nl.sh; \
     cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scenarios/network; \
     bash RMT-network-auto.sh"
@@ -67,85 +67,11 @@ sleep 6
 
 # running test-----------------
 # reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-node ./config.js nProcPerOrg 1
-# running test
 cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
+node ./config.js RMT-auto nProcPerOrg 1
+node ./config.js RMT-auto invokeType Move
 bash ./test_driver.sh -t RMT-auto
 ## ending case ----------------
-
-
-# running test-----------------
-# reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-node ./config.js nProcPerOrg 5
-# running test
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-bash ./test_driver.sh -t RMT-auto
-## ending case ----------------
-
-# running test-----------------
-# reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-node ./config.js nProcPerOrg 10
-# running test
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-bash ./test_driver.sh -t RMT-auto
-## ending case ----------------
-
-# running test-----------------
-# reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-node ./config.js nProcPerOrg 20
-# running test
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-bash ./test_driver.sh -t RMT-auto
-## ending case ----------------
-
-# running test-----------------
-# reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-node ./config.js nProcPerOrg 25
-# running test
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-bash ./test_driver.sh -t RMT-auto
-## ending case ----------------
-
-
-# start network ---
-echo "connecting to client host ans startup the network "
-ssh root@172.16.50.153 -i ~/.ssh/id_rsa "cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto; \
-    echo \"changing network ...\"; \
-    python config-network.py -o 3 -x 2 -r 2 -p 2 -n 1 -t solo -f test -w 0.0.0.0 -S enabled -c 2s -l INFO -B 500 ;\
-    chmod +x ./test_nl.sh; \
-    cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scenarios/network; \
-    bash RMT-network-auto.sh"
-echo "sleeping 6 sec"
-sleep 6
-## ending case ---
-
-
-
-
-# running test-----------------
-# reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-node ./config.js nProcPerOrg 30
-# running test
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-bash ./test_driver.sh -t RMT-auto
-## ending case ----------------
-
-# running test-----------------
-# reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-node ./config.js nProcPerOrg 40
-# running test
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-bash ./test_driver.sh -t RMT-auto
-## ending case ----------------
-
-
 
 
 ###########################################################
@@ -153,263 +79,18 @@ bash ./test_driver.sh -t RMT-auto
 ###########################################################
 ###########################################################
 ###########################################################
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 1
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 5
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 10
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 20
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 40
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 60
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 80
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 100
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-
 
 # # start network ---
 # echo "connecting to client host ans startup the network "
 # ssh root@172.16.50.153 -i ~/.ssh/id_rsa "cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto; \
 #     echo \"changing network ...\"; \
-#     python config-network.py -o 3 -x 2 -r 2 -p 2 -k 1 -z 1 -n 1 -t kafka -f test -w 0.0.0.0 -S enabled -c 2s -l INFO -B 500 ;\
+#     python config-network.py -o 3 -x 2 -r 2 -p 2 -n 1 -t solo -f test -w 0.0.0.0 -S enabled -c 2s -l INFO -B 500 ;\
 #     chmod +x ./test_nl.sh; \
 #     cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scenarios/network; \
 #     bash RMT-network-auto.sh"
 # echo "sleeping 6 sec"
 # sleep 6
 # ## ending case ---
-
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Move
-# node ./config.js nProcPerOrg 1
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js nProcPerOrg 5
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js nProcPerOrg 10
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js nProcPerOrg 20
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js nProcPerOrg 25
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # start network ---
-# echo "connecting to client host ans startup the network "
-# ssh root@172.16.50.153 -i ~/.ssh/id_rsa "cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto; \
-#     echo \"changing network ...\"; \
-#     python config-network.py -o 3 -x 2 -r 2 -p 2 -k 1 -z 1 -n 1 -t kafka -f test -w 0.0.0.0 -S enabled -c 2s -l INFO -B 500 ;\
-#     chmod +x ./test_nl.sh; \
-#     cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scenarios/network; \
-#     bash RMT-network-auto.sh"
-# echo "sleeping 6 sec"
-# sleep 6
-# ## ending case ---
-
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js nProcPerOrg 30
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js nProcPerOrg 40
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 1
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 5
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 10
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 20
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 40
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 60
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 80
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
-
-
-# # running test-----------------
-# # reconfig pte
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/RMT-auto/samplecc
-# node ./config.js invokeType Query
-# node ./config.js nProcPerOrg 100
-# # running test
-# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-# bash ./test_driver.sh -t RMT-auto
-# ## ending case ----------------
 
 
 

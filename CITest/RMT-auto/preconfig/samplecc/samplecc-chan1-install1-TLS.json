@@ -1,6 +1,6 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "marbles_cc",
+    "chaincodeID": "sample_cc",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",
@@ -44,7 +44,7 @@
         "payLoadMax": "1024"
     },
     "deploy": {
-        "chaincodePath": "github.com/hyperledger/fabric-test/fabric/examples/chaincode/go/marbles02",
+        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/samplecc/go",
         "fcn": "init",
         "args": []
     },
