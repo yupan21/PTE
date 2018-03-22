@@ -14,15 +14,15 @@
     "TLS": "enabled",
     "channelOpt": {
         "name": "testorgschannel1",
-        "action":  "create",
+        "action": "create",
         "orgName": [
             "org1",
             "org2"
         ]
     },
     "burstOpt": {
-        "burstFreq0":  "500",
-        "burstDur0":  "3000",
+        "burstFreq0": "500",
+        "burstDur0": "3000",
         "burstFreq1": "2000",
         "burstDur1": "10000"
     },
@@ -45,8 +45,8 @@
     },
     "ccType": "marblescc",
     "ccOpt": {
-	"keyIdx": [0],
-	"keyPayLoad": [2],
+        "keyIdx": [0],
+        "keyPayLoad": [2],
         "keyStart": "0",
         "payLoadMin": "1",
         "payLoadMax": "1024"
@@ -63,10 +63,10 @@
         },
         "move": {
             "fcn": "initMarble",
-            "args": ["marble", "blue","35","tom"]
+            "args": ["marble", "blue", "35", "tom"]
         }
     },
-    "SCFile": [
-		{"ServiceCredentials":"SCFiles/config-chan1-TLS.json"}
-	]
+    "SCFile": [{
+        "ServiceCredentials": "SCFiles/config-chan1-TLS.json"
+    }]
 }

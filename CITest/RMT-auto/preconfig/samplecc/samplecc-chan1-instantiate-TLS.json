@@ -1,6 +1,6 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "sample_cc",
+    "chaincodeID": "marbles_cc",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",
@@ -42,18 +42,18 @@
         "payLoadMax": "1024"
     },
     "deploy": {
-        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/samplecc/go",
+        "chaincodePath": "github.com/hyperledger/fabric-test/fabric/examples/chaincode/go/marbles02",
         "fcn": "init",
         "args": []
     },
     "invoke": {
         "query": {
-            "fcn": "invoke",
-            "args": ["get", "a1"]
+            "fcn": "readMarble",
+            "args": ["marble"]
         },
         "move": {
-            "fcn": "invoke",
-            "args": ["put", "a1","1"]
+            "fcn": "initMarble",
+            "args": ["marble", "blue","35","tom"]
         }
     },
     "SCFile": [
