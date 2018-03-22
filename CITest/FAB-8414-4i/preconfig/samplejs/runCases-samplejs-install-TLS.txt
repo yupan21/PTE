@@ -1,2 +1,0 @@
-sdk=node CITest/FAB-8414-4i/preconfig/samplejs/samplejs-chan1-install-TLS.json
-sdk=node CITest/FAB-8414-4i/preconfig/samplejs/samplejs-chan2-install-TLS.json

@@ -1,2 +1,0 @@
-sdk=node CITest/FAB-4229-i-TLS/preconfig/samplecc/samplecc-chan1-instantiate-TLS.json
-sdk=node CITest/FAB-4229-i-TLS/preconfig/samplecc/samplecc-chan2-instantiate-TLS.json
