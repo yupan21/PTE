@@ -14,23 +14,26 @@
  *  limitations under the License.
  */
 
-var path = require('path');
 var fs = require('fs-extra');
-var os = require('os');
-var util = require('util');
-
+var hfc = require('fabric-client');
 var jsrsa = require('jsrsasign');
+var os = require('os');
+var path = require('path');
+var util = require('util');
+var winston = require('winston');
+
 var KEYUTIL = jsrsa.KEYUTIL;
 
-var hfc = require('fabric-client');
+
 var copService = require('fabric-ca-client/lib/FabricCAClientImpl.js');
 var User = require('fabric-client/lib/User.js');
-var CryptoSuite = require('fabric-client/lib/impl/CryptoSuite_ECDSA_AES.js');
-var KeyStore = require('fabric-client/lib/impl/CryptoKeyStore.js');
-var ecdsaKey = require('fabric-client/lib/impl/ecdsa/key.js');
 //var Constants = require('./constants.js');
 
-var logger = require('fabric-client/lib/utils.js').getLogger('PTE util');
+// var logger = require('fabric-client/lib/utils.js').getLogger('PTE util');
+
+var PTEid = parseInt(process.argv[5]);
+var loggerMsg='PTE ' + PTEid + ' util';
+var logger = new PTELogger({"prefix":loggerMsg, "level":"info"});
 
 module.exports.CHAINCODE_PATH = 'github.com/example_cc';
 module.exports.CHAINCODE_UPGRADE_PATH = 'github.com/example_cc1';
@@ -209,13 +212,26 @@ function getOrdererAdmin(client, userOrg, svcFile) {
         var certPEM;
         var ordererID = ORGS[userOrg].ordererID;
 
-        if (typeof ORGS['orderer'][ordererID].admin_cert !== 'undefined') {
-            logger.info(' %s admin_cert defined', userOrg);
+        if (typeof ORGS['orderer'].admin_cert !== 'undefined') {
+            logger.info(' %s global orderer admin_cert defined', userOrg);
+            keyPEM = ORGS['orderer'].priv;
+            certPEM = ORGS['orderer'].admin_cert;
+        } else if (typeof ORGS['orderer'][ordererID].admin_cert !== 'undefined') {
+            logger.info(' %s local orderer admin_cert defined', userOrg);
             keyPEM = ORGS['orderer'][ordererID].priv;
             certPEM = ORGS['orderer'][ordererID].admin_cert;
+        } else if ( (typeof ORGS['orderer'].adminPath !== 'undefined') && (typeof ORGS['orderer'].adminPath !== 'undefined') ) {
+            getgoPath();
+            logger.info(' %s global orderer adminPath defined', userOrg);
+            keyPath = path.resolve(goPath, ORGS['orderer'].adminPath, 'keystore');
+            keyPEM = Buffer.from(readAllFiles(keyPath)[0]).toString();
+            certPath = path.resolve(goPath, ORGS['orderer'].adminPath, 'signcerts');
+            certPEM = readAllFiles(certPath)[0];
+            logger.debug('[getOrdererAdmin] keyPath: %s', keyPath);
+            logger.debug('[getOrdererAdmin] certPath: %s', certPath);
         } else {
             getgoPath();
-            logger.info(' %s admin_cert undefined', userOrg);
+            logger.info(' %s local orderer adminPath defined', userOrg);
             keyPath = path.resolve(goPath, ORGS['orderer'][ordererID].adminPath, 'keystore');
             keyPEM = Buffer.from(readAllFiles(keyPath)[0]).toString();
             certPath = path.resolve(goPath, ORGS['orderer'][ordererID].adminPath, 'signcerts');
@@ -289,3 +305,40 @@ module.exports.getSubmitter = function(username, secret, client, peerOrgAdmin, n
 		return getMember(username, secret, client, nid, userOrg, svcFile);
 	}
 };
+
+// set up PTE logger
+function PTELogger(opts) {
+    var winstonLogger = new winston.Logger({
+        transports: [
+            new (winston.transports.Console)({ colorize: true })
+        ]
+    }),
+        levels = ['debug', 'info', 'warn', 'error'],
+        logger = Object.assign({}, winstonLogger);
+
+    if (opts.level) {
+        if (levels.includes(opts.level)) {
+            // why, oh why, does logger.level = opts.level not work?
+            winstonLogger.level = opts.level;
+        }
+    }
+
+    levels.forEach(function (method) {
+        var func = winstonLogger[method];
+
+        logger[method] = (function (context, tag, f) {
+            return function () {
+                if (arguments.length > 0) {
+                    var prefix = '[' + tag + ']: ';
+                    arguments[0] = prefix + arguments[0];
+                }
+
+                f.apply(context, arguments);
+            };
+        }(winstonLogger, opts.prefix, func));
+    });
+
+    return logger;
+}
+module.exports.PTELogger = PTELogger;
+
