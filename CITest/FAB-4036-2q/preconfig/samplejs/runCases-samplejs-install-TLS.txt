@@ -1,2 +1,0 @@
-sdk=node CITest/FAB-4036-2q/preconfig/samplejs/samplejs-chan1-install1-TLS.json
-sdk=node CITest/FAB-4036-2q/preconfig/samplejs/samplejs-chan1-install2-TLS.json

@@ -1,2 +1,0 @@
-driver=pte CITest/marbles-i-TLS/marblescc/runCases-marbles-i1-TLS.txt
-driver=pte CITest/marbles-i-TLS/marblescc/runCases-marbles-i2-TLS.txt
