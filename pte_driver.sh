@@ -15,6 +15,9 @@
 #    sdk=node userInputs/userInput-samplecc-q.json
 #
 
+export PATH="$PATH:/root/.nvm/versions/node/v8.9.4/bin/"
+export GOPATH="/opt/go"
+
 #echo "input vars: $# "
 inFile=$1
 iPTE=0
@@ -78,7 +81,8 @@ function nodeProc {
 
     BCN=0
     for i in ${nodeArray[@]}; do
-        echo "execution: $i"
+        echo "execution: node $EXENODE $BCN $i $tStart $iPTE"
+        echo "$(which node)"
         node $EXENODE $BCN $i $tStart $iPTE &
         PIDS="$PIDS $!"
         let BCN+=1

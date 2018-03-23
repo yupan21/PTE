@@ -27,12 +27,17 @@ def readFile(fileName, tStart, elasep):
             if i != "":
                 i = i.split("     ")
                 if i[0].find(tStart) > -1 or elasep_count != 0:
-                    # print(i)
-                    user_cpu.append(float(i[2]))
+                    try:
+                        user_cpu.append(float(i[2]))
+                    except:
+                        print("The max usage is:", max(user_cpu))
+                        print("The avg usage is:",
+                              round(statistics.mean(user_cpu), 2))
+                        return
                     elasep_count += 1
                     if elasep_count == elasep:
-                        print("The max cpu usage is:", max(user_cpu))
-                        print("The avg cpu usage is:",
+                        print("The max usage is:", max(user_cpu))
+                        print("The avg usage is:",
                               round(statistics.mean(user_cpu), 2))
                         return
             # break
@@ -78,24 +83,30 @@ def readLog(path,fileName):
 def __main__():
     arg = sys.argv[1:]
     # You should modify you own data
-    fileName_1 = "pte_0321_blockchainmaster151.txt"
-    fileName_2 = "pte_0321_blockchainmonion153.txt"
-    logsPath = arg[0]
+    filesList = os.listdir("./")
+    if not arg:
+        logsPath = "/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs"
+    else:
+        logsPath = arg[0]
     logsLists = os.listdir(logsPath)
     print(logsLists)
     for i in logsLists:
-        if i[-3:] == "log":
-            print("---[calculating log...]---")
-            LogfileName = i
-            tStart, tEnd = readLog(logsPath,LogfileName)
+        try:
+            if i[-3:] == "log":
+                print("------[calculating log...]------")
+                LogfileName = i
+                tStart, tEnd = readLog(logsPath,LogfileName)
 
-            # run code
-            elasep = int((tEnd-tStart)/1000)
-            tStart, tEnd = __initTime(tStart, tEnd)
-            print("Elasep time:", elasep)
-            print("----------------")
-            readFile(fileName_1, tStart, elasep)
-            readFile(fileName_2, tStart, elasep)
+                # run code
+                elasep = int((tEnd-tStart)/1000)
+                tStart, tEnd = __initTime(tStart, tEnd)
+                print("Elasep time:", elasep)
+                print("----------------")
+                for fileName in filesList:
+                    if fileName.endswith(".txt"):
+                        readFile(fileName, tStart, elasep)
+        except print(0):
+            pass
 
 
 __main__()

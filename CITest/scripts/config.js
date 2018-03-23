@@ -9,9 +9,9 @@ console.log("changing " + args[1] + " to " + args[2])
 args_list = args[1].split(".")
 if (args_list.length > 1) {
     if (args_list.length > 2){
-        config_data[args_list[1]][args_list[2]][args_list[3]] = args[2]
+        config_data[args_list[0]][args_list[1]][args_list[2]] = args[2]
     } else {
-        config_data[args_list[1]][args_list[2]] = args[2]
+        config_data[args_list[0]][args_list[1]] = args[2]
     }
 } else {
     if(config_data[args[1]] == undefined | config_data[args[1]] == "" | config_data[args[1]] == []){

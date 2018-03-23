@@ -4,22 +4,26 @@
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",
-    "transMode": "Constant",
-    "transType": "Invoke",
+    "transMode": "Simple",
+    "transType": "Channel",
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
-    "nProcPerOrg": "1",
-    "nRequest": "0",
+    "nOrderer": "1",
+    "nPeer": "4",
+    "nProcPerOrg": "4",
+    "nRequest": "1000",
     "runDur": "600",
     "TLS": "enabled",
     "channelOpt": {
         "name": "testorgschannel1",
-        "action": "create",
-        "orgName": ["org1"]
+        "action":  "join",
+        "orgName": [
+            "org2"
+        ]
     },
     "burstOpt": {
-        "burstFreq0": "500",
-        "burstDur0": "3000",
+        "burstFreq0":  "500",
+        "burstDur0":  "3000",
         "burstFreq1": "2000",
         "burstDur1": "10000"
     },
@@ -27,23 +31,13 @@
         "mixFreq": "3000"
     },
     "constantOpt": {
-        "recHist": "noHIST",
-        "constFreq": "0",
+        "recHist": "HIST",
+        "constFreq": "1",
         "devFreq": "0"
-    },
-    "listOpt": {
-        "org1": ["peer1"],
-        "org2": ["peer1"]
-    },
-    "eventOpt": {
-        "listener": "Transaction",
-        "timeout": "240000"
     },
     "ccType": "ccchecker",
     "ccOpt": {
-        "keyIdx": [1],
-        "keyPayLoad": [2],
-        "keyStart": "0",
+        "keyStart": "50000",
         "payLoadMin": "1024",
         "payLoadMax": "1024"
     },
@@ -59,10 +53,10 @@
         },
         "move": {
             "fcn": "invoke",
-            "args": ["put", "a1", "1"]
+            "args": ["put", "a1","1"]
         }
     },
-    "SCFile": [{
-        "ServiceCredentials": "CITest/CISCFiles/RMT-config-153.json"
-    }]
+    "SCFile": [
+		{"ServiceCredentials":"CITest/CISCFiles/RMT-config-ECS2.json"}
+	]
 }

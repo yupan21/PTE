@@ -59,10 +59,10 @@
         },
         "move": {
             "fcn": "invoke",
-            "args": ["put", "a1", "1"]
+            "args": ["put", "a1","1"]
         }
     },
     "SCFile": [{
-        "ServiceCredentials": "CITest/CISCFiles/RMT-config-153.json"
+        "ServiceCredentials": "CITest/CISCFiles/RMT-config-ECS2.json"
     }]
 }
