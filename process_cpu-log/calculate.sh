@@ -14,7 +14,8 @@ echo "connecting to remote host..."
 ssh root@${HOST} -i ~/.ssh/id_rsa "echo \"detaching and kill screen on host...\"; \
     screen -X -S host quit; \
     cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/; \
-    echo \"transport file on to local \"; \
+    echo \"waiting system log to be written and transport file on to local \"; \
+    sleep 1; \
     scp -i ~/.ssh/id_rsa -r *.txt root@${LOCAL}:/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/ "
 
 echo "running python scripts to get the statistic result..."

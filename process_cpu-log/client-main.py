@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 
 
+
 def __initTime(tStart, tEnd):
     # print("initializing...")
     tStart = datetime.fromtimestamp(tStart/1000).strftime("%I:%M:%S")
@@ -15,10 +16,11 @@ def __initTime(tStart, tEnd):
     return tStart, tEnd
 
 
-def readIO(fileName, tStart, elasep):
+def readIO(fileName, tStart, tEnd, elasep):
     # read disk and network IO
     send_read = []
     recv_write = []
+    busy_time = []
     print("Loading", fileName, "-----")
     with open("./{}".format(fileName),"r") as file:
         elasep_count = 0
@@ -26,29 +28,37 @@ def readIO(fileName, tStart, elasep):
             i = i.strip()
             # replace linebreak
             if i != "":
-                i = i.strip("     ")
+                i = i.split("     ")
                 if i[0].find(tStart) > -1 or elasep_count != 0:
                     try:
                         send_read.append(float(i[2]))
                         recv_write.append(float(i[3]))
+                        try:
+                            busy_time.append(float(i[4]))
+                        except:
+                            pass
                     except:
-                        print("The max usage of send or read io is", max(send_read))
-                        print("The avg usage of send or read io is", round(statistics.mean(send_read)))
-                        print("The max usage of receive or write io is", max(recv_write))
-                        print("The avg usage of receive or write io is", round(statistics.mean(recv_write)))
+                        print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
+                        print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
+                        print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
+                        print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
+                        if fileName.find("disk") > -1:
+                            print("The busy time is", sum(busy_time)/elasep)
                         return
                     elasep_count += 1
-                    if elasep_count == elasep:
-                        print("The max usage of send or read io is", max(send_read))
-                        print("The avg usage of send or read io is", round(statistics.mean(send_read)))
-                        print("The max usage of receive or write io is", max(recv_write))
-                        print("The avg usage of receive or write io is", round(statistics.mean(recv_write)))
+                    if elasep_count == elasep or i[0].find(tEnd) > -1 :
+                        print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
+                        print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
+                        print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
+                        print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
+                        if fileName.find("disk") > -1:
+                            print("The busy time is ", sum(busy_time)/elasep)
                         return
     print("readIO ends...")
     return
                 
 
-def readSys(fileName, tStart, elasep):
+def readSys(fileName, tStart, tEnd, elasep):
     # read cpu and memory txt
     user_cpu = []
     print("Loading", fileName, "-----")
@@ -63,14 +73,14 @@ def readSys(fileName, tStart, elasep):
                     try:
                         user_cpu.append(float(i[2]))
                     except:
-                        print("The max usage is:", max(user_cpu))
-                        print("The avg usage is:",
+                        print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
+                        print("The avg [{}] is:".format(fileName[:5]),
                               round(statistics.mean(user_cpu), 2))
                         return
                     elasep_count += 1
-                    if elasep_count == elasep:
-                        print("The max usage is:", max(user_cpu))
-                        print("The avg usage is:",
+                    if elasep_count == elasep or i[0].find(tEnd) > -1:
+                        print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
+                        print("The avg [{}] is:".format(fileName[:5]),
                               round(statistics.mean(user_cpu), 2))
                         return
             # break
@@ -144,9 +154,9 @@ def main():
                         # read computer status log
                         if fileName.startswith("networkIO") or fileName.startswith("disk"):
                             # read IO file
-                            readIO(fileName, tStart, elasep)
+                            readIO(fileName, tStart, tEnd, elasep)
                         else:
-                            readSys(fileName, tStart, elasep)
+                            readSys(fileName, tStart, tEnd, elasep)
         except print(0):
             pass
 
