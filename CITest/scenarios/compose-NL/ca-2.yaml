@@ -1,0 +1,23 @@
+version: '2'
+
+networks:
+  hyperledger-ov:
+  
+services:
+  ca1:
+    image: hyperledger/fabric-ca
+    environment: 
+      - GODEBUG=netdns=go
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-org2
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/9848a299821a2483f294fd6a8cc42075c4b0e09f54fe9dc509072f1a3d387db0_sk
+    ports: 
+      - 7055:7054
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/9848a299821a2483f294fd6a8cc42075c4b0e09f54fe9dc509072f1a3d387db0_sk -b admin:adminpw -d'
+    volumes: 
+      - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca1
+    networks:
+      - hyperledger-ov

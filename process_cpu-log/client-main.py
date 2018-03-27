@@ -15,8 +15,41 @@ def __initTime(tStart, tEnd):
     return tStart, tEnd
 
 
-def readFile(fileName, tStart, elasep):
-    # read cpu txt
+def readIO(fileName, tStart, elasep):
+    # read disk and network IO
+    send_read = []
+    recv_write = []
+    print("Loading", fileName, "-----")
+    with open("./{}".format(fileName),"r") as file:
+        elasep_count = 0
+        for i in file.readlines():
+            i = i.strip()
+            # replace linebreak
+            if i != "":
+                i = i.strip("     ")
+                if i[0].find(tStart) > -1 or elasep_count != 0:
+                    try:
+                        send_read.append(float(i[2]))
+                        recv_write.append(float(i[3]))
+                    except:
+                        print("The max usage of send or read io is", max(send_read))
+                        print("The avg usage of send or read io is", round(statistics.mean(send_read)))
+                        print("The max usage of receive or write io is", max(recv_write))
+                        print("The avg usage of receive or write io is", round(statistics.mean(recv_write)))
+                        return
+                    elasep_count += 1
+                    if elasep_count == elasep:
+                        print("The max usage of send or read io is", max(send_read))
+                        print("The avg usage of send or read io is", round(statistics.mean(send_read)))
+                        print("The max usage of receive or write io is", max(recv_write))
+                        print("The avg usage of receive or write io is", round(statistics.mean(recv_write)))
+                        return
+    print("readIO ends...")
+    return
+                
+
+def readSys(fileName, tStart, elasep):
+    # read cpu and memory txt
     user_cpu = []
     print("Loading", fileName, "-----")
     # pwd = os.getcwd()
@@ -80,15 +113,18 @@ def readLog(path,fileName):
     return int(tStart), int(tEnd)
 
 
-def __main__():
+def main():
     arg = sys.argv[1:]
-    # You should modify you own data
+    # read arguments
     filesList = os.listdir("./")
     if not arg:
         logsPath = "/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs"
+    elif arg[0] == "test":
+        logsPath = "./"
     else:
         logsPath = arg[0]
     logsLists = os.listdir(logsPath)
+    # check log dir
     print(logsLists)
     for i in logsLists:
         try:
@@ -96,17 +132,24 @@ def __main__():
                 print("------[calculating log...]------")
                 LogfileName = i
                 tStart, tEnd = readLog(logsPath,LogfileName)
+                # read logs
 
-                # run code
                 elasep = int((tEnd-tStart)/1000)
                 tStart, tEnd = __initTime(tStart, tEnd)
+                # calculate start time and elasep time
                 print("Elasep time:", elasep)
                 print("----------------")
                 for fileName in filesList:
                     if fileName.endswith(".txt"):
-                        readFile(fileName, tStart, elasep)
+                        # read computer status log
+                        if fileName.startswith("networkIO") or fileName.startswith("disk"):
+                            # read IO file
+                            readIO(fileName, tStart, elasep)
+                        else:
+                            readSys(fileName, tStart, elasep)
         except print(0):
             pass
 
 
-__main__()
+if __name__ == "__main__":
+    main()
