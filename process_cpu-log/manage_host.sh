@@ -8,7 +8,9 @@ HOST=$1
 cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/
 
 echo "removing all exits record..."
-rm -rf *.txt
+$DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
+mkdir $DIRNAME
+mv -f *.txt ./$DIRNAME
 chmod +x ./record_system_stats.sh
 echo "running screen on local to record cpu usage..."
 screen -dmS local ./record_system_stats.sh

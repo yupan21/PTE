@@ -10,10 +10,10 @@ def check_memory():
     username = os.uname()[1]
     memory = open("./memory_{}.txt".format(username), "w")
     networkIO = open("./networkIO_{}.txt".format(username), "w")
-    precentCPU = open("./cpu_{}.txt".format(username),"w")
-    diskIO = open("./disk_{}.txt".format(username),"w")
+    precentCPU = open("./cpu_{}.txt".format(username), "w")
+    diskIO = open("./disk_{}.txt".format(username), "w")
     last_io_value = [0 for i in range(2)]
-    last_disk_value = [0 for i in range(3)]
+    last_disk_value = [0 for i in range(5)]
     first_line = True
     while True:
         cpu = psutil.cpu_percent(interval=1)
@@ -22,16 +22,23 @@ def check_memory():
         disk = psutil.disk_io_counters()
         t = str(datetime.now().strftime('%Y-%m-%d %I:%M:%S'))[11:]
         # set timestamp
-        memory_prec = t+"     "+"Memory"+"     "+str(men[2])
+        memory_prec = t+"     "+"Memory(%)"+"     "+str(men[2])
         current_io_value = [net[i] - last_io_value[i] for i in range(2)]
-        netIO = t+"     "+"NetIO"+"     "+str(int(current_io_value[0]/1024))+"     " +str(int(current_io_value[1]/1024))
+        netIO = t+"     "+"NetIO(KB)"+"     " + \
+            str(int(current_io_value[0]/1024)) + \
+            "     " + str(int(current_io_value[1]/1024))
         cpu_prec = t+"     "+"CPU"+"     "+str(cpu)
-        current_disk_value = [disk[0] - last_disk_value[0], disk[1] - last_disk_value[1], disk[8] - last_disk_value[2]]
-        disk_io = t+"     "+"Disk"+"     "+str(int(current_disk_value[0]))+"     "+str(int(current_disk_value[1]))+"     "+str(int(current_disk_value[2]))
-        
+        current_disk_value = [disk[0] - last_disk_value[0],
+                              disk[1] - last_disk_value[1],
+                              disk[2] - last_disk_value[2],
+                              disk[3] - last_disk_value[3],
+                              disk[8] - last_disk_value[4], ]
+        disk_io = t+"     "+"Disk"+"     "+str(int(current_disk_value[0]))+"     "+str(
+            int(current_disk_value[1]))+"     "+str(int(current_disk_value[2]/1024))+"     "+str(int(current_disk_value[3]/1024))+"     "+str(round(current_disk_value[4]/1000, 2))
+        # The last item is busy time
 
         last_io_value = [net[i] for i in range(2)]
-        last_disk_value = [disk[0],disk[1],disk[8]]
+        last_disk_value = [disk[0], disk[1], disk[2], disk[3], disk[8]]
         if first_line:
             first_line = False
             continue
@@ -59,6 +66,7 @@ def main():
     except Exception:
         pass
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
