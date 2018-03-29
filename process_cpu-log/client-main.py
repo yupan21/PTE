@@ -41,7 +41,7 @@ sum_write_data = None
 avg_write_data = None
 
 max_busy_time = None
-sum_busy_time = None
+avg_busy_time = None
 
 # memory data and cpu data
 max_memory_usage = None
@@ -107,7 +107,7 @@ def writeDiskIO(fileName, tStart, tEnd, elasep):
     global avg_write_data
     # global argumetns
     global max_busy_time
-    global sum_busy_time
+    global avg_busy_time
     # global argumetns
     read_count = []
     write_count = []
@@ -154,8 +154,8 @@ def writeDiskIO(fileName, tStart, tEnd, elasep):
 
                         max_busy_time = max(busy_time)
                         print("max busy time sec", max_busy_time)
-                        sum_busy_time = sum(busy_time)
-                        print("sum busy time sec", sum_busy_time)
+                        avg_busy_time = round(statistics.mean((busy_time),2)
+                        print("sum busy time sec", avg_busy_time)
                         return
     return "writeDiskIO"
 
@@ -365,7 +365,7 @@ def writeCSV(logsPath,logsLists):
             csvData_client = [Processes,tag,tStart, tEnd, elasep, tps, avg_send, max_send, avg_receive, max_receive, max_read_count,
                             sum_read_count, max_write_count, sum_write_count, max_read_data, sum_read_data,
                             avg_read_data, max_write_data, sum_write_data, avg_write_data, max_busy_time,
-                            sum_busy_time, max_memory_usage, avg_memory_usage, max_cpu_usage, avg_cpu_usage]
+                            avg_busy_time, max_memory_usage, avg_memory_usage, max_cpu_usage, avg_cpu_usage]
 
             host = "client"
             title = ["{} network avg send(kb/s)".format(host),
@@ -410,7 +410,7 @@ def writeCSV(logsPath,logsLists):
                 csvData_client = [avg_send, max_send, avg_receive, max_receive, max_read_count,
                                 sum_read_count, max_write_count, sum_write_count, max_read_data, sum_read_data,
                                 avg_read_data, max_write_data, sum_write_data, avg_write_data, max_busy_time,
-                                sum_busy_time, max_memory_usage, avg_memory_usage, max_cpu_usage, avg_cpu_usage]
+                                avg_busy_time, max_memory_usage, avg_memory_usage, max_cpu_usage, avg_cpu_usage]
                 host = "sut{}".format(sut_host_count)
                 title = ["{} network avg send(kb/s)".format(host),
                         "{} network max send(kb/s)".format(host), 
@@ -450,7 +450,7 @@ def writeCSV(logsPath,logsLists):
         # print(max_write_count,sum_write_count)
         # print(max_read_data,sum_read_data,avg_read_data)
         # print(max_write_data,sum_write_data,avg_write_data)
-        # print(max_busy_time, sum_busy_time)
+        # print(max_busy_time, avg_busy_time)
         # print(max_memory_usage, avg_memory_usage)
         # print(max_cpu_usage, avg_cpu_usage)
     df = pd.DataFrame(columns=csvData_title_all,data = csvData)

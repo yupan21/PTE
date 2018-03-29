@@ -24,13 +24,13 @@ sleep 6
 ## ending case ---
 
 
-# running test-----------------
-# reconfig pte
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
-node ./config.js RMT-ecs nProcPerOrg 1
-node ./config.js RMT-ecs invokeType Move
-bash ./test_driver.sh -t RMT-ecs
-## ending case ----------------
+# # running test-----------------
+# # reconfig pte
+# cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
+# node ./config.js RMT-ecs nProcPerOrg 1
+# node ./config.js RMT-ecs invokeType Move
+# bash ./test_driver.sh -t RMT-ecs
+# ## ending case ----------------
 
 
 
