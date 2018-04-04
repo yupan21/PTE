@@ -6,7 +6,7 @@ cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITes
 bash test_driver.sh -n -m RMT-ecs -p -c samplecc
 
 LOCAL=$1
-
+# this script is running on the sut host
 echo "connecting to sut host"
 ssh root@${LOCAL} -i ~/.ssh/id_rsa "cd /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools; rm -rf cryptogen"
 cd /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools

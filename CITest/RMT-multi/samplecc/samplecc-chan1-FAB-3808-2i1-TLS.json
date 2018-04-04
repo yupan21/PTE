@@ -63,6 +63,6 @@
         }
     },
     "SCFile": [{
-        "ServiceCredentials": "CITest/CISCFiles/RMT-config-153.json"
+        "ServiceCredentials": "CITest/CISCFiles/RMT-config-multi.json"
     }]
 }

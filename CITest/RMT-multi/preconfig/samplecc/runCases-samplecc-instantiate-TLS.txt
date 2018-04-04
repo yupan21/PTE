@@ -1,1 +1,1 @@
-sdk=node CITest/RMT-auto/preconfig/samplecc/samplecc-chan1-instantiate-TLS.json
+sdk=node CITest/RMT-multi/preconfig/samplecc/samplecc-chan1-instantiate-TLS.json
