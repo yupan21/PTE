@@ -8,7 +8,7 @@ HOST=$1
 cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/
 
 echo "removing all exits record..."
-$DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
+DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
 mkdir $DIRNAME
 mv -f *.txt ./$DIRNAME
 chmod +x ./record_system_stats.sh

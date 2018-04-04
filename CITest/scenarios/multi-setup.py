@@ -1,14 +1,8 @@
-# from __future__ import print_function
+from __future__ import print_function
 import sys
-if sys.version_info[0] < 3:
-    print "using python 2.7 ..."
-    from subprocess import Popen
-    import subprocess
-    from commands import getstatusoutput as command
-else :
-    print("should be using 2.7")
-    quit()
-
+from subprocess import Popen
+import subprocess
+from commands import getstatusoutput as command
 
 localip = "172.16.50.151"
 hostip = "172.16.50.153"

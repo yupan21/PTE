@@ -4,7 +4,6 @@ import statistics
 import os
 import pandas as pd
 from datetime import datetime
-import write_csv
 
 # global data
 # csv name
@@ -153,9 +152,9 @@ def writeDiskIO(fileName, tStart, tEnd, elasep):
                         print("avg write data kb/s", avg_write_data)
 
                         max_busy_time = max(busy_time)
-                        print("max busy time sec", max_busy_time)
-                        avg_busy_time = round(statistics.mean((busy_time),2)
-                        print("sum busy time sec", avg_busy_time)
+                        print("max busy time %", max_busy_time)
+                        avg_busy_time = round(statistics.mean(busy_time),2)
+                        print("avg busy time %", avg_busy_time)
                         return
     return "writeDiskIO"
 
@@ -382,8 +381,8 @@ def writeCSV(logsPath,logsLists):
                         "{} disk max write data(kb/s)".format(host),
                         "{} disk sum write data(kb/s)".format(host),
                         "{} disk avg write data(kb/s)".format(host),
-                        "{} disk max busy time(sec)".format(host),
-                        "{} disk sum busy time(sec)".format(host),
+                        "{} disk max busy time(%)".format(host),
+                        "{} disk avg busy time(%)".format(host),
                         "{} memory max usage(%)".format(host),
                         "{} memory avg usage(%)".format(host),
                         "{} cpu max usage(%)".format(host),
@@ -426,8 +425,8 @@ def writeCSV(logsPath,logsLists):
                             "{} disk max write data(kb/s)".format(host),
                             "{} disk sum write data(kb/s)".format(host),
                             "{} disk avg write data(kb/s)".format(host),
-                            "{} disk max busy time(sec)".format(host),
-                            "{} disk sum busy time(sec)".format(host),
+                            "{} disk max busy time(%)".format(host),
+                            "{} disk avg busy time(%)".format(host),
                             "{} memory max usage(%)".format(host),
                             "{} memory avg usage(%)".format(host),
                             "{} cpu max usage(%)".format(host),
