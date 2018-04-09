@@ -17,7 +17,7 @@ def swarm():
     for i in join_token.split("\n"):
         if i.find("SWMTKN") > -1:
             join_token = i
-            print join_token
+            print(join_token)
     return 
 
 def ssh_join():

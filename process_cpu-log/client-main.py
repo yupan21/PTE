@@ -11,7 +11,8 @@ csvData_title = ["Processes","tag","tStart","tEnd","Duration","TPS"]
 csvData_client = []
 csvData_set = []
 username = os.uname()[1]
-hostname = ["blockchainmonion153"]
+# client is not include in hostname
+hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"]
 
 # global arguments to None to assigning anything
 TestID = None
@@ -411,6 +412,7 @@ def writeCSV(logsPath,logsLists):
                                 avg_read_data, max_write_data, sum_write_data, avg_write_data, max_busy_time,
                                 avg_busy_time, max_memory_usage, avg_memory_usage, max_cpu_usage, avg_cpu_usage]
                 host = "sut{}".format(sut_host_count)
+                sut_host_count += 1
                 title = ["{} network avg send(kb/s)".format(host),
                         "{} network max send(kb/s)".format(host), 
                         "{} network avg receive(kb/s)".format(host),
