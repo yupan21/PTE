@@ -141,14 +141,14 @@ def writeDiskIO(fileName, tStart, tEnd, elasep):
                         max_read_data = max(read_data)
                         print("max read data kb/s", max_read_data)
                         sum_read_data = sum(read_data)
-                        print("sum read data kb/s", sum_read_data)
+                        print("sum read data kb", sum_read_data)
                         avg_read_data = round(statistics.mean(read_data), 2)
                         print("avg read data kb/s", avg_read_data)
 
                         max_write_data = max(write_data)
                         print("max write data kb/s",max_write_data)
                         sum_write_data = sum(write_data)
-                        print("sum write data kb/s", sum_write_data)
+                        print("sum write data kb", sum_write_data)
                         avg_write_data = round(statistics.mean(write_data),2)
                         print("avg write data kb/s", avg_write_data)
 
@@ -333,7 +333,7 @@ def writeCSV(logsPath,logsLists):
     global csvData_title
     global csvData_client
     global csvData_set
-    sut_host_count = 0
+    
 
     for log in logsLists:
         if log[-3:] == "log":
@@ -377,10 +377,10 @@ def writeCSV(logsPath,logsLists):
                         "{} disk max write count".format(host),
                         "{} disk sum write count".format(host),
                         "{} disk max read data(kb/s)".format(host),
-                        "{} disk sum read data(kb/s)".format(host),
+                        "{} disk sum read data(kb)".format(host),
                         "{} disk avg read data(kb/s)".format(host),
                         "{} disk max write data(kb/s)".format(host),
-                        "{} disk sum write data(kb/s)".format(host),
+                        "{} disk sum write data(kb)".format(host),
                         "{} disk avg write data(kb/s)".format(host),
                         "{} disk max busy time(%)".format(host),
                         "{} disk avg busy time(%)".format(host),
@@ -393,6 +393,7 @@ def writeCSV(logsPath,logsLists):
             csvData_set += csvData_client
             # end read client file
             # read the stats file
+            sut_host_count = 0
             for name in hostname:
                 for fileName in statsFileList:
                     if fileName.find(name) > -1:
@@ -456,6 +457,7 @@ def writeCSV(logsPath,logsLists):
         # print(max_cpu_usage, avg_cpu_usage)
     df = pd.DataFrame(columns=csvData_title_all,data = csvData)
     df.to_csv("output_{}_test.csv".format(TestID))
+    print("Done.")
     return 
 
             
@@ -470,7 +472,7 @@ def main():
         logsPath = "./"
     else:
         logsPath = arg[0]
-    logsLists = os.listdir(logsPath)
+    logsLists = [i for i in os.listdir(logsPath) if i.endswith(".log")]
     print(logsLists)
     # for i in logsLists:
     #     try:
