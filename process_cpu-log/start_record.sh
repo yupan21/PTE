@@ -9,6 +9,7 @@ HOST1=$1
 HOST2=$2
 
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
+LOGS_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs
 
 cd $PROCESS_CPU_DIR
 
@@ -28,4 +29,11 @@ for HOST in $HOST1 $HOST2; do
         screen -dmS host ./record_system_stats.sh"
 done
 
-# may be you could do something below this 
+# may be you could do something below this
+# archiving logs to another folder
+echo "archiving historical logs to another folder"
+cd $LOGS_DIR
+cd ..
+DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
+mkdir Logs_$DIRNAME
+mv -f Logs/* ./Logs_$DIRNAME

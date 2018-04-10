@@ -7,7 +7,6 @@ HOST1=$1
 HOST2=$2
 
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
-LOGS_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs
 cd $PROCESS_CPU_DIR
 # end of doing something
 # 
@@ -29,12 +28,6 @@ for HOST in $HOST1 $HOST2; do
     scp -i ~/.ssh/id_rsa -r root@${HOST}:${PROCESS_CPU_DIR}/*.txt ./
 done 
 
-# archiving logs to another folder
-cd $LOGS_DIR
-cd ..
-DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
-mkdir Logs_$DIRNAME
-mv -f Logs/* ./Logs_$DIRNAME
 
 # get the system record log
 cd $PROCESS_CPU_DIR
