@@ -57,3 +57,11 @@ to end the test and transport the file to you client can use
     # caculate cpu log
     cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
     python client-main.py /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs
+
+
+### python requirements
+
++ python2.7
++ psutil
++ pandas
++ statistics

@@ -34,7 +34,7 @@ cd $LOGS_DIR
 cd ..
 DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
 mkdir Logs_$DIRNAME
-mv -f Logs ./Logs_$DIRNAME
+mv -f Logs/* ./Logs_$DIRNAME
 
 # get the system record log
 cd $PROCESS_CPU_DIR

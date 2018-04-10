@@ -12,7 +12,8 @@ csvData_client = []
 csvData_set = []
 username = os.uname()[1]
 # client is not include in hostname
-hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"]
+# hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"]
+hostname = ["blockchainmaster151","blockchainmonion153"]
 
 # global arguments to None to assigning anything
 TestID = None
