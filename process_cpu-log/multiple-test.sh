@@ -6,6 +6,13 @@
 
 HOST1=120.79.163.88
 HOST2=39.108.167.205
+DELAY=10
+echo "default HOST1=120.79.163.88 HOST2=39.108.167.205 sleep 10"
+echo "enter you command e.g.: multiple-test.sh 172.16.50.151 172.16.50.153 120"
+HOST1=$1
+HOST2=$2
+DELAY=$3
+
 
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 
@@ -31,7 +38,7 @@ PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/t
 cd $PROCESS_CPU_DIR
 ./start_record.sh $HOST1 $HOST2
 
-sleep 5
+sleep $DELAY
 
 cd $PROCESS_CPU_DIR
 ./end_record.sh $HOST1 $HOST2

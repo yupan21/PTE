@@ -12,7 +12,7 @@ if [ $# -gt 2 ]; then
     exit
 fi
 
-FabricTestDir=$GOPATH/src/github.com/hyperledger/fabric-test
+FabricTestDir=/opt/go/src/github.com/hyperledger/fabric-test
 PTEDir=$FabricTestDir/fabric-sdk-node/test/PTE
 CIDir=$FabricTestDir/fabric-sdk-node/test/PTE/CITest
 ScriptsDir=$CIDir/scripts

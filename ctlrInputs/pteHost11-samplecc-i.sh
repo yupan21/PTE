@@ -33,9 +33,9 @@ echo "[$0] userHost: $userHost"
 
 # remote execution
 ssh $userHost  << EOF
-echo $GOPATH
+echo /opt/go
 
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
+cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
 ./test_driver.sh -t FAB-3989-4i-TLS -b $tStart &
 
 EOF

@@ -51,7 +51,7 @@ module.exports.storePathForOrg = function(networkid, org) {
 	return module.exports.KVS + '_' + networkid + '_' + org;
 };
 
-// temporarily set $GOPATH to the test fixture folder
+// temporarily set /opt/go to the test fixture folder
 module.exports.setupChaincodeDeploy = function() {
 	process.env.GOPATH = path.join(__dirname, '../fixtures');
 };

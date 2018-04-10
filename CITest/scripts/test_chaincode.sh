@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 GOPATH=/opt/go
-FabricTestDir=$GOPATH/src/github.com/hyperledger/fabric-test
+FabricTestDir=/opt/go/src/github.com/hyperledger/fabric-test
 SDKDir=$FabricTestDir/fabric-sdk-node
 
 # PTE: create/join channel, install/instantiate chaincode

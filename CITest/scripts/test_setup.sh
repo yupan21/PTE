@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FabricTestDir=$GOPATH/src/github.com/hyperledger/fabric-test
+FabricTestDir=/opt/go/src/github.com/hyperledger/fabric-test
 NLDir=$FabricTestDir/tools/NL
 PTEDir=$FabricTestDir/tools/PTE
 SDKDir=$FabricTestDir/fabric-sdk-node
@@ -14,7 +14,7 @@ SDKDir=$FabricTestDir/fabric-sdk-node
 # setup fabric-test
 CWD=$PWD
 echo "[$0] clone fabric-test"
-cd $GOPATH/src/github.com/hyperledger
+cd /opt/go/src/github.com/hyperledger
 git clone https://github.com/hyperledger/fabric-test
 
 

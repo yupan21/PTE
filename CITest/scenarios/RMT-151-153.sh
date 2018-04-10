@@ -9,7 +9,7 @@ PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/t
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
 # use to modify channel material and cryptogen file
-CISCRIPT_DIR=$GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
+CISCRIPT_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
 # use to handel the whole test driver and test case config
 NL_DIR=/opt/go/src/github.com/hyperledger/fabric-test/tools/NL
 # launch you network in this directory
@@ -58,6 +58,7 @@ done
 
 # startup the network ------------
 echo "Connecting to ${HOST1} to startup the network."
+echo "creating overlay network."
 ssh root@${HOST1} -i ~/.ssh/id_rsa "cd ${NL_DIR}; \
     docker network create --attachable --driver overlay fabric_ov --subnet 10.10.0.0/24; \
     docker-compose -f machine-solo-3orderer.yml up -d"

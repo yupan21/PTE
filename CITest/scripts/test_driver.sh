@@ -117,7 +117,7 @@ done
 echo "SETUP $SETUP, NL $NL, NLDir $NLDir, CHANNEL $CHANNEL, CHAINCODE $CHAINCODE, TStart $TStart"
 echo "total: ${#TCases[@]} test cases: ${TCases[@]}"
 
-CIDir=$GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest
+CIDir=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest
 
 CWD=$PWD
 # setup test environment

@@ -22,11 +22,11 @@ to setup a single host network;
 
     # start network ---
     echo "connecting host and startup the network "
-    ssh root@${HOST} -i ~/.ssh/id_rsa "cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts; \
+    ssh root@${HOST} -i ~/.ssh/id_rsa "cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts; \
         echo \"changing network ...\"; \
         python config-network.py RMT-auto -o 3 -x 2 -r 2 -k 1 -z 1 -p 2 -n 1 -t solo -f test -w 0.0.0.0 -S enabled -c 2s -l INFO -B 500 ;\
         chmod +x ./test_nl.sh; \
-        cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scenarios/network; \
+        cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scenarios/network; \
         bash RMT-network-auto.sh"
     echo "sleeping 6 sec"
     sleep 6
@@ -38,7 +38,7 @@ case one
 
     # running test-----------------
     # reconfig pte
-    cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
+    cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
     node ./config.js RMT-auto ccOpt.payLoadMax 2028
     node ./config.js RMT-auto nProcPerOrg 1
     node ./config.js RMT-auto invokeType Move

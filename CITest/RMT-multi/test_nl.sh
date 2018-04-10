@@ -5,7 +5,7 @@
 
 
 
-# FabricTestDir=$GOPATH/src/github.com/hyperledger/fabric-test
+# FabricTestDir=/opt/go/src/github.com/hyperledger/fabric-test
 # NLDir=$FabricTestDir/tools/NL
 
 # CWD=$PWD

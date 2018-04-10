@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $GOPATH/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
+cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/scripts
 
 #### Lauch network and synch-up ledger
 bash test_driver.sh -n -m RMT-auto -p -c samplecc
