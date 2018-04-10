@@ -1,1 +1,0 @@
-sdk=node CITest/RMT-multi/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json
