@@ -44,8 +44,8 @@
         "keyIdx": [1],
         "keyPayLoad": [2],
         "keyStart": "0",
-        "payLoadMin": "1024",
-        "payLoadMax": "1024"
+        "payLoadMin": "256",
+        "payLoadMax": "256"
     },
     "deploy": {
         "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/samplecc/go",

@@ -12,8 +12,9 @@ csvData_client = []
 csvData_set = []
 username = os.uname()[1]
 # client is not include in hostname
-# hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"]
-hostname = ["blockchainmaster151","blockchainmonion153"]
+hostname = ["iZwz9gd8k08kdmtd4qg7rhZ"] # ecs single test case
+# hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"] # ecs multiple test case
+# hostname = ["blockchainmaster151","blockchainmonion153"] # local multiple network test case
 
 # global arguments to None to assigning anything
 TestID = None
@@ -424,10 +425,10 @@ def writeCSV(logsPath,logsLists):
                             "{} disk max write count".format(host),
                             "{} disk sum write count".format(host),
                             "{} disk max read data(kb/s)".format(host),
-                            "{} disk sum read data(kb/s)".format(host),
+                            "{} disk sum read data(kb)".format(host),
                             "{} disk avg read data(kb/s)".format(host),
                             "{} disk max write data(kb/s)".format(host),
-                            "{} disk sum write data(kb/s)".format(host),
+                            "{} disk sum write data(kb)".format(host),
                             "{} disk avg write data(kb/s)".format(host),
                             "{} disk max busy time(%)".format(host),
                             "{} disk avg busy time(%)".format(host),
@@ -475,6 +476,8 @@ def main():
         logsPath = arg[0]
     logsLists = [i for i in os.listdir(logsPath) if i.endswith(".log")]
     print(logsLists)
+
+    writeCSV(logsPath,logsLists)
     # for i in logsLists:
     #     try:
     #         if i[-3:] == "log":
@@ -497,8 +500,7 @@ def main():
     #                         readSys(fileName, tStart, tEnd, elasep)
     #     except print(0):
     #         pass
-    writeCSV(logsPath,logsLists)
-    # mergeCSV()
+    
 
 if __name__ == "__main__":
     main()

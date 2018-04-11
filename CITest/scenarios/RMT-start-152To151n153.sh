@@ -5,6 +5,9 @@
 
 HOST1=172.16.50.151
 HOST2=172.16.50.153
+HOST1COMPOSE=machine-kafka-3orderer-1kfka-1zk.yml
+HOST2COMPOSE=machine-kafka-4peer-2ca.yml
+
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
@@ -41,6 +44,9 @@ node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST2:6053
 node ./config_sc.js RMT-config-multi.json org2.peer2.requests grpcs://$HOST2:7064
 node ./config_sc.js RMT-config-multi.json org2.peer2.events grpcs://$HOST2:6054
 
+echo "Sending scfile to $HOST1"
+cd $SCFILES_DIR
+scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$HOST1:$SCFILES_DIR
 echo "Sending scfile to $HOST2"
 cd $SCFILES_DIR
 scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$HOST2:$SCFILES_DIR
@@ -54,6 +60,8 @@ for HOST in $HOST1 $HOST2; do
         ./cleanNetwork.sh example.com; \ 
         yes | docker network prune"
 done
+echo "Clean the /tmp/*"
+rm -rf /tmp/*
 # cleanup the network ------------
 
 # startup the network ------------
@@ -61,19 +69,21 @@ echo "Connecting to ${HOST1} to startup the network."
 echo "creating overlay network."
 ssh root@${HOST1} -i ~/.ssh/id_rsa "cd ${NL_DIR}; \
     docker network create --attachable --driver overlay fabric_ov --subnet 10.10.0.0/24; \
-    docker-compose -f machine-solo-3orderer.yml up -d"
+    docker-compose -f $HOST1COMPOSE up -d"
 # startup the network ------------
 
 # startup the network ------------
 echo "Connecting to ${HOST2} to startup the network."
 ssh root@${HOST2} -i ~/.ssh/id_rsa "cd ${NL_DIR}; \
-    docker-compose -f machine-solo-4peer-2ca.yml up -d"
+    docker-compose -f HOST2COMPOSE up -d"
 # startup the network ------------
 
 # start channel -------------
-echo "Connecting to ${HOST1} to startup the channel."
-ssh root@${HOST1} -i ~/.ssh/id_rsa "cd ${CISCRIPT_DIR}; \
-    bash test_driver.sh -m RMT-multi -p -c samplecc"
+# echo "Connecting to ${HOST1} to startup the channel."
+# ssh root@${HOST1} -i ~/.ssh/id_rsa "cd ${CISCRIPT_DIR}; \
+#     bash test_driver.sh -m RMT-multi -p -c samplecc"
+cd $CISCRIPT_DIR
+bash test_driver.sh -m RMT-multi -p -c samplecc
 # start channel -------------
 
 
