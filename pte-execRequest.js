@@ -1737,23 +1737,23 @@ function latency_output() {
 
     // output peers latency
     if (latency_peer[0] != 0) {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] peer latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_peer[0], latency_peer[1], (latency_peer[1] / latency_peer[0]).toFixed(2), latency_peer[2], latency_peer[3]);
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d waiting_time_peer_to_propsoal] Output: tx num= %d,Time: %d,%d,%d,%d', Nid, channelName, org, pid, latency_peer[0], latency_peer[1], (latency_peer[1] / latency_peer[0]).toFixed(2), latency_peer[2], latency_peer[3]);
     } else {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] peer latency stats: tx num= %d, total time: %d ms, avg= NA ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_peer[0], latency_peer[1], latency_peer[2], latency_peer[3]);
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d waiting_time_peer_to_propsoal] Output: tx num= %d,Time: %d,%d,%d,%d', Nid, channelName, org, pid, latency_peer[0], latency_peer[1], latency_peer[2], latency_peer[3]);
     }
 
     // output orderer latency
     if (latency_orderer[0] != 0) {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] orderer latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_orderer[0], latency_orderer[1], (latency_orderer[1] / latency_orderer[0]).toFixed(2), latency_orderer[2], latency_orderer[3]);
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d waiting_time_check_promise] Output: tx num= %d,Time: %d,%d,%d,%d', Nid, channelName, org, pid, latency_orderer[0], latency_orderer[1], (latency_orderer[1] / latency_orderer[0]).toFixed(2), latency_orderer[2], latency_orderer[3]);
     } else {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] orderer latency stats: tx num= %d, total time: %d ms, avg= NA ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_orderer[0], latency_orderer[1], latency_orderer[2], latency_orderer[3]);
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d waiting_time_check_promise] Output: tx num= %d,Time: %d,%d,%d,%d', Nid, channelName, org, pid, latency_orderer[0], latency_orderer[1], latency_orderer[2], latency_orderer[3]);
     }
 
     // output event latency
     if (latency_event[0] != 0) {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] event latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_event[0], latency_event[1], (latency_event[1] / latency_event[0]).toFixed(2), latency_event[2], latency_event[3]);
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d waiting_time_event] Output: tx num= %d,Time: %d,%d,%d,%d', Nid, channelName, org, pid, latency_event[0], latency_event[1], (latency_event[1] / latency_event[0]).toFixed(2), latency_event[2], latency_event[3]);
     } else {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] event latency stats: tx num= %d, total time: %d ms, avg= NA ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_event[0], latency_event[1], latency_event[2], latency_event[3]);
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d waiting_time_event] Output: tx num= %d,Time: %d,%d,%d,%d', Nid, channelName, org, pid, latency_event[0], latency_event[1], latency_event[2], latency_event[3]);
     }
 
     // delete txidList
@@ -2060,6 +2060,7 @@ function invoke_query_const(freq) {
 
 }
 
+// invoke_move_const invoke_query_const entrance
 function execModeConstant() {
 
     // send proposal to endorser

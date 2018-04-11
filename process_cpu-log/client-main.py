@@ -3,25 +3,30 @@ import sys
 import statistics
 import os
 import pandas as pd
+import numpy as np
 from datetime import datetime
 
 # global data
 # csv name
-csvData_title = ["Processes","tag","tStart","tEnd","Duration","TPS"]
+csvData_title = ["Processes","tag","tStart","tEnd","Duration","TPS","waiting_time_peer_to_propsoal(sum/avg/min/max)","waiting_time_check_promise(sum/avg/min/max)","waiting_time_event(sum/avg/min/max)"]
 csvData_client = []
 csvData_set = []
 username = os.uname()[1]
 # client is not include in hostname
-hostname = ["iZwz9gd8k08kdmtd4qg7rhZ"] # ecs single test case
+# hostname = ["iZwz9gd8k08kdmtd4qg7rhZ"] # ecs single test case
 # hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"] # ecs multiple test case
-# hostname = ["blockchainmaster151","blockchainmonion153"] # local multiple network test case
+hostname = ["blockchainmaster151","blockchainmonion153"] # local multiple network test case
 
 # global arguments to None to assigning anything
+Processes = 0
 TestID = None
 tStart = None
 tEnd = None
 elasep = None
 tps = None
+waiting_time_peer_to_propsoal = [0,0,0,0]
+waiting_time_check_promise = [0,0,0,0]
+waiting_time_event = [0,0,0,0]
 
 avg_send = None
 max_send = None
@@ -127,7 +132,8 @@ def writeDiskIO(fileName, tStart, tEnd, elasep):
                     write_count.append(float(line[3]))
                     read_data.append(float(line[4]))
                     write_data.append(float(line[5]))
-                    busy_time.append(float(line[6]))
+                    busy_item = [float(x) for x in line[6].split("_")]
+                    busy_time.append(busy_item)
 
                     elasep_count += 1
                     if elasep_count == elasep or line[0].find(tEnd) > -1 :
@@ -154,9 +160,9 @@ def writeDiskIO(fileName, tStart, tEnd, elasep):
                         avg_write_data = round(statistics.mean(write_data),2)
                         print("avg write data kb/s", avg_write_data)
 
-                        max_busy_time = max(busy_time)
+                        max_busy_time = np.max(busy_time,axis=0)
                         print("max busy time %", max_busy_time)
-                        avg_busy_time = round(statistics.mean(busy_time),2)
+                        avg_busy_time =  np.average(busy_time,axis=0)
                         print("avg busy time %", avg_busy_time)
                         return
     return "writeDiskIO"
@@ -213,87 +219,92 @@ def writeCPU(fileName, tStart, tEnd, elasep):
                         return
     return "writeCPU"
 
-def readIO(fileName, tStart, tEnd, elasep):
-    # read disk and network IO
-    send_read = []
-    recv_write = []
-    busy_time = []
-    read_bytes = []
-    write_bytes = []
-    print("Loading", fileName, "-----")
-    with open("./{}".format(fileName),"r") as file:
-        elasep_count = 0
-        for i in file.readlines():
-            i = i.strip()
-            # replace linebreak
-            if i != "":
-                i = i.split("     ")
-                if i[0].find(tStart) > -1 or elasep_count != 0:
-                    try:
-                        send_read.append(float(i[2]))
-                        recv_write.append(float(i[3]))
-                        try:
-                            read_bytes.append(float(i[4]))
-                            write_bytes.append(float(i[5]))
-                            busy_time.append(float(i[6]))
-                        except:
-                            pass
-                    except:
-                        print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
-                        print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
-                        print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
-                        print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
-                        if fileName.find("disk") > -1:
-                            print("The Max/Sum busy time(s):", max(busy_time),sum(busy_time))
-                            print("Max Read data(KB/s):",max(read_bytes))
-                            print("Max Write data(KB/s):",max(write_bytes))
-                        return
-                    elasep_count += 1
-                    if elasep_count == elasep or i[0].find(tEnd) > -1 :
-                        print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
-                        print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
-                        print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
-                        print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
-                        if fileName.find("disk") > -1:
-                            print("The Max/Sum busy time(s):", max(busy_time),sum(busy_time))
-                            print("Max Read data(KB/s):",max(read_bytes))
-                            print("Max Write data(KB/s):",max(write_bytes))
-                        return
-    print("readIO ends...")
-    return
+# def readIO(fileName, tStart, tEnd, elasep):
+#     # read disk and network IO
+#     send_read = []
+#     recv_write = []
+#     busy_time = []
+#     read_bytes = []
+#     write_bytes = []
+#     print("Loading", fileName, "-----")
+#     with open("./{}".format(fileName),"r") as file:
+#         elasep_count = 0
+#         for i in file.readlines():
+#             i = i.strip()
+#             # replace linebreak
+#             if i != "":
+#                 i = i.split("     ")
+#                 if i[0].find(tStart) > -1 or elasep_count != 0:
+#                     try:
+#                         send_read.append(float(i[2]))
+#                         recv_write.append(float(i[3]))
+#                         try:
+#                             read_bytes.append(float(i[4]))
+#                             write_bytes.append(float(i[5]))
+#                             busy_time.append(float(i[6]))
+#                         except:
+#                             pass
+#                     except:
+#                         print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
+#                         print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
+#                         print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
+#                         print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
+#                         if fileName.find("disk") > -1:
+#                             print("The Max/Sum busy time(s):", max(busy_time),sum(busy_time))
+#                             print("Max Read data(KB/s):",max(read_bytes))
+#                             print("Max Write data(KB/s):",max(write_bytes))
+#                         return
+#                     elasep_count += 1
+#                     if elasep_count == elasep or i[0].find(tEnd) > -1 :
+#                         print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
+#                         print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
+#                         print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
+#                         print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
+#                         if fileName.find("disk") > -1:
+#                             print("The Max/Sum busy time(s):", max(busy_time),sum(busy_time))
+#                             print("Max Read data(KB/s):",max(read_bytes))
+#                             print("Max Write data(KB/s):",max(write_bytes))
+#                         return
+#     print("readIO ends...")
+#     return
 
 
-def readSys(fileName, tStart, tEnd, elasep):
-    # read cpu and memory txt
-    user_cpu = []
-    print("Loading", fileName, "-----")
-    # pwd = os.getcwd()
-    with open("./{}".format(fileName), "r") as file:
-        elasep_count = 0
-        for i in file.readlines():
-            i = i.strip()
-            if i != "":
-                i = i.split("     ")
-                if i[0].find(tStart) > -1 or elasep_count != 0:
-                    try:
-                        user_cpu.append(float(i[2]))
-                    except:
-                        print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
-                        print("The avg [{}] is:".format(fileName[:5]),
-                              round(statistics.mean(user_cpu), 2))
-                        return
-                    elasep_count += 1
-                    if elasep_count == elasep or i[0].find(tEnd) > -1:
-                        print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
-                        print("The avg [{}] is:".format(fileName[:5]),
-                              round(statistics.mean(user_cpu), 2))
-                        return
-            # break
-    return
+# def readSys(fileName, tStart, tEnd, elasep):
+#     # read cpu and memory txt
+#     user_cpu = []
+#     print("Loading", fileName, "-----")
+#     # pwd = os.getcwd()
+#     with open("./{}".format(fileName), "r") as file:
+#         elasep_count = 0
+#         for i in file.readlines():
+#             i = i.strip()
+#             if i != "":
+#                 i = i.split("     ")
+#                 if i[0].find(tStart) > -1 or elasep_count != 0:
+#                     try:
+#                         user_cpu.append(float(i[2]))
+#                     except:
+#                         print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
+#                         print("The avg [{}] is:".format(fileName[:5]),
+#                               round(statistics.mean(user_cpu), 2))
+#                         return
+#                     elasep_count += 1
+#                     if elasep_count == elasep or i[0].find(tEnd) > -1:
+#                         print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
+#                         print("The avg [{}] is:".format(fileName[:5]),
+#                               round(statistics.mean(user_cpu), 2))
+#                         return
+#             # break
+#     return
 
 
 def readLog(path,fileName):
+    global Processes
     global tps
+    global waiting_time_peer_to_propsoal
+    global waiting_time_check_promise
+    global waiting_time_event
+
     print("Loading...", fileName, "-----")
     # pwd = os.getcwd()
     tag = True  # This tag is used to check time
@@ -326,6 +337,25 @@ def readLog(path,fileName):
                         index_3 = i[index_2:].find(",")+index_2
                     tStart = i[index_1+5:index_2].replace(" ", "")
                     tEnd = i[index_2+3:index_3].replace(" ", "")
+            elif i != "" and i.find("waiting_time") > -1:
+                index_output = i.find("Time:")+ 6
+                if i.find("peer") > -1:
+                    out = i[index_output:]
+                    waiting_time_peer_to_propsoal += np.array([float(x) for x in out.split(",")])
+                    Processes += 1
+                elif i.find("promise") > -1:
+                    out = i[index_output:]
+                    waiting_time_check_promise += np.array([float(x) for x in out.split(",")])
+                elif i.find("time_event") > -1:
+                    out = i[index_output:]
+                    waiting_time_event += np.array([float(x) for x in out.split(",")])
+            
+            # TODO:process waiting_time
+        print(Processes)
+        waiting_time_peer_to_propsoal = waiting_time_peer_to_propsoal/Processes
+        waiting_time_check_promise = waiting_time_check_promise/Processes
+        waiting_time_event = waiting_time_event/Processes
+
     return int(tStart), int(tEnd)
 
 
@@ -335,12 +365,11 @@ def writeCSV(logsPath,logsLists):
     global csvData_title
     global csvData_client
     global csvData_set
-    
 
     for log in logsLists:
         if log[-3:] == "log":
             # header parameter
-            Processes = ""
+            # Processes = ""
             tag = ""
             TestID = log[-14:-4]
             LogfileName = log
@@ -364,10 +393,27 @@ def writeCSV(logsPath,logsLists):
                         writeNetworkIO(fileName, tStart, tEnd, elasep)
             # end read client file
             # jump out of loop
-            csvData_client = [Processes,tag,tStart, tEnd, elasep, tps, avg_send, max_send, avg_receive, max_receive, max_read_count,
-                            sum_read_count, max_write_count, sum_write_count, max_read_data, sum_read_data,
-                            avg_read_data, max_write_data, sum_write_data, avg_write_data, max_busy_time,
-                            avg_busy_time, max_memory_usage, avg_memory_usage, max_cpu_usage, avg_cpu_usage]
+            csvData_client = [Processes,tag,tStart, tEnd, elasep, tps, str(waiting_time_peer_to_propsoal), str(waiting_time_check_promise), str(waiting_time_event), 
+                            avg_send, 
+                            max_send, 
+                            avg_receive, 
+                            max_receive, 
+                            max_read_count,
+                            sum_read_count, 
+                            max_write_count, 
+                            sum_write_count, 
+                            max_read_data, 
+                            sum_read_data,
+                            avg_read_data, 
+                            max_write_data, 
+                            sum_write_data, 
+                            avg_write_data, 
+                            max_busy_time,
+                            avg_busy_time, 
+                            max_memory_usage, 
+                            avg_memory_usage, 
+                            max_cpu_usage, 
+                            avg_cpu_usage]
 
             host = "client"
             title = ["{} network avg send(kb/s)".format(host),
@@ -410,10 +456,26 @@ def writeCSV(logsPath,logsLists):
                         if fileName.find("network") > -1:
                             writeNetworkIO(fileName, tStart, tEnd, elasep) 
                 # jump out of loop to load data
-                csvData_client = [avg_send, max_send, avg_receive, max_receive, max_read_count,
-                                sum_read_count, max_write_count, sum_write_count, max_read_data, sum_read_data,
-                                avg_read_data, max_write_data, sum_write_data, avg_write_data, max_busy_time,
-                                avg_busy_time, max_memory_usage, avg_memory_usage, max_cpu_usage, avg_cpu_usage]
+                csvData_client = [avg_send, 
+                                max_send, 
+                                avg_receive, 
+                                max_receive, 
+                                max_read_count,
+                                sum_read_count, 
+                                max_write_count, 
+                                sum_write_count, 
+                                max_read_data, 
+                                sum_read_data,
+                                avg_read_data, 
+                                max_write_data, 
+                                sum_write_data, 
+                                avg_write_data, 
+                                max_busy_time,
+                                avg_busy_time, 
+                                max_memory_usage, 
+                                avg_memory_usage, 
+                                max_cpu_usage, 
+                                avg_cpu_usage]
                 host = "sut{}".format(sut_host_count)
                 sut_host_count += 1
                 title = ["{} network avg send(kb/s)".format(host),
