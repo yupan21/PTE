@@ -3,10 +3,18 @@
 #
 
 
-HOST1=172.16.50.151
-HOST2=172.16.50.153
+HOST1=172.16.50.153
 HOST1COMPOSE=machine-kafka-3orderer-1kfka-1zk.yml
+HOST2=172.16.50.151
 HOST2COMPOSE=machine-kafka-4peer-2ca.yml
+# if you change you host compose file, make sure you use nodejs to modify you SCFILEs
+
+
+# HOST1COMPOSE=machine-solo-3orderer.yml
+# HOST2COMPOSE=machine-solo-4peer-2ca.yml
+
+
+
 
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
@@ -19,11 +27,12 @@ NL_DIR=/opt/go/src/github.com/hyperledger/fabric-test/tools/NL
 SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/CISCFiles
 # scfile needs for PTE test
 
-echo "Make sure your host is running on swarm mode."
-echo "Make sure your character is manager."
-echo "Make sure you can connect to another using ssh without password."
-echo "Make sure all your config file (cryptogen) on each host are all the same."
-echo "Make sure your network yaml file have beed prepared."
+echo "[Make sure your host is running on swarm mode.]"
+echo "[Make sure your character is manager.]"
+echo "[Make sure you can connect to another using ssh without password.]"
+echo "[Make sure all your config file (cryptogen) on each host are all the same.]"
+echo "[Make sure your network yaml file have beed prepared.]"
+echo "---[Attention: orderer must startup before peer, kafka and zk must startup before orderer]---"
 
 # config scfiles -------------
 echo "Configing PTE SCfiles"
@@ -53,30 +62,30 @@ scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$HOST2:$SCFILES_DIR
 # config scfiles -------------
 
 
-# cleanup the network ------------
+# cleanup the network and restart ------------
 for HOST in $HOST1 $HOST2; do
     echo "Connecting to ${HOST} to cleanup the network."
     ssh root@${HOST} -i ~/.ssh/id_rsa "cd ${NL_DIR}; \
         ./cleanNetwork.sh example.com; \ 
-        yes | docker network prune"
+        yes | docker network prune; \
+        docker network create --attachable --driver overlay fabric_ov --subnet 10.10.0.0/24 "
 done
-echo "Clean the /tmp/*"
 rm -rf /tmp/*
 # cleanup the network ------------
 
-# startup the network ------------
-echo "Connecting to ${HOST1} to startup the network."
-echo "creating overlay network."
-ssh root@${HOST1} -i ~/.ssh/id_rsa "cd ${NL_DIR}; \
-    docker network create --attachable --driver overlay fabric_ov --subnet 10.10.0.0/24; \
-    docker-compose -f $HOST1COMPOSE up -d"
-# startup the network ------------
+
+function startup_network() {
+    echo "Connecting to $1 to startup the network."
+    echo "Startup $2"
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR; \
+        docker-compose -f $2 up -d "
+}
 
 # startup the network ------------
-echo "Connecting to ${HOST2} to startup the network."
-ssh root@${HOST2} -i ~/.ssh/id_rsa "cd ${NL_DIR}; \
-    docker-compose -f HOST2COMPOSE up -d"
+startup_network $HOST1 $HOST1COMPOSE
+startup_network $HOST2 $HOST2COMPOSE
 # startup the network ------------
+
 
 # start channel -------------
 # echo "Connecting to ${HOST1} to startup the channel."
