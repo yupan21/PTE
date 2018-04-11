@@ -305,7 +305,7 @@ def readLog(path,fileName):
                 if i.find("Test Summary:Total") > -1:
                     print(i[10:])
                     tps_index = i.find("total throughput=")+len("total throughput=")
-                    tps = i[tps_index:]
+                    tps = i[tps_index:-3]
                     print("The tps is", tps)
                     # ======= the main print ========
                 # filter the invoke check
