@@ -39,23 +39,26 @@ var util = require('util');
 
 var PTEid = process.argv[7];
 var loggerMsg = 'PTE ' + PTEid + ' exec';
-var logger = new testUtil.PTELogger({"prefix":loggerMsg, "level":"info"});
+var logger = new testUtil.PTELogger({
+    "prefix": loggerMsg,
+    "level": "info"
+});
 
 
 // local vars
 var tmp;
 var tCurr;
-var tEnd=0;
+var tEnd = 0;
 var tLocal;
 var i = 0;
-var inv_m = 0;    // counter of invoke move
-var inv_q = 0;    // counter of invoke query
-var evtTimeoutCnt = 0;    // counter of event timeout
-var evtType = 'PEER';                 // event type: PEER|CHANNEL, default: PEER
-var evtTimeout = 120000;              // event timeout, default: 120000 ms
-var evtListener = 'TRANSACTION';      // event listener: TRANSACTION|BLOCK, default: TRANSACTION
-var IDone=0;
-var QDone=0;
+var inv_m = 0; // counter of invoke move
+var inv_q = 0; // counter of invoke query
+var evtTimeoutCnt = 0; // counter of event timeout
+var evtType = 'PEER'; // event type: PEER|CHANNEL, default: PEER
+var evtTimeout = 120000; // event timeout, default: 120000 ms
+var evtListener = 'TRANSACTION'; // event listener: TRANSACTION|BLOCK, default: TRANSACTION
+var IDone = 0;
+var QDone = 0;
 var recHist;
 var buff;
 var ofile;
@@ -65,7 +68,7 @@ var chaincode_ver;
 var tx_id = null;
 var nonce = null;
 var the_user = null;
-var eventHubs=[];
+var eventHubs = [];
 var targets = [];
 var eventPromises = [];
 var txidList = [];
@@ -86,14 +89,14 @@ var pid = parseInt(process.argv[2]);
 var Nid = parseInt(process.argv[3]);
 var uiFile = process.argv[4];
 var tStart = parseInt(process.argv[5]);
-var org=process.argv[6];
+var org = process.argv[6];
 var uiContent = JSON.parse(fs.readFileSync(uiFile));
-var TLS=uiContent.TLS.toUpperCase();
-var targetPeers=uiContent.targetPeers.toUpperCase();
-var channelOpt=uiContent.channelOpt;
+var TLS = uiContent.TLS.toUpperCase();
+var targetPeers = uiContent.targetPeers.toUpperCase();
+var channelOpt = uiContent.channelOpt;
 var channelOrgName = [];
 var channelName = channelOpt.name;
-for (i=0; i<channelOpt.orgName.length; i++) {
+for (i = 0; i < channelOpt.orgName.length; i++) {
     channelOrgName.push(channelOpt.orgName[i]);
 }
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] input parameters: uiFile=%s, tStart=%d', Nid, channelName, org, pid, uiFile, tStart);
@@ -104,13 +107,13 @@ logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] channelOrgName.length
 var client = new hfc();
 var channel = client.newChannel(channelName);
 
-if ( (typeof( uiContent.eventOpt ) !== 'undefined') && (typeof( uiContent.eventOpt.type ) !== 'undefined') ) {
+if ((typeof (uiContent.eventOpt) !== 'undefined') && (typeof (uiContent.eventOpt.type) !== 'undefined')) {
     evtType = uiContent.eventOpt.type.toUpperCase();
 }
-if ( (typeof( uiContent.eventOpt ) !== 'undefined') && (typeof( uiContent.eventOpt.listener ) !== 'undefined') ) {
+if ((typeof (uiContent.eventOpt) !== 'undefined') && (typeof (uiContent.eventOpt.listener) !== 'undefined')) {
     evtListener = uiContent.eventOpt.listener.toUpperCase();
 }
-if ( (typeof( uiContent.eventOpt ) !== 'undefined') && (typeof( uiContent.eventOpt.timeout ) !== 'undefined') ) {
+if ((typeof (uiContent.eventOpt) !== 'undefined') && (typeof (uiContent.eventOpt.timeout) !== 'undefined')) {
     evtTimeout = uiContent.eventOpt.timeout;
 }
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] event type: %s, listener: %s, timeout: %d', Nid, channel.getName(), org, pid, evtType, evtListener, evtTimeout);
@@ -118,18 +121,18 @@ invokeCheck = uiContent.invokeCheck.toUpperCase();
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] invokeCheck: ', Nid, channel.getName(), org, pid, invokeCheck);
 
 var channelID = uiContent.channelID;
-chaincode_id = uiContent.chaincodeID+channelID;
+chaincode_id = uiContent.chaincodeID + channelID;
 chaincode_ver = uiContent.chaincodeVer;
-logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] chaincode_id: %s', Nid, channel.getName(), org, pid, chaincode_id );
+logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] chaincode_id: %s', Nid, channel.getName(), org, pid, chaincode_id);
 
 var svcFile = uiContent.SCFile[0].ServiceCredentials;
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] svcFile: %s, org: %s', Nid, channel.getName(), org, pid, svcFile, org);
 hfc.addConfigFile(path.resolve(__dirname, svcFile));
 var ORGS = hfc.getConfigSetting('test-network');
 var goPath;
-if ( typeof(ORGS.gopath) === 'undefined' ) {
+if (typeof (ORGS.gopath) === 'undefined') {
     goPath = '';
-} else if ( ORGS.gopath == 'GOPATH' ) {
+} else if (ORGS.gopath == 'GOPATH') {
     goPath = process.env['GOPATH'];
 } else {
     goPath = ORGS.gopath;
@@ -137,7 +140,7 @@ if ( typeof(ORGS.gopath) === 'undefined' ) {
 logger.info('goPath: ', goPath);
 
 var orgName = ORGS[org].name;
-var users =  hfc.getConfigSetting('users');
+var users = hfc.getConfigSetting('users');
 
 //user parameters
 var transMode = uiContent.transMode.toUpperCase();
@@ -145,7 +148,7 @@ var transType = uiContent.transType.toUpperCase();
 var invokeType = uiContent.invokeType.toUpperCase();
 var nRequest = parseInt(uiContent.nRequest);
 
-logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] transMode: %s, transType: %s, invokeType: %s, nRequest: %d', Nid, channel.getName(), org, pid,  transMode, transType, invokeType, nRequest);
+logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] transMode: %s, transType: %s, invokeType: %s, nRequest: %d', Nid, channel.getName(), org, pid, transMode, transType, invokeType, nRequest);
 
 //failover parameters
 var peerList = [];
@@ -156,45 +159,45 @@ var peerFO = 'FALSE';
 var ordererFO = 'FALSE';
 var peerFOList = 'TARGETPEERS';
 var peerFOMethod = 'ROUNDROBIN';
-if (typeof( uiContent.peerFailover ) !== 'undefined') {
+if (typeof (uiContent.peerFailover) !== 'undefined') {
     peerFO = uiContent.peerFailover.toUpperCase();
 }
-if (typeof( uiContent.ordererFailover ) !== 'undefined') {
+if (typeof (uiContent.ordererFailover) !== 'undefined') {
     ordererFO = uiContent.ordererFailover.toUpperCase();
 }
-if ( peerFO == 'TRUE' ) {
-    if (typeof( uiContent.failoverOpt ) !== 'undefined') {
-        if (typeof( uiContent.failoverOpt.list ) !== 'undefined') {
+if (peerFO == 'TRUE') {
+    if (typeof (uiContent.failoverOpt) !== 'undefined') {
+        if (typeof (uiContent.failoverOpt.list) !== 'undefined') {
             peerFOList = uiContent.failoverOpt.list.toUpperCase();
         }
-        if (typeof( uiContent.failoverOpt.method ) !== 'undefined') {
+        if (typeof (uiContent.failoverOpt.method) !== 'undefined') {
             peerFOMethod = uiContent.failoverOpt.method.toUpperCase();
         }
     }
 }
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] input parameters: peerFO=%s, ordererFO=%s, peerFOList=%s, peerFOMethod=%s', Nid, channelName, org, pid, peerFO, ordererFO, peerFOList, peerFOMethod);
 
-var runDur=0;
-if ( nRequest == 0 ) {
-   runDur = parseInt(uiContent.runDur);
-   logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] transMode: %s, transType: %s, invokeType: %s, runDur: %d', Nid, channel.getName(), org, pid, transMode, transType, invokeType, runDur);
-   // convert runDur from second to ms
-   runDur = 1000*runDur;
+var runDur = 0;
+if (nRequest == 0) {
+    runDur = parseInt(uiContent.runDur);
+    logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] transMode: %s, transType: %s, invokeType: %s, runDur: %d', Nid, channel.getName(), org, pid, transMode, transType, invokeType, runDur);
+    // convert runDur from second to ms
+    runDur = 1000 * runDur;
 }
 
 var runForever = 0;
-if ( ( nRequest == 0 ) && ( runDur == 0 ) ) {
+if ((nRequest == 0) && (runDur == 0)) {
     runForever = 1;
 }
-logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] runForever: %d', Nid, channel.getName(), org, pid,  runForever);
+logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] runForever: %d', Nid, channel.getName(), org, pid, runForever);
 
 // timeout option
 var timeoutOpt;
-var reqTimeout=45000; // default 45 sec
-if ((typeof( uiContent.timeoutOpt ) !== 'undefined')) {
+var reqTimeout = 45000; // default 45 sec
+if ((typeof (uiContent.timeoutOpt) !== 'undefined')) {
     timeoutOpt = parseInt(uiContent.timeoutOpt);
     logger.info('main - timeoutOpt: %j', timeoutOpt);
-    if ((typeof( uiContent.timeoutOpt.request ) !== 'undefined')) {
+    if ((typeof (uiContent.timeoutOpt.request) !== 'undefined')) {
         reqTimeout = parseInt(uiContent.timeoutOpt.request);
     }
 }
@@ -206,66 +209,66 @@ var latency_orderer = [0, 0, 99999999, 0];
 var latency_event = [0, 0, 99999999, 0];
 
 var ccType = uiContent.ccType;
-var keyStart=0;
-var payLoadMin=0;
-var payLoadMax=0;
-var payLoadType='RANDOM'
-var arg0=0;
+var keyStart = 0;
+var payLoadMin = 0;
+var payLoadMax = 0;
+var payLoadType = 'RANDOM'
+var arg0 = 0;
 var keyIdx = [];
-if (typeof( uiContent.ccOpt.keyIdx ) !== 'undefined') {
-    for (i=0; i<uiContent.ccOpt.keyIdx.length; i++) {
+if (typeof (uiContent.ccOpt.keyIdx) !== 'undefined') {
+    for (i = 0; i < uiContent.ccOpt.keyIdx.length; i++) {
         keyIdx.push(uiContent.ccOpt.keyIdx[i]);
     }
 }
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] keyIdx: ', Nid, channel.getName(), org, pid, keyIdx);
 var keyPayLoad = [];
-if (typeof( uiContent.ccOpt.keyPayLoad ) !== 'undefined') {
-    for (i=0; i<uiContent.ccOpt.keyPayLoad.length; i++) {
+if (typeof (uiContent.ccOpt.keyPayLoad) !== 'undefined') {
+    for (i = 0; i < uiContent.ccOpt.keyPayLoad.length; i++) {
         keyPayLoad.push(uiContent.ccOpt.keyPayLoad[i]);
     }
 }
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] keyPayLoad: ', Nid, channel.getName(), org, pid, keyPayLoad);
 
-var moveMarbleOwner='tom';
-var moveMarbleName='marble';
-var queryMarbleOwner='tom';
-var queryMarbleName='marble';
-var nOwner=100;
-var queryMarbleDocType='marble';
+var moveMarbleOwner = 'tom';
+var moveMarbleName = 'marble';
+var queryMarbleOwner = 'tom';
+var queryMarbleName = 'marble';
+var nOwner = 100;
+var queryMarbleDocType = 'marble';
 //set transaction ID: channelName+'_'+org+'_'+Nid+'_'+pid
-var txIDVar=channelName+'_'+org+'_'+Nid+'_'+pid;
+var txIDVar = channelName + '_' + org + '_' + Nid + '_' + pid;
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] tx IDVar: ', Nid, channel.getName(), org, pid, txIDVar);
 
 
-if ( ccType == 'ccchecker' ) {
+if (ccType == 'ccchecker') {
     keyStart = parseInt(uiContent.ccOpt.keyStart);
-    payLoadMin = parseInt(uiContent.ccOpt.payLoadMin)/2;
-    payLoadMax = parseInt(uiContent.ccOpt.payLoadMax)/2;
-    if ( uiContent.ccOpt.payLoadType )
+    payLoadMin = parseInt(uiContent.ccOpt.payLoadMin) / 2;
+    payLoadMax = parseInt(uiContent.ccOpt.payLoadMax) / 2;
+    if (uiContent.ccOpt.payLoadType)
         payLoadType = uiContent.ccOpt.payLoadType.toUpperCase();
     arg0 = parseInt(keyStart);
     logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] %s chaincode setting: keyStart=%d payLoadMin=%d payLoadMax=%d',
-                 Nid, channel.getName(), org, pid, ccType, keyStart, parseInt(uiContent.ccOpt.payLoadMin), parseInt(uiContent.ccOpt.payLoadMax));
-} else if ( ccType == 'marblescc' ) {
+        Nid, channel.getName(), org, pid, ccType, keyStart, parseInt(uiContent.ccOpt.payLoadMin), parseInt(uiContent.ccOpt.payLoadMax));
+} else if (ccType == 'marblescc') {
     keyStart = parseInt(uiContent.ccOpt.keyStart);
     payLoadMin = parseInt(uiContent.ccOpt.payLoadMin);
     payLoadMax = parseInt(uiContent.ccOpt.payLoadMax);
     arg0 = parseInt(keyStart);
     logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] %s chaincode setting: keyStart=%d payLoadMin=%d payLoadMax=%d',
-                 Nid, channel.getName(), org, pid, ccType, keyStart, parseInt(uiContent.ccOpt.payLoadMin), parseInt(uiContent.ccOpt.payLoadMax));
+        Nid, channel.getName(), org, pid, ccType, keyStart, parseInt(uiContent.ccOpt.payLoadMin), parseInt(uiContent.ccOpt.payLoadMax));
 
     // get number of owners
-    if ( typeof( uiContent.invoke.nOwner ) !== 'undefined'  ) {
-        nOwner=parseInt(uiContent.invoke.nOwner);
+    if (typeof (uiContent.invoke.nOwner) !== 'undefined') {
+        nOwner = parseInt(uiContent.invoke.nOwner);
     }
 
     // get prefix owner name
     // moveMarbleOwner
     // "args": ["marble", "blue","35","tom"]
-    if ( uiContent.invoke.move.fcn == 'initMarble' ) {
+    if (uiContent.invoke.move.fcn == 'initMarble') {
         moveMarbleOwner = uiContent.invoke.move.args[3];
     }
-    moveMarbleName=uiContent.invoke.move.args[0];
+    moveMarbleName = uiContent.invoke.move.args[0];
 
     // queryMarbleByOwner
     // "args": ["tom"]
@@ -277,55 +280,56 @@ if ( ccType == 'ccchecker' ) {
     //         "docType":"marble"
     //     }
     // }
-    if ( uiContent.invoke.query.fcn == 'queryMarblesByOwner' ) {
-        queryMarbleOwner=uiContent.invoke.query.args[0];
-    } else if ( uiContent.invoke.query.fcn == 'queryMarbles' ) {
-        if ( typeof( uiContent.invoke.query.args.selector.owner ) !== 'undefined' ) {
-            queryMarbleOwner=uiContent.invoke.query.args.selector.owner;
+    if (uiContent.invoke.query.fcn == 'queryMarblesByOwner') {
+        queryMarbleOwner = uiContent.invoke.query.args[0];
+    } else if (uiContent.invoke.query.fcn == 'queryMarbles') {
+        if (typeof (uiContent.invoke.query.args.selector.owner) !== 'undefined') {
+            queryMarbleOwner = uiContent.invoke.query.args.selector.owner;
         }
-        if ( typeof( uiContent.invoke.query.args.selector.docType ) !== 'undefined' ) {
-            queryMarbleDocType=uiContent.invoke.query.args.selector.docType;
+        if (typeof (uiContent.invoke.query.args.selector.docType) !== 'undefined') {
+            queryMarbleDocType = uiContent.invoke.query.args.selector.docType;
         }
     }
-    queryMarbleName=uiContent.invoke.query.args[0];
+    queryMarbleName = uiContent.invoke.query.args[0];
 
 }
 logger.info('[Nid:chan:org:id=%d:%s:%s:%d pte-execRequest] ccType: %s, keyStart: %d', Nid, channel.getName(), org, pid, ccType, keyStart);
 //construct invoke request
 var testInvokeArgs = [];
-for (i=0; i<uiContent.invoke.move.args.length; i++) {
+for (i = 0; i < uiContent.invoke.move.args.length; i++) {
     testInvokeArgs.push(uiContent.invoke.move.args[i]);
 }
 
 var request_invoke;
+
 function getMoveRequest() {
-    if ( ccType == 'ccchecker') {
-        arg0 ++;
-        for ( i=0; i<keyIdx.length; i++ ) {
-            testInvokeArgs[keyIdx[i]] = 'key_'+txIDVar+'_'+arg0;
+    if (ccType == 'ccchecker') {
+        arg0++;
+        for (i = 0; i < keyIdx.length; i++) {
+            testInvokeArgs[keyIdx[i]] = 'key_' + txIDVar + '_' + arg0;
         }
 
         // randomise length of payload
         var rlen = Math.floor(Math.random() * (payLoadMax - payLoadMin)) + payLoadMin;
 
-        if ( payLoadType == 'RANDOM' ) {
+        if (payLoadType == 'RANDOM') {
             var buf = crypto.randomBytes(rlen);
-            for ( i = 0; i < keyPayLoad.length; i++ ) {
+            for (i = 0; i < keyPayLoad.length; i++) {
                 testInvokeArgs[keyPayLoad[i]] = buf.toString('hex');
             }
         }
-    } else if ( ccType == 'marblescc' ) {
-        arg0 ++;
-        for ( i=0; i<keyIdx.length; i++ ) {
-            testInvokeArgs[keyIdx[i]] = moveMarbleName+'_'+txIDVar+'_'+arg0;
+    } else if (ccType == 'marblescc') {
+        arg0++;
+        for (i = 0; i < keyIdx.length; i++) {
+            testInvokeArgs[keyIdx[i]] = moveMarbleName + '_' + txIDVar + '_' + arg0;
         }
-        if ( uiContent.invoke.move.fcn == 'initMarble' ) {
-            var index=arg0%nOwner;
-            testInvokeArgs[3]=moveMarbleOwner+'_'+txIDVar+'_'+index;
+        if (uiContent.invoke.move.fcn == 'initMarble') {
+            var index = arg0 % nOwner;
+            testInvokeArgs[3] = moveMarbleOwner + '_' + txIDVar + '_' + index;
         }
         // random marble size
         var r = Math.floor((Math.random() * (payLoadMax - payLoadMin)) + payLoadMin);
-        for ( i=0; i<keyPayLoad.length; i++ ) {
+        for (i = 0; i < keyPayLoad.length; i++) {
             testInvokeArgs[keyPayLoad[i]] = String(r);
         }
     }
@@ -335,15 +339,15 @@ function getMoveRequest() {
     //logger.info('[Nid:chan:org:id=%d:%s:%s:%d getMoveRequest] tx id= %s', Nid, channelName, org, pid, tx_id.getTransactionID().toString());
 
     request_invoke = {
-        chaincodeId : chaincode_id,
+        chaincodeId: chaincode_id,
         fcn: uiContent.invoke.move.fcn,
         args: testInvokeArgs,
         txId: tx_id
     };
 
-    if ( (transMode == 'MIX') && (mixQuery == 'TRUE') ) {
+    if ((transMode == 'MIX') && (mixQuery == 'TRUE')) {
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d getMoveRequest] request_invoke: ', Nid, channel.getName(), org, pid, request_invoke);
-    } else if ( (inv_m == nRequest) && (nRequest>0) ) {
+    } else if ((inv_m == nRequest) && (nRequest > 0)) {
         if (invokeCheck == 'TRUE') {
             logger.info('[Nid:chan:org:id=%d:%s:%s:%d getMoveRequest] request_invoke: ', Nid, channel.getName(), org, pid, request_invoke);
         }
@@ -355,76 +359,77 @@ function getMoveRequest() {
 
 //construct query request
 var testQueryArgs = [];
-for (i=0; i<uiContent.invoke.query.args.length; i++) {
+for (i = 0; i < uiContent.invoke.query.args.length; i++) {
     testQueryArgs.push(uiContent.invoke.query.args[i]);
 }
 
 var rqSelector;
-if ( uiContent.invoke.query.fcn == 'queryMarbles' ) {
-    if ( typeof( uiContent.invoke.query.args.selector ) !== 'undefined' ) {
+if (uiContent.invoke.query.fcn == 'queryMarbles') {
+    if (typeof (uiContent.invoke.query.args.selector) !== 'undefined') {
         rqSelector = uiContent.invoke.query.args.selector;
     }
 }
 
 var request_query;
+
 function getQueryRequest() {
-    if ( ccType == 'ccchecker') {
-        arg0 ++;
-        for ( i=0; i<keyIdx.length; i++ ) {
-            testQueryArgs[keyIdx[i]] = 'key_'+txIDVar+'_'+arg0;
+    if (ccType == 'ccchecker') {
+        arg0++;
+        for (i = 0; i < keyIdx.length; i++) {
+            testQueryArgs[keyIdx[i]] = 'key_' + txIDVar + '_' + arg0;
         }
-    } else if ( ccType == 'marblescc' ) {
-        arg0 ++;
+    } else if (ccType == 'marblescc') {
+        arg0++;
         var keyA = keyStart;
-        if ( arg0 - keyStart > 10 ) {
+        if (arg0 - keyStart > 10) {
             keyA = arg0 - 10;
         }
-        if ( uiContent.invoke.query.fcn == 'getMarblesByRange' ) {
-            testQueryArgs[0] = queryMarbleName+'_'+txIDVar+'_'+keyA;
-            testQueryArgs[1] = queryMarbleName+'_'+txIDVar+'_'+arg0;
-        } else if ( uiContent.invoke.query.fcn == 'queryMarblesByOwner' ) {
+        if (uiContent.invoke.query.fcn == 'getMarblesByRange') {
+            testQueryArgs[0] = queryMarbleName + '_' + txIDVar + '_' + keyA;
+            testQueryArgs[1] = queryMarbleName + '_' + txIDVar + '_' + arg0;
+        } else if (uiContent.invoke.query.fcn == 'queryMarblesByOwner') {
             // marbles02 rich query: queryMarblesByOwner
-            var index=arg0%nOwner;
-            testQueryArgs[0] = queryMarbleOwner+'_'+txIDVar+'_'+index;
-        } else if ( uiContent.invoke.query.fcn == 'queryMarbles' ) {
+            var index = arg0 % nOwner;
+            testQueryArgs[0] = queryMarbleOwner + '_' + txIDVar + '_' + index;
+        } else if (uiContent.invoke.query.fcn == 'queryMarbles') {
             // marbles02 rich query: queryMarbles
-            var selector=0;
-            var index=arg0%nOwner;
-            if ( rqSelector ) {
-                testQueryArgs[0]='{\"selector\":{"';
-                if ( typeof( rqSelector.owner ) !== 'undefined' ) {
-                    rqSelector.owner = '\owner\":\"'+queryMarbleOwner+'_'+txIDVar+'_'+index;
-                    if ( selector == 0 ) {
-                        testQueryArgs[0]=testQueryArgs[0]+rqSelector.owner;
+            var selector = 0;
+            var index = arg0 % nOwner;
+            if (rqSelector) {
+                testQueryArgs[0] = '{\"selector\":{"';
+                if (typeof (rqSelector.owner) !== 'undefined') {
+                    rqSelector.owner = '\owner\":\"' + queryMarbleOwner + '_' + txIDVar + '_' + index;
+                    if (selector == 0) {
+                        testQueryArgs[0] = testQueryArgs[0] + rqSelector.owner;
                     } else {
-                        testQueryArgs[0]=testQueryArgs[0]+','+rqSelector.owner;
+                        testQueryArgs[0] = testQueryArgs[0] + ',' + rqSelector.owner;
                     }
-                    selector=1;
+                    selector = 1;
                 }
-                if ( typeof( rqSelector.docType ) !== 'undefined' ) {
-                    rqSelector.docType = '\"docType\":\"'+queryMarbleDocType;
-                    if ( selector == 0 ) {
-                        testQueryArgs[0]=testQueryArgs[0]+rqSelector.docType;
+                if (typeof (rqSelector.docType) !== 'undefined') {
+                    rqSelector.docType = '\"docType\":\"' + queryMarbleDocType;
+                    if (selector == 0) {
+                        testQueryArgs[0] = testQueryArgs[0] + rqSelector.docType;
                     } else {
-                        testQueryArgs[0]=testQueryArgs[0]+'\",'+rqSelector.docType;
+                        testQueryArgs[0] = testQueryArgs[0] + '\",' + rqSelector.docType;
                     }
-                    selector=1;
+                    selector = 1;
                 }
-                testQueryArgs[0]=testQueryArgs[0]+'\"}';
+                testQueryArgs[0] = testQueryArgs[0] + '\"}';
             }
 
-            testQueryArgs[0]=testQueryArgs[0]+'}';
+            testQueryArgs[0] = testQueryArgs[0] + '}';
 
         } else {
-            for ( i=0; i<keyIdx.length; i++ ) {
-                testQueryArgs[keyIdx[i]] = queryMarbleName+'_'+txIDVar+'_'+arg0;
+            for (i = 0; i < keyIdx.length; i++) {
+                testQueryArgs[keyIdx[i]] = queryMarbleName + '_' + txIDVar + '_' + arg0;
             }
         }
     }
 
     tx_id = client.newTransactionID();
     request_query = {
-        chaincodeId : chaincode_id,
+        chaincodeId: chaincode_id,
         txId: tx_id,
         fcn: uiContent.invoke.query.fcn,
         args: testQueryArgs
@@ -437,42 +442,42 @@ function peerFailover(channel, client) {
     var currId = currPeerId;
     var eh;
     channel.removePeer(peerList[currPeerId]);
-    if ( peerFOMethod == 'RANDOM' ) {
+    if (peerFOMethod == 'RANDOM') {
         var r = Math.floor(Math.random() * (peerList.length - 1));
-        if ( r >= currPeerId ) {
-             currPeerId = r + 1;
+        if (r >= currPeerId) {
+            currPeerId = r + 1;
         } else {
-             currPeerId = r;
+            currPeerId = r;
         }
-    } else if ( peerFOMethod == 'ROUNDROBIN' ) {
+    } else if (peerFOMethod == 'ROUNDROBIN') {
         currPeerId = currPeerId + 1;
     }
-    currPeerId = currPeerId%peerList.length;
+    currPeerId = currPeerId % peerList.length;
     channel.addPeer(peerList[currPeerId]);
 
     //handle channel eventHubs if evtType == CHANNEL
-    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+    if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
         //delete channel eventHubs
-        for ( var i = 0; i < eventHubs.length; i++ ) {
+        for (var i = 0; i < eventHubs.length; i++) {
             var str = peerList[currId]._url.split('//');
-            if ( (eventHubs[i].getPeerAddr()) && (str[1] == eventHubs[i].getPeerAddr()) ) {
-                  eventHubs[i].disconnect()
-                  delete eventHubs[i];
+            if ((eventHubs[i].getPeerAddr()) && (str[1] == eventHubs[i].getPeerAddr())) {
+                eventHubs[i].disconnect()
+                delete eventHubs[i];
             }
         }
         //add channel eventHubs
         var str = peerList[currPeerId]._url.split('//');
         var found = 0;
-        for ( var i = 0; i < eventHubs.length; i++ ) {
-            if ( (eventHubs[i].getPeerAddr()) && (str[1] == eventHubs[i].getPeerAddr()) ) {
+        for (var i = 0; i < eventHubs.length; i++) {
+            if ((eventHubs[i].getPeerAddr()) && (str[1] == eventHubs[i].getPeerAddr())) {
                 found = 1;
                 break;
             }
         }
-        if ( found == 0 ) {
+        if (found == 0) {
             eh = channel.newChannelEventHub(peerList[currPeerId]);
             eventHubs.push(eh);
-            if ( evtType == 'FILTEREDBLOCK' ) {
+            if (evtType == 'FILTEREDBLOCK') {
                 eh.connect();
             } else {
                 eh.connect(true);
@@ -487,7 +492,7 @@ function peerFailover(channel, client) {
 function setCurrPeerId(channel, client, org) {
     var peerUrl = channel.getPeers()[0]._url;
     var i;
-    for (i=0; i<peerList.length; i++) {
+    for (i = 0; i < peerList.length; i++) {
         if (peerList[i]._url === peerUrl) {
             currPeerId = i;
         }
@@ -501,10 +506,10 @@ function assignPeerListFromList(channel, client, org) {
     var peerTmp;
     var eh;
     var data;
-    var listOpt=uiContent.listOpt;
+    var listOpt = uiContent.listOpt;
     var peername;
     var event_connected = false;
-    for(var key in listOpt) {
+    for (var key in listOpt) {
         for (i = 0; i < listOpt[key].length; i++) {
             if (ORGS[key].hasOwnProperty(listOpt[key][i])) {
                 peername = listOpt[key][i];
@@ -512,8 +517,7 @@ function assignPeerListFromList(channel, client, org) {
                     if (TLS == 'ENABLED') {
                         data = fs.readFileSync(path.resolve(goPath, ORGS[key][peername]['tls_cacerts']));
                         peerTmp = client.newPeer(
-                            ORGS[key][peername].requests,
-                            {
+                            ORGS[key][peername].requests, {
                                 pem: Buffer.from(data).toString(),
                                 'ssl-target-name-override': ORGS[key][peername]['server-hostname']
                             }
@@ -544,15 +548,14 @@ function assignPeerList(channel, client, org) {
 
                         data = fs.readFileSync(path.resolve(goPath, ORGS[key1][key]['tls_cacerts']));
                         peerTmp = client.newPeer(
-                            ORGS[key1][key].requests,
-                            {
+                            ORGS[key1][key].requests, {
                                 pem: Buffer.from(data).toString(),
                                 'ssl-target-name-override': ORGS[key1][key]['server-hostname']
                             }
                         );
                         peerList.push(peerTmp);
                     } else {
-                        peerTmp = client.newPeer( ORGS[key1][key].requests);
+                        peerTmp = client.newPeer(ORGS[key1][key].requests);
                         peerList.push(peerTmp);
                     }
                 }
@@ -572,66 +575,64 @@ function assignThreadAllPeers(channel, client, org) {
     for (let key1 in ORGS) {
         if (ORGS.hasOwnProperty(key1)) {
             for (let key in ORGS[key1]) {
-            if (key.indexOf('peer') === 0) {
-                if (TLS == 'ENABLED') {
-
-                    data = fs.readFileSync(path.resolve(goPath, ORGS[key1][key]['tls_cacerts']));
-                    peerTmp = client.newPeer(
-                        ORGS[key1][key].requests,
-                        {
-                            pem: Buffer.from(data).toString(),
-                            'ssl-target-name-override': ORGS[key1][key]['server-hostname']
-                        }
-                    );
-                    targets.push(peerTmp);
-                    channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
-                        peerList.push(peerTmp);
-                    }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
-                        eh = channel.newChannelEventHub(peerTmp);
-                        eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
-                            eh.connect();
-                        } else {
-                            eh.connect(true);
-                        }
-                    }
-                } else {
-                    peerTmp = client.newPeer( ORGS[key1][key].requests);
-                    targets.push(peerTmp);
-                    channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
-                        peerList.push(peerTmp);
-                    }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
-                        eh = channel.newChannelEventHub(peerTmp);
-                        eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
-                            eh.connect();
-                        } else {
-                            eh.connect(true);
-                        }
-                    }
-                }
-
-                if ( (evtType == 'PEER') && ( key1 == org ) && !event_connected) {
-                    eh = client.newEventHub();
+                if (key.indexOf('peer') === 0) {
                     if (TLS == 'ENABLED') {
-                        eh.setPeerAddr(
-                            ORGS[key1][key].events,
-                            {
+
+                        data = fs.readFileSync(path.resolve(goPath, ORGS[key1][key]['tls_cacerts']));
+                        peerTmp = client.newPeer(
+                            ORGS[key1][key].requests, {
                                 pem: Buffer.from(data).toString(),
                                 'ssl-target-name-override': ORGS[key1][key]['server-hostname']
                             }
                         );
+                        targets.push(peerTmp);
+                        channel.addPeer(peerTmp);
+                        if (peerFOList == 'TARGETPEERS') {
+                            peerList.push(peerTmp);
+                        }
+                        if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
+                            eh = channel.newChannelEventHub(peerTmp);
+                            eventHubs.push(eh);
+                            if (evtType == 'FILTEREDBLOCK') {
+                                eh.connect();
+                            } else {
+                                eh.connect(true);
+                            }
+                        }
                     } else {
-                        eh.setPeerAddr(ORGS[key1][key].events);
+                        peerTmp = client.newPeer(ORGS[key1][key].requests);
+                        targets.push(peerTmp);
+                        channel.addPeer(peerTmp);
+                        if (peerFOList == 'TARGETPEERS') {
+                            peerList.push(peerTmp);
+                        }
+                        if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
+                            eh = channel.newChannelEventHub(peerTmp);
+                            eventHubs.push(eh);
+                            if (evtType == 'FILTEREDBLOCK') {
+                                eh.connect();
+                            } else {
+                                eh.connect(true);
+                            }
+                        }
                     }
-                    eh.connect();
-                    eventHubs.push(eh);
-                    event_connected= true;
-                }
+
+                    if ((evtType == 'PEER') && (key1 == org) && !event_connected) {
+                        eh = client.newEventHub();
+                        if (TLS == 'ENABLED') {
+                            eh.setPeerAddr(
+                                ORGS[key1][key].events, {
+                                    pem: Buffer.from(data).toString(),
+                                    'ssl-target-name-override': ORGS[key1][key]['server-hostname']
+                                }
+                            );
+                        } else {
+                            eh.setPeerAddr(ORGS[key1][key].events);
+                        }
+                        eh.connect();
+                        eventHubs.push(eh);
+                        event_connected = true;
+                    }
                 }
             }
         }
@@ -649,66 +650,64 @@ function assignThreadAllAnchorPeers(channel, client, org) {
     for (let key1 in ORGS) {
         if (ORGS.hasOwnProperty(key1)) {
             for (let key in ORGS[key1]) {
-            if (key.indexOf('peer1') === 0) {
-                if (TLS == 'ENABLED') {
-
-                    data = fs.readFileSync(path.resolve(goPath, ORGS[key1][key]['tls_cacerts']));
-                    peerTmp = client.newPeer(
-                        ORGS[key1][key].requests,
-                        {
-                            pem: Buffer.from(data).toString(),
-                            'ssl-target-name-override': ORGS[key1][key]['server-hostname']
-                        }
-                    );
-                    targets.push(peerTmp);
-                    channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
-                        peerList.push(peerTmp);
-                    }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
-                        eh = channel.newChannelEventHub(peerTmp);
-                        eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
-                            eh.connect();
-                        } else {
-                            eh.connect(true);
-                        }
-                    }
-                } else {
-                    peerTmp = client.newPeer( ORGS[key1][key].requests);
-                    targets.push(peerTmp);
-                    channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
-                        peerList.push(peerTmp);
-                    }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
-                        eh = channel.newChannelEventHub(peerTmp);
-                        eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
-                            eh.connect();
-                        } else {
-                            eh.connect(true);
-                        }
-                    }
-                }
-
-                if ( (evtType == 'PEER') && (invokeType == 'MOVE') && ( key1 == org ) ) {
-                    eh = client.newEventHub();
+                if (key.indexOf('peer1') === 0) {
                     if (TLS == 'ENABLED') {
-                        eh.setPeerAddr(
-                            ORGS[key1][key].events,
-                            {
+
+                        data = fs.readFileSync(path.resolve(goPath, ORGS[key1][key]['tls_cacerts']));
+                        peerTmp = client.newPeer(
+                            ORGS[key1][key].requests, {
                                 pem: Buffer.from(data).toString(),
                                 'ssl-target-name-override': ORGS[key1][key]['server-hostname']
                             }
                         );
+                        targets.push(peerTmp);
+                        channel.addPeer(peerTmp);
+                        if (peerFOList == 'TARGETPEERS') {
+                            peerList.push(peerTmp);
+                        }
+                        if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
+                            eh = channel.newChannelEventHub(peerTmp);
+                            eventHubs.push(eh);
+                            if (evtType == 'FILTEREDBLOCK') {
+                                eh.connect();
+                            } else {
+                                eh.connect(true);
+                            }
+                        }
                     } else {
-                        eh.setPeerAddr(ORGS[key1][key].events);
+                        peerTmp = client.newPeer(ORGS[key1][key].requests);
+                        targets.push(peerTmp);
+                        channel.addPeer(peerTmp);
+                        if (peerFOList == 'TARGETPEERS') {
+                            peerList.push(peerTmp);
+                        }
+                        if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
+                            eh = channel.newChannelEventHub(peerTmp);
+                            eventHubs.push(eh);
+                            if (evtType == 'FILTEREDBLOCK') {
+                                eh.connect();
+                            } else {
+                                eh.connect(true);
+                            }
+                        }
                     }
-                    eh.connect();
-                    eventHubs.push(eh);
+
+                    if ((evtType == 'PEER') && (invokeType == 'MOVE') && (key1 == org)) {
+                        eh = client.newEventHub();
+                        if (TLS == 'ENABLED') {
+                            eh.setPeerAddr(
+                                ORGS[key1][key].events, {
+                                    pem: Buffer.from(data).toString(),
+                                    'ssl-target-name-override': ORGS[key1][key]['server-hostname']
+                                }
+                            );
+                        } else {
+                            eh.setPeerAddr(ORGS[key1][key].events);
+                        }
+                        eh.connect();
+                        eventHubs.push(eh);
+                    }
                 }
-            }
             }
         }
     }
@@ -727,36 +726,35 @@ function assignThreadOrgPeer(channel, client, org) {
                 if (TLS == 'ENABLED') {
                     data = fs.readFileSync(path.resolve(goPath, ORGS[org][key]['tls_cacerts']));
                     peerTmp = client.newPeer(
-                        ORGS[org][key].requests,
-                        {
+                        ORGS[org][key].requests, {
                             pem: Buffer.from(data).toString(),
                             'ssl-target-name-override': ORGS[org][key]['server-hostname']
                         }
                     );
                     targets.push(peerTmp);
                     channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
+                    if (peerFOList == 'TARGETPEERS') {
                         peerList.push(peerTmp);
                     }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                    if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                         eh = channel.newChannelEventHub(peerTmp);
                         eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
+                        if (evtType == 'FILTEREDBLOCK') {
                             eh.connect();
                         } else {
                             eh.connect(true);
                         }
                     }
                 } else {
-                    peerTmp = client.newPeer( ORGS[org][key].requests);
+                    peerTmp = client.newPeer(ORGS[org][key].requests);
                     channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
+                    if (peerFOList == 'TARGETPEERS') {
                         peerList.push(peerTmp);
                     }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                    if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                         eh = channel.newChannelEventHub(peerTmp);
                         eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
+                        if (evtType == 'FILTEREDBLOCK') {
                             eh.connect();
                         } else {
                             eh.connect(true);
@@ -764,12 +762,11 @@ function assignThreadOrgPeer(channel, client, org) {
                     }
                 }
 
-                if ( (evtType == 'PEER') && (invokeType == 'MOVE') ) {
-                    eh=client.newEventHub();
+                if ((evtType == 'PEER') && (invokeType == 'MOVE')) {
+                    eh = client.newEventHub();
                     if (TLS == 'ENABLED') {
                         eh.setPeerAddr(
-                            ORGS[org][key].events,
-                            {
+                            ORGS[org][key].events, {
                                 pem: Buffer.from(data).toString(),
                                 'ssl-target-name-override': ORGS[org][key]['server-hostname']
                             }
@@ -793,10 +790,10 @@ function assignThreadPeerList(channel, client, org) {
     var peerTmp;
     var eh;
     var data;
-    var listOpt=uiContent.listOpt;
+    var listOpt = uiContent.listOpt;
     var peername;
     var event_connected = false;
-    for(var key in listOpt) {
+    for (var key in listOpt) {
         for (i = 0; i < listOpt[key].length; i++) {
             if (ORGS[key].hasOwnProperty(listOpt[key][i])) {
                 peername = listOpt[key][i];
@@ -804,21 +801,20 @@ function assignThreadPeerList(channel, client, org) {
                     if (TLS == 'ENABLED') {
                         data = fs.readFileSync(path.resolve(goPath, ORGS[key][peername]['tls_cacerts']));
                         peerTmp = client.newPeer(
-                            ORGS[key][peername].requests,
-                            {
+                            ORGS[key][peername].requests, {
                                 pem: Buffer.from(data).toString(),
                                 'ssl-target-name-override': ORGS[key][peername]['server-hostname']
                             }
                         );
                         targets.push(peerTmp);
                         channel.addPeer(peerTmp);
-                        if ( peerFOList == 'TARGETPEERS' ) {
+                        if (peerFOList == 'TARGETPEERS') {
                             peerList.push(peerTmp);
                         }
-                        if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                        if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                             eh = channel.newChannelEventHub(peerTmp);
                             eventHubs.push(eh);
-                            if ( evtType == 'FILTEREDBLOCK' ) {
+                            if (evtType == 'FILTEREDBLOCK') {
                                 eh.connect();
                             } else {
                                 eh.connect(true);
@@ -827,13 +823,13 @@ function assignThreadPeerList(channel, client, org) {
                     } else {
                         peerTmp = client.newPeer(ORGS[key][peername].requests);
                         channel.addPeer(peerTmp);
-                        if ( peerFOList == 'TARGETPEERS' ) {
+                        if (peerFOList == 'TARGETPEERS') {
                             peerList.push(peerTmp);
                         }
-                        if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                        if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                             eh = channel.newChannelEventHub(peerTmp);
                             eventHubs.push(eh);
-                            if ( evtType == 'FILTEREDBLOCK' ) {
+                            if (evtType == 'FILTEREDBLOCK') {
                                 eh.connect();
                             } else {
                                 eh.connect(true);
@@ -841,12 +837,11 @@ function assignThreadPeerList(channel, client, org) {
                         }
                     }
 
-                    if ( (evtType == 'PEER') && (invokeType == 'MOVE') && ( key == org ) && !event_connected ) {
+                    if ((evtType == 'PEER') && (invokeType == 'MOVE') && (key == org) && !event_connected) {
                         eh = client.newEventHub();
                         if (TLS == 'ENABLED') {
                             eh.setPeerAddr(
-                                ORGS[key][peername].events,
-                                {
+                                ORGS[key][peername].events, {
                                     pem: Buffer.from(data).toString(),
                                     'ssl-target-name-override': ORGS[key][peername]['server-hostname']
                                 }
@@ -875,31 +870,30 @@ function channelAddPeer(channel, client, org) {
                 if (TLS == 'ENABLED') {
                     let data = fs.readFileSync(path.resolve(goPath, ORGS[org][key]['tls_cacerts']));
                     peerTmp = client.newPeer(
-                        ORGS[org][key].requests,
-                        {
+                        ORGS[org][key].requests, {
                             pem: Buffer.from(data).toString(),
                             'ssl-target-name-override': ORGS[org][key]['server-hostname']
                         }
                     );
                     targets.push(peerTmp);
                     channel.addPeer(peerTmp);
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                    if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                         eh = channel.newChannelEventHub(peerTmp);
                         eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
+                        if (evtType == 'FILTEREDBLOCK') {
                             eh.connect();
                         } else {
                             eh.connect(true);
                         }
                     }
                 } else {
-                    peerTmp = client.newPeer( ORGS[org][key].requests);
+                    peerTmp = client.newPeer(ORGS[org][key].requests);
                     targets.push(peerTmp);
                     channel.addPeer(peerTmp);
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                    if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                         eh = channel.newChannelEventHub(peerTmp);
                         eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
+                        if (evtType == 'FILTEREDBLOCK') {
                             eh.connect();
                         } else {
                             eh.connect(true);
@@ -924,34 +918,32 @@ function channelAddPeerEvent(channel, client, org) {
                 if (TLS == 'ENABLED') {
                     let data = fs.readFileSync(path.resolve(goPath, ORGS[org][key]['tls_cacerts']));
                     peerTmp = client.newPeer(
-                        ORGS[org][key].requests,
-                        {
+                        ORGS[org][key].requests, {
                             pem: Buffer.from(data).toString(),
                             'ssl-target-name-override': ORGS[key]['server-hostname']
                         }
                     );
                 } else {
-                    peerTmp = client.newPeer( ORGS[org][key].requests);
+                    peerTmp = client.newPeer(ORGS[org][key].requests);
                     logger.info('[Nid:chan:org:id=%d:%s:%s:%d channelAddPeerEvent] peer: ', Nid, channelName, org, pid, ORGS[org][key].requests);
                 }
                 targets.push(peerTmp);
                 channel.addPeer(peerTmp);
-                if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                     eh = channel.newChannelEventHub(peerTmp);
                     eventHubs.push(eh);
-                    if ( evtType == 'FILTEREDBLOCK' ) {
+                    if (evtType == 'FILTEREDBLOCK') {
                         eh.connect();
                     } else {
                         eh.connect(true);
                     }
                 }
 
-                if ( (evtType == 'PEER') && (invokeType == 'MOVE') ) {
-                    eh=client.newEventHub();
+                if ((evtType == 'PEER') && (invokeType == 'MOVE')) {
+                    eh = client.newEventHub();
                     if (TLS == 'ENABLED') {
                         eh.setPeerAddr(
-                            ORGS[org][key].events,
-                            {
+                            ORGS[org][key].events, {
                                 pem: Buffer.from(data).toString(),
                                 'ssl-target-name-override': ORGS[org][key]['server-hostname']
                             }
@@ -973,7 +965,7 @@ function ordererFailover(channel, client) {
     var currId = currOrdererId;
     channel.removeOrderer(ordererList[currOrdererId]);
     currOrdererId = currOrdererId + 1;
-    currOrdererId = currOrdererId%ordererList.length;
+    currOrdererId = currOrdererId % ordererList.length;
     channel.addOrderer(ordererList[currOrdererId]);
     logger.info('[Nid:chan:org:id=%d:%s:%s:%d ordererFailover] Orderer failover from (%s) to (%s):', Nid, channel.getName(), org, pid, ordererList[currId]._url, ordererList[currOrdererId]._url);
 }
@@ -982,7 +974,7 @@ function ordererFailover(channel, client) {
 function setCurrOrdererId(channel, client, org) {
     var ordererID = ORGS[org].ordererID;
     var i;
-    for (i=0; i<ordererList.length; i++) {
+    for (i = 0; i < ordererList.length; i++) {
         if (ordererList[i]._url === ORGS['orderer'][ordererID].url) {
             currOrdererId = i;
         }
@@ -1003,8 +995,7 @@ function assignOrdererList(channel, client) {
                     let caroots = Buffer.from(data).toString();
 
                     ordererTmp = client.newOrderer(
-                        ORGS['orderer'][key].url,
-                        {
+                        ORGS['orderer'][key].url, {
                             'pem': caroots,
                             'ssl-target-name-override': ORGS['orderer'][key]['server-hostname']
                         }
@@ -1024,7 +1015,7 @@ function assignOrdererList(channel, client) {
 
 function channelAddOrderer(channel, client, org) {
     var ordererID = ORGS[org].ordererID;
-    logger.info('[Nid:chan:org:id:ordererID=%d:%s:%s:%d:%s channelAddOrderer] ', Nid, channelName, org, pid, ordererID );
+    logger.info('[Nid:chan:org:id:ordererID=%d:%s:%s:%d:%s channelAddOrderer] ', Nid, channelName, org, pid, ordererID);
     if (TLS == 'ENABLED') {
         var caRootsPath = path.resolve(goPath, ORGS['orderer'][ordererID].tls_cacerts);
         let data = fs.readFileSync(caRootsPath);
@@ -1032,8 +1023,7 @@ function channelAddOrderer(channel, client, org) {
 
         channel.addOrderer(
             client.newOrderer(
-                ORGS['orderer'][ordererID].url,
-                {
+                ORGS['orderer'][ordererID].url, {
                     'pem': caroots,
                     'ssl-target-name-override': ORGS['orderer'][ordererID]['server-hostname']
                 }
@@ -1049,31 +1039,30 @@ function channelAddOrderer(channel, client, org) {
 
 // assign thread the anchor peer (peer1) from the org
 function assignThreadOrgAnchorPeer(channel, client, org) {
-    logger.info('[Nid:chan:org:id=%d:%s:%s:%d assignThreadOrgAnchorPeer] ', Nid, channelName, org, pid );
+    logger.info('[Nid:chan:org:id=%d:%s:%s:%d assignThreadOrgAnchorPeer] ', Nid, channelName, org, pid);
     var peerTmp;
     var eh;
     var data;
     for (let key in ORGS) {
         if (ORGS.hasOwnProperty(key) && typeof ORGS[key].peer1 !== 'undefined') {
-            if ( key == org ) {
+            if (key == org) {
                 if (TLS == 'ENABLED') {
                     data = fs.readFileSync(path.resolve(goPath, ORGS[key].peer1['tls_cacerts']));
                     peerTmp = client.newPeer(
-                        ORGS[key].peer1.requests,
-                        {
+                        ORGS[key].peer1.requests, {
                             pem: Buffer.from(data).toString(),
                             'ssl-target-name-override': ORGS[key].peer1['server-hostname']
                         }
                     );
                     targets.push(peerTmp);
                     channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
+                    if (peerFOList == 'TARGETPEERS') {
                         peerList.push(peerTmp);
                     }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                    if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                         eh = channel.newChannelEventHub(peerTmp);
                         eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
+                        if (evtType == 'FILTEREDBLOCK') {
                             eh.connect();
                         } else {
                             eh.connect(true);
@@ -1081,16 +1070,16 @@ function assignThreadOrgAnchorPeer(channel, client, org) {
                     }
                 } else {
                     logger.info('[Nid:chan:org:id=%d:%s:%s:%d assignThreadOrgAnchorPeer] key: %s, peer1: %s', Nid, channelName, org, pid, key, ORGS[org].peer1.requests);
-                    peerTmp = client.newPeer( ORGS[key].peer1.requests);
+                    peerTmp = client.newPeer(ORGS[key].peer1.requests);
                     targets.push(peerTmp);
                     channel.addPeer(peerTmp);
-                    if ( peerFOList == 'TARGETPEERS' ) {
+                    if (peerFOList == 'TARGETPEERS') {
                         peerList.push(peerTmp);
                     }
-                    if ( ((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE') ) {
+                    if (((evtType == 'CHANNEL') || (evtType == 'FILTEREDBLOCK')) && (invokeType == 'MOVE')) {
                         eh = channel.newChannelEventHub(peerTmp);
                         eventHubs.push(eh);
-                        if ( evtType == 'FILTEREDBLOCK' ) {
+                        if (evtType == 'FILTEREDBLOCK') {
                             eh.connect();
                         } else {
                             eh.connect(true);
@@ -1099,12 +1088,11 @@ function assignThreadOrgAnchorPeer(channel, client, org) {
                 }
             }
 
-            if ( (evtType == 'PEER') && (invokeType == 'MOVE') && ( key == org ) ) {
-                eh=client.newEventHub();
+            if ((evtType == 'PEER') && (invokeType == 'MOVE') && (key == org)) {
+                eh = client.newEventHub();
                 if (TLS == 'ENABLED') {
                     eh.setPeerAddr(
-                        ORGS[key].peer1.events,
-                        {
+                        ORGS[key].peer1.events, {
                             pem: Buffer.from(data).toString(),
                             'ssl-target-name-override': ORGS[key].peer1['server-hostname']
                         }
@@ -1124,7 +1112,7 @@ function assignThreadOrgAnchorPeer(channel, client, org) {
 /*
  *   transactions begin ....
  */
-    execTransMode();
+execTransMode();
 
 function execTransMode() {
 
@@ -1138,10 +1126,12 @@ function execTransMode() {
 
 
     var cryptoSuite = hfc.newCryptoSuite();
-//    var useStore = false;
+    //    var useStore = false;
     var useStore = true;
     if (useStore) {
-        cryptoSuite.setCryptoKeyStore(hfc.newCryptoKeyStore({path: testUtil.storePathForOrg(Nid,orgName)}));
+        cryptoSuite.setCryptoKeyStore(hfc.newCryptoKeyStore({
+            path: testUtil.storePathForOrg(Nid, orgName)
+        }));
         client.setCryptoSuite(cryptoSuite);
     }
 
@@ -1151,129 +1141,130 @@ function execTransMode() {
     hfc.setConfigSetting('request-timeout', reqTimeout);
     if (useStore) {
         promise = hfc.newDefaultKeyValueStore({
-                  path: testUtil.storePathForOrg(Nid, orgName)});
+            path: testUtil.storePathForOrg(Nid, orgName)
+        });
     } else {
         promise = Promise.resolve(useStore);
     }
     return promise.then((store) => {
         if (store) {
-             client.setStateStore(store);
+            client.setStateStore(store);
         }
-            client._userContext = null;
+        client._userContext = null;
         return testUtil.getSubmitter(username, secret, client, true, Nid, org, svcFile);
     }).then(
-                function(admin) {
+        function (admin) {
 
-                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] Successfully loaded user \'admin\'', Nid, channelName, org, pid);
-                    the_user = admin;
+            logger.info('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] Successfully loaded user \'admin\'', Nid, channelName, org, pid);
+            the_user = admin;
 
-                    assignOrdererList(channel, client);
-                    channelAddOrderer(channel, client, org);
-                    setCurrOrdererId(channel, client, org);
+            assignOrdererList(channel, client);
+            channelAddOrderer(channel, client, org);
+            setCurrOrdererId(channel, client, org);
 
-                    if ( peerFOList == 'ALL' ) {
-                        assignPeerList(channel, client, org);
+            if (peerFOList == 'ALL') {
+                assignPeerList(channel, client, org);
+            }
+            //assignPeerListFromList(channel, client, org);
+
+            if (targetPeers == 'ORGANCHOR') {
+                assignThreadOrgAnchorPeer(channel, client, org);
+            } else if (targetPeers == 'ALLANCHORS') {
+                assignThreadAllAnchorPeers(channel, client, org);
+            } else if (targetPeers == 'ORGPEERS') {
+                assignThreadOrgPeer(channel, client, org);
+            } else if (targetPeers == 'ALLPEERS') {
+                assignThreadAllPeers(channel, client, org);
+            } else if (targetPeers == 'LIST') {
+                assignThreadPeerList(channel, client, org);
+            } else {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] pte-exec:completed:error targetPeers= %s', Nid, channelName, org, pid, targetPeers);
+                process.exit(1);
+            }
+
+
+            setCurrPeerId(channel, client, org);
+            logger.info('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] peerList: ', Nid, channelName, org, pid, peerList);
+
+            tCurr = new Date().getTime();
+            var tSynchUp = tStart - tCurr;
+            if (tSynchUp < 10000) {
+                tSynchUp = 10000;
+            }
+            logger.info('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] execTransMode: tCurr= %d, tStart= %d, time to wait=%d', Nid, channelName, org, pid, tCurr, tStart, tSynchUp);
+            // execute transactions
+            channel.initialize()
+                .then((success) => {
+                        setTimeout(function () {
+                            if (transMode == 'SIMPLE') {
+                                execModeSimple();
+                            } else if (transMode == 'CONSTANT') {
+                                execModeConstant();
+                            } else if (transMode == 'MIX') {
+                                execModeMix();
+                            } else if (transMode == 'BURST') {
+                                execModeBurst();
+                            } else if (transMode == 'LATENCY') {
+                                execModeLatency();
+                            } else if (transMode == 'PROPOSAL') {
+                                execModeProposal();
+                            } else {
+                                // invalid transaction request
+                                logger.error(util.format("[Nid:chan:org:id=%d:%s:%s:%d execTransMode] pte-exec:completed:error Transaction %j and/or mode %s invalid", Nid, channelName, org, pid, transType, transMode));
+                                process.exit(1);
+                            }
+                        }, tSynchUp);
+                    },
+                    function (err) {
+                        logger.error('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] Failed to wait due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                        return;
                     }
-                    //assignPeerListFromList(channel, client, org);
-
-                    if (targetPeers == 'ORGANCHOR') {
-                        assignThreadOrgAnchorPeer(channel, client, org);
-                    } else if (targetPeers == 'ALLANCHORS'){
-                        assignThreadAllAnchorPeers(channel,client, org);
-                    } else if (targetPeers == 'ORGPEERS'){
-                        assignThreadOrgPeer(channel, client, org);
-                    } else if (targetPeers == 'ALLPEERS'){
-                        assignThreadAllPeers(channel,client, org);
-                    } else if (targetPeers == 'LIST'){
-                        assignThreadPeerList(channel,client,org);
-                    } else {
-	                logger.error('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] pte-exec:completed:error targetPeers= %s', Nid, channelName, org, pid, targetPeers);
-                        process.exit(1);
-                    }
-
-
-                    setCurrPeerId(channel, client, org);
-                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] peerList: ' , Nid, channelName, org, pid, peerList);
-
-                    tCurr = new Date().getTime();
-                    var tSynchUp=tStart-tCurr;
-                    if ( tSynchUp < 10000 ) {
-                        tSynchUp=10000;
-                    }
-	            logger.info('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] execTransMode: tCurr= %d, tStart= %d, time to wait=%d', Nid, channelName, org, pid, tCurr, tStart, tSynchUp);
-                    // execute transactions
-                    channel.initialize()
-                    .then((success) => {
-                    setTimeout(function() {
-                        if (transMode == 'SIMPLE') {
-                            execModeSimple();
-                        } else if (transMode == 'CONSTANT') {
-                            execModeConstant();
-                        } else if (transMode == 'MIX') {
-                            execModeMix();
-                        } else if (transMode == 'BURST') {
-                            execModeBurst();
-                        } else if (transMode == 'LATENCY') {
-                            execModeLatency();
-                        } else if (transMode == 'PROPOSAL') {
-                            execModeProposal();
-                        } else {
-                            // invalid transaction request
-                            logger.error(util.format("[Nid:chan:org:id=%d:%s:%s:%d execTransMode] pte-exec:completed:error Transaction %j and/or mode %s invalid", Nid, channelName, org, pid, transType, transMode));
-                            process.exit(1);
-                        }
-                    }, tSynchUp);
-                },
-                function(err) {
-                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d execTransMode] Failed to wait due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                    return;
-                }
-            );
+                );
         });
 }
 
-function isExecDone(trType){
+function isExecDone(trType) {
     tCurr = new Date().getTime();
-    if ( trType.toUpperCase() == 'MOVE' ) {
-        if ( nRequest > 0 ) {
-           if ( (inv_m % (nRequest/10)) == 0 ) {
-              logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, evtTimeoutCnt=%d, elapsed time= %d",
-                                         Nid, channelName, org, pid, trType, inv_m, evtTimeoutCnt, tCurr-tLocal));
-           }
+    if (trType.toUpperCase() == 'MOVE') {
+        if (nRequest > 0) {
+            if ((inv_m % (nRequest / 10)) == 0) {
+                logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, evtTimeoutCnt=%d, elapsed time= %d",
+                    Nid, channelName, org, pid, trType, inv_m, evtTimeoutCnt, tCurr - tLocal));
+            }
 
-           if ( inv_m >= nRequest ) {
+            if (inv_m >= nRequest) {
                 IDone = 1;
-           }
+            }
         } else {
-           if ( (inv_m % 1000) == 0 ) {
-              logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, evtTimeoutCnt=%d, elapsed time= %d",
-                                         Nid, channelName, org, pid, trType, inv_m, evtTimeoutCnt, tCurr-tLocal));
-           }
+            if ((inv_m % 1000) == 0) {
+                logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, evtTimeoutCnt=%d, elapsed time= %d",
+                    Nid, channelName, org, pid, trType, inv_m, evtTimeoutCnt, tCurr - tLocal));
+            }
 
-           if ( runForever == 0 ) {
-               if ( tCurr > tEnd ) {
+            if (runForever == 0) {
+                if (tCurr > tEnd) {
                     IDone = 1;
-               }
-           }
+                }
+            }
         }
 
         // set a guard timer that extends past the time when all events for all invoke TXs should have been received or timed out.
         // If this guard timer times out, then that means at least one invoke TX did not make it,
         // and cleanup has not happened so we can finish and clean up now.
-        if ( IDone == 1 ) {
+        if (IDone == 1) {
             tCurr = new Date().getTime();
             console.log('[Nid:chan:org:id=%d:%s:%s:%d isExecDone] setup Timeout: %d ms, curr time: %d', Nid, channelName, org, pid, evtTimeout, tCurr);
-            setTimeout(function(){
+            setTimeout(function () {
                 tCurr = new Date().getTime();
                 console.log('[Nid:chan:org:id=%d:%s:%s:%d isExecDone] Timeout: curr time: %d', Nid, channelName, org, pid, tCurr);
                 var remain = Object.keys(txidList).length;
-                logger.info('[Nid:chan:org:id=%d:%s:%s:%d isExecDone] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d', Nid, channelName, org, pid, evtRcvB, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr, evtTimeoutCnt, remain);
+                logger.info('[Nid:chan:org:id=%d:%s:%s:%d isExecDone] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d', Nid, channelName, org, pid, evtRcvB, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr, evtTimeoutCnt, remain);
                 if (invokeCheck == 'TRUE') {
                     arg0 = keyStart + inv_m - 1;
                     inv_q = inv_m - 1;
                     invoke_query_simple(0);
                 }
-                if ( remain > 0 ) {
+                if (remain > 0) {
                     console.log('[Nid:chan:org:id=%d:%s:%s:%d isExecDone] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
                 }
 
@@ -1284,27 +1275,27 @@ function isExecDone(trType){
             }, evtTimeout);
         }
 
-    } else if ( trType.toUpperCase() == 'QUERY' ) {
-        if ( nRequest > 0 ) {
-           if ( (inv_q % (nRequest/10)) == 0 ) {
-              logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, elapsed time= %d",
-                                         Nid, channelName, org, pid, trType, inv_q, tCurr-tLocal));
-           }
+    } else if (trType.toUpperCase() == 'QUERY') {
+        if (nRequest > 0) {
+            if ((inv_q % (nRequest / 10)) == 0) {
+                logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, elapsed time= %d",
+                    Nid, channelName, org, pid, trType, inv_q, tCurr - tLocal));
+            }
 
-           if ( inv_q >= nRequest ) {
+            if (inv_q >= nRequest) {
                 QDone = 1;
-           }
+            }
         } else {
-           if ( (inv_q % 1000) == 0 ) {
-              logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, elapsed time= %d",
-                                         Nid, channelName, org, pid, trType, inv_q, tCurr-tLocal));
-           }
+            if ((inv_q % 1000) == 0) {
+                logger.info(util.format("[Nid:chan:org:id=%d:%s:%s:%d isExecDone] invokes(%s) sent: number=%d, elapsed time= %d",
+                    Nid, channelName, org, pid, trType, inv_q, tCurr - tLocal));
+            }
 
-           if ( runForever == 0 ) {
-               if ( tCurr > tEnd ) {
+            if (runForever == 0) {
+                if (tCurr > tEnd) {
                     QDone = 1;
-               }
-           }
+                }
+            }
         }
     }
 
@@ -1313,6 +1304,7 @@ function isExecDone(trType){
 
 
 var txRequest;
+
 function getTxRequest(results) {
     txRequest = {
         proposalResponses: results[0],
@@ -1321,7 +1313,7 @@ function getTxRequest(results) {
     };
 }
 
-var evtRcvB=0;
+var evtRcvB = 0;
 
 function eventRegisterFilteredBlock() {
 
@@ -1337,48 +1329,48 @@ function eventRegisterFilteredBlock() {
 
 
             block_reg = eh.registerBlockEvent((filtered_block) => {
-                clearTimeout(handle);
+                    clearTimeout(handle);
 
-                // this block listener handles the filtered block
-                if (filtered_block.number) {
-                    //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] Successfully received the filtered block event for block_num: %d, txid number: %d', Nid, channelName, org, pid, filtered_block.number, filtered_block.filtered_tx.length);
-                    for (i=0; i<filtered_block.filtered_tx.length; i++) {
-                        var txid = filtered_block.filtered_tx[i].txid;
-                        if ( txidList[txid] ) {
-                            evtRcvB = evtRcvB + 1;
-                            var tend = new Date().getTime();
-                            latency_update(evtRcvB, tend-txidList[txid], latency_event);
-                            delete txidList[txid];
-                        }
-                    }
-
-                    if ( inv_m == evtRcvB  ) {
-                        if ( IDone == 1 ) {
-                            tCurr = new Date().getTime();
-                            var remain = Object.keys(txidList).length;
-                            logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid,  evtRcvB, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcvB/(tCurr-tLocal)*1000).toFixed(2));
-                            if (invokeCheck == 'TRUE') {
-                                arg0 = keyStart + inv_m - 1;
-                                inv_q = inv_m - 1;
-                                invoke_query_simple(0);
+                    // this block listener handles the filtered block
+                    if (filtered_block.number) {
+                        //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] Successfully received the filtered block event for block_num: %d, txid number: %d', Nid, channelName, org, pid, filtered_block.number, filtered_block.filtered_tx.length);
+                        for (i = 0; i < filtered_block.filtered_tx.length; i++) {
+                            var txid = filtered_block.filtered_tx[i].txid;
+                            if (txidList[txid]) {
+                                evtRcvB = evtRcvB + 1;
+                                var tend = new Date().getTime();
+                                latency_update(evtRcvB, tend - txidList[txid], latency_event);
+                                delete txidList[txid];
                             }
-                            if ( remain > 0 ) {
-                                console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
-                            }
-
-                            eh.unregisterBlockEvent(block_reg);
-                            evtDisconnect();
-                            latency_output();
                         }
+
+                        if (inv_m == evtRcvB) {
+                            if (IDone == 1) {
+                                tCurr = new Date().getTime();
+                                var remain = Object.keys(txidList).length;
+                                logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid, evtRcvB, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcvB / (tCurr - tLocal) * 1000).toFixed(2));
+                                if (invokeCheck == 'TRUE') {
+                                    arg0 = keyStart + inv_m - 1;
+                                    inv_q = inv_m - 1;
+                                    invoke_query_simple(0);
+                                }
+                                if (remain > 0) {
+                                    console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
+                                }
+
+                                eh.unregisterBlockEvent(block_reg);
+                                evtDisconnect();
+                                latency_output();
+                            }
+                        }
+                        resolve();
+                    } else {
+                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] Failed - received the full block event for block_num:', Nid, channelName, org, pid, filtered_block.number);
                     }
-                    resolve();
-                } else {
-                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] Failed - received the full block event for block_num:',Nid, channelName, org, pid, filtered_block.number);
-                }
-            },
-            (err) => {
-                //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] inv_m:evtRcvB=%d:%d err: %j', Nid, channelName, org, pid, inv_m, eBvtRcv, err);
-            });
+                },
+                (err) => {
+                    //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] inv_m:evtRcvB=%d:%d err: %j', Nid, channelName, org, pid, inv_m, eBvtRcv, err);
+                });
         }).catch((err) => {
             //evtTimeoutCnt++;
             //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterFilteredBlock] number of events timeout=%d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, evtTimeoutCnt, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
@@ -1394,40 +1386,40 @@ function eventRegisterBlock() {
         let txPromise = new Promise((resolve, reject) => {
 
             eh.registerBlockEvent((block) => {
-                for (i=0; i<block.data.data.length; i++) {
-                    var txid = block.data.data[i].payload.header.channel_header.tx_id;
-                    //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] tx id= %s', Nid, channelName, org, pid, txid);
-                    if ( txidList[txid] ) {
-                        evtRcvB = evtRcvB + 1;
-                        var tend = new Date().getTime();
-                        latency_update(evtRcvB, tend-txidList[txid], latency_event);
-                        delete txidList[txid];
-                    }
-                }
-
-                if ( inv_m == evtRcvB  ) {
-                    if ( IDone == 1 ) {
-                        tCurr = new Date().getTime();
-                        var remain = Object.keys(txidList).length;
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid,  evtRcvB, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcvB/(tCurr-tLocal)*1000).toFixed(2));
-                        if (invokeCheck == 'TRUE') {
-                            arg0 = keyStart + inv_m - 1;
-                            inv_q = inv_m - 1;
-                            invoke_query_simple(0);
+                    for (i = 0; i < block.data.data.length; i++) {
+                        var txid = block.data.data[i].payload.header.channel_header.tx_id;
+                        //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] tx id= %s', Nid, channelName, org, pid, txid);
+                        if (txidList[txid]) {
+                            evtRcvB = evtRcvB + 1;
+                            var tend = new Date().getTime();
+                            latency_update(evtRcvB, tend - txidList[txid], latency_event);
+                            delete txidList[txid];
                         }
-                        if ( remain > 0 ) {
-                            console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
-                        }
-
-                        evtDisconnect();
-                        latency_output();
                     }
-                }
+
+                    if (inv_m == evtRcvB) {
+                        if (IDone == 1) {
+                            tCurr = new Date().getTime();
+                            var remain = Object.keys(txidList).length;
+                            logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid, evtRcvB, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcvB / (tCurr - tLocal) * 1000).toFixed(2));
+                            if (invokeCheck == 'TRUE') {
+                                arg0 = keyStart + inv_m - 1;
+                                inv_q = inv_m - 1;
+                                invoke_query_simple(0);
+                            }
+                            if (remain > 0) {
+                                console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
+                            }
+
+                            evtDisconnect();
+                            latency_output();
+                        }
+                    }
                     resolve();
-            },
-            (err) => {
-                //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] inv_m:evtRcvB=%d:%d err: %j', Nid, channelName, org, pid, inv_m, eBvtRcv, err);
-            });
+                },
+                (err) => {
+                    //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] inv_m:evtRcvB=%d:%d err: %j', Nid, channelName, org, pid, inv_m, eBvtRcv, err);
+                });
         }).catch((err) => {
             //evtTimeoutCnt++;
             //logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegisterBlock] number of events timeout=%d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, evtTimeoutCnt, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
@@ -1437,8 +1429,8 @@ function eventRegisterBlock() {
 
 }
 
-var evtRcv=0;
-var evtCount=0;
+var evtRcv = 0;
+var evtCount = 0;
 
 function eventRegister(tx, cb) {
 
@@ -1446,21 +1438,24 @@ function eventRegister(tx, cb) {
     var eventPromises = [];
     eventHubs.forEach((eh) => {
         let txPromise = new Promise((resolve, reject) => {
-            let handle = setTimeout(function(){eh.unregisterTxEvent(deployId);
-            evtTimeoutCnt++;
-            evtCount = evtRcv + evtTimeoutCnt;
-            logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] The invoke transaction (%s) timeout (%d).', Nid, channelName, org, pid, deployId.toString(), evtTimeoutCnt);
-            if ( ( IDone == 1 ) && ( inv_m == evtCount )  ) {
-                tCurr = new Date().getTime();
-                var remain = Object.keys(txidList).length;
-                logger.info('[Nid:chan:org:id=%d:%s:%s:%d TIMEOUT eventRegister] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid,  evtRcv, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcv/(tCurr-tLocal)*1000).toFixed(2));
-                if ( remain > 0 ) {
-                    console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] unreceived: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
-                }
-                latency_output();
+            let handle = setTimeout(function () {
+                eh.unregisterTxEvent(deployId);
+                evtTimeoutCnt++;
+                evtCount = evtRcv + evtTimeoutCnt;
+                logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] The invoke transaction (%s) timeout (%d).', Nid, channelName, org, pid, deployId.toString(), evtTimeoutCnt);
+                if ((IDone == 1) && (inv_m == evtCount)) {
+                    tCurr = new Date().getTime();
+                    var remain = Object.keys(txidList).length;
+                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d TIMEOUT eventRegister] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid, evtRcv, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcv / (tCurr - tLocal) * 1000).toFixed(2));
+                    if (remain > 0) {
+                        console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] unreceived: %d, tx_id: ', Nid, channelName, org, pid, remain, txidList);
+                    }
+                    latency_output();
 
-            }
-            evtDisconnect();resolve()}, evtTimeout);
+                }
+                evtDisconnect();
+                resolve()
+            }, evtTimeout);
 
             eh.registerTxEvent(deployId.toString(), (tx, code) => {
                 clearTimeout(handle);
@@ -1468,23 +1463,23 @@ function eventRegister(tx, cb) {
                 eh.unregisterTxEvent(deployId);
                 evtRcv++;
                 var tend = new Date().getTime();
-                latency_update(evtRcv, tend-txidList[deployId.toString()], latency_event);
+                latency_update(evtRcv, tend - txidList[deployId.toString()], latency_event);
                 delete txidList[deployId.toString()];
 
                 if (code !== 'VALID') {
                     logger.error('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] The invoke transaction (%s) was invalid, code = ', Nid, channelName, org, pid, deployId.toString(), code);
                     reject();
                 } else {
-                    if ( ( IDone == 1 ) && ( inv_m == evtRcv ) ) {
+                    if ((IDone == 1) && (inv_m == evtRcv)) {
                         tCurr = new Date().getTime();
                         var remain = Object.keys(txidList).length;
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid,  evtRcv, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcv/(tCurr-tLocal)*1000).toFixed(2));
+                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] pte-exec:completed  Rcvd(sent)=%d(%d) %s(%s) in %d ms, timestamp: start %d end %d, #event timeout: %d, #event unreceived: %d, Throughput=%d TPS', Nid, channelName, org, pid, evtRcv, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr, evtTimeoutCnt, remain, (evtRcv / (tCurr - tLocal) * 1000).toFixed(2));
                         if (invokeCheck == 'TRUE') {
                             arg0 = keyStart + inv_m - 1;
                             inv_q = inv_m - 1;
                             invoke_query_simple(0);
                         }
-                        if ( remain > 0 ) {
+                        if (remain > 0) {
                             console.log('[Nid:chan:org:id=%d:%s:%s:%d eventRegister] unreceived number: %d, tx_id: ', Nid, channelName, org, pid, txidList);
                         }
 
@@ -1522,9 +1517,9 @@ function eventRegister_latency(tx, cb) {
                     logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegister_latency] The invoke transaction was invalid, code = ', Nid, channelName, org, pid, code);
                     reject();
                 } else {
-                    if ( ( IDone == 1 ) && ( inv_m == evtRcv ) ) {
+                    if ((IDone == 1) && (inv_m == evtRcv)) {
                         tCurr = new Date().getTime();
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegister_latency] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
+                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d eventRegister_latency] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr);
                         if (invokeCheck == 'TRUE') {
                             arg0 = keyStart + inv_m - 1;
                             inv_q = inv_m - 1;
@@ -1532,7 +1527,7 @@ function eventRegister_latency(tx, cb) {
                         }
                         evtDisconnect();
                         resolve();
-                    } else if ( IDone != 1 ) {
+                    } else if (IDone != 1) {
                         invoke_move_latency();
                     }
                 }
@@ -1551,8 +1546,8 @@ function eventRegister_latency(tx, cb) {
 
 // invoke_move_latency
 function invoke_move_latency() {
-    if ( IDone == 1 ) {
-       return;
+    if (IDone == 1) {
+        return;
     }
 
     inv_m++;
@@ -1560,32 +1555,32 @@ function invoke_move_latency() {
     getMoveRequest();
 
     channel.sendTransactionProposal(request_invoke)
-    .then(
-        function(results) {
-            var proposalResponses = results[0];
+        .then(
+            function (results) {
+                var proposalResponses = results[0];
 
-            getTxRequest(results);
-            eventRegister_latency(tx_id, function(sendPromise) {
+                getTxRequest(results);
+                eventRegister_latency(tx_id, function (sendPromise) {
 
-                var sendPromise = channel.sendTransaction(txRequest);
-                return Promise.all([sendPromise].concat(eventPromises))
-                .then((results) => {
+                        var sendPromise = channel.sendTransaction(txRequest);
+                        return Promise.all([sendPromise].concat(eventPromises))
+                            .then((results) => {
 
-                    isExecDone('Move');
-                    return results[0];
+                                isExecDone('Move');
+                                return results[0];
 
-                }).catch((err) => {
-                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_latency] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                    evtDisconnect();
-                    return;
-                })
-            },
-            function(err) {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_latency] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                evtDisconnect();
-            })
+                            }).catch((err) => {
+                                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_latency] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                                evtDisconnect();
+                                return;
+                            })
+                    },
+                    function (err) {
+                        logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_latency] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                        evtDisconnect();
+                    })
 
-        });
+            });
 
 }
 
@@ -1593,19 +1588,19 @@ function invoke_move_latency() {
 function execModeLatency() {
 
     // send proposal to endorser
-    if ( transType == 'INVOKE' ) {
+    if (transType == 'INVOKE') {
         tLocal = new Date().getTime();
-        if ( runDur > 0 ) {
+        if (runDur > 0) {
             tEnd = tLocal + runDur;
         }
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeLatency] tStart %d, tLocal %d', Nid, channelName, org, pid, tStart, tLocal);
-        if ( invokeType == 'MOVE' ) {
+        if (invokeType == 'MOVE') {
             var freq = 20000;
-            if ( ccType == 'ccchecker' ) {
+            if (ccType == 'ccchecker') {
                 freq = 0;
             }
             invoke_move_latency();
-        } else if ( invokeType == 'QUERY' ) {
+        } else if (invokeType == 'QUERY') {
             invoke_query_simple(0);
         }
     } else {
@@ -1621,40 +1616,40 @@ function invoke_move_simple(freq) {
     getMoveRequest();
 
     channel.sendTransactionProposal(request_invoke)
-    .then(
-        function(results) {
-            var proposalResponses = results[0];
+        .then(
+            function (results) {
+                var proposalResponses = results[0];
 
-            getTxRequest(results);
-            eventRegister(request_invoke.txId, function(sendPromise) {
+                getTxRequest(results);
+                eventRegister(request_invoke.txId, function (sendPromise) {
 
-                var sendPromise = channel.sendTransaction(txRequest);
-                return Promise.all([sendPromise].concat(eventPromises))
-                .then((results) => {
+                        var sendPromise = channel.sendTransaction(txRequest);
+                        return Promise.all([sendPromise].concat(eventPromises))
+                            .then((results) => {
 
-                    isExecDone('Move');
-                    if ( IDone != 1 ) {
-                        setTimeout(function(){
-                            invoke_move_simple(freq);
-                        },freq);
-                    } else {
-                        tCurr = new Date().getTime();
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_simple] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
-                    }
-                    return results[0];
+                                isExecDone('Move');
+                                if (IDone != 1) {
+                                    setTimeout(function () {
+                                        invoke_move_simple(freq);
+                                    }, freq);
+                                } else {
+                                    tCurr = new Date().getTime();
+                                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_simple] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr);
+                                }
+                                return results[0];
 
-                }).catch((err) => {
-                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_simple] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                    evtDisconnect();
-                    return;
-                })
-            },
-            function(err) {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_simple] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                evtDisconnect();
-            })
+                            }).catch((err) => {
+                                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_simple] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                                evtDisconnect();
+                                return;
+                            })
+                    },
+                    function (err) {
+                        logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_simple] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                        evtDisconnect();
+                    })
 
-        });
+            });
 }
 
 
@@ -1666,56 +1661,56 @@ function invoke_query_simple(freq) {
 
     getQueryRequest();
     channel.queryByChaincode(request_query)
-    .then(
-        function(response_payloads) {
-            isExecDone('Query');
-            if ( QDone != 1 ) {
-                setTimeout(function(){
-                    invoke_query_simple(freq);
-                },freq);
-            } else {
-                tCurr = new Date().getTime();
-                if (response_payloads) {
-                    for(let j = 0; j < response_payloads.length; j++) {
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] query result[%d]:', Nid, channelName, org, pid, j,response_payloads[j].toString('utf8'));
-                    }
+        .then(
+            function (response_payloads) {
+                isExecDone('Query');
+                if (QDone != 1) {
+                    setTimeout(function () {
+                        invoke_query_simple(freq);
+                    }, freq);
                 } else {
-                    logger.debug('response_payloads is null');
+                    tCurr = new Date().getTime();
+                    if (response_payloads) {
+                        for (let j = 0; j < response_payloads.length; j++) {
+                            logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] query result[%d]:', Nid, channelName, org, pid, j, response_payloads[j].toString('utf8'));
+                        }
+                    } else {
+                        logger.debug('response_payloads is null');
+                    }
+                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] pte-exec:completed %d transaction: %s(%s) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_q, transType, invokeType, tCurr - tLocal, tLocal, tCurr, (inv_q / (tCurr - tLocal) * 1000).toFixed(2));
+                    process.exit();
                 }
-                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] pte-exec:completed %d transaction: %s(%s) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_q, transType, invokeType, tCurr-tLocal, tLocal, tCurr,(inv_q/(tCurr-tLocal)*1000).toFixed(2));
+            },
+            function (err) {
+                logger.error('[[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] pte-exec:completed:error Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                process.exit();
+                return;
+            })
+        .catch(
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] pte-exec:completed:error %s failed: ', Nid, channelName, org, pid, transType, err.stack ? err.stack : err);
                 process.exit();
             }
-        },
-        function(err) {
-            logger.error('[[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] pte-exec:completed:error Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-            process.exit();
-            return;
-        })
-    .catch(
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_simple] pte-exec:completed:error %s failed: ', Nid, channelName, org, pid, transType,  err.stack ? err.stack : err);
-            process.exit();
-        }
-    );
+        );
 
 }
 
 function execModeSimple() {
 
     // send proposal to endorser
-    if ( transType == 'INVOKE' ) {
+    if (transType == 'INVOKE') {
         tLocal = new Date().getTime();
-        if ( runDur > 0 ) {
+        if (runDur > 0) {
             tEnd = tLocal + runDur;
         }
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeSimple] tStart %d, tLocal %d', Nid, channelName, org, pid, tStart, tLocal);
-        if ( invokeType == 'MOVE' ) {
+        if (invokeType == 'MOVE') {
             var freq = 20000;
-            if ( ccType == 'ccchecker' ) {
+            if (ccType == 'ccchecker') {
                 freq = 0;
             }
             invoke_move_simple(freq);
-        } else if ( invokeType == 'QUERY' ) {
+        } else if (invokeType == 'QUERY') {
             invoke_query_simple(0);
         }
     } else {
@@ -1730,8 +1725,8 @@ function cleanup(array) {
 
     logger.info('[Nid:chan:org:id=%d:%s:%s:%d cleanup] cleanup ...', Nid, channelName, org, pid);
     for (var key in array) {
-      delete array[key];
-      console.log('[Nid:chan:org:id=%d:%s:%s:%d cleanup] array key[%s] deleted ', Nid, channelName, org, pid, key);
+        delete array[key];
+        console.log('[Nid:chan:org:id=%d:%s:%s:%d cleanup] array key[%s] deleted ', Nid, channelName, org, pid, key);
     }
 
     logger.info('[Nid:chan:org:id=%d:%s:%s:%d cleanup] cleanup ... done', Nid, channelName, org, pid);
@@ -1741,22 +1736,22 @@ function cleanup(array) {
 function latency_output() {
 
     // output peers latency
-    if ( latency_peer[0] != 0 ) {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] peer latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_peer[0], latency_peer[1], (latency_peer[1]/latency_peer[0]).toFixed(2), latency_peer[2], latency_peer[3]);
+    if (latency_peer[0] != 0) {
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] peer latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_peer[0], latency_peer[1], (latency_peer[1] / latency_peer[0]).toFixed(2), latency_peer[2], latency_peer[3]);
     } else {
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] peer latency stats: tx num= %d, total time: %d ms, avg= NA ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_peer[0], latency_peer[1], latency_peer[2], latency_peer[3]);
     }
 
     // output orderer latency
-    if ( latency_orderer[0] != 0 ) {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] orderer latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_orderer[0], latency_orderer[1], (latency_orderer[1]/latency_orderer[0]).toFixed(2), latency_orderer[2], latency_orderer[3]);
+    if (latency_orderer[0] != 0) {
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] orderer latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_orderer[0], latency_orderer[1], (latency_orderer[1] / latency_orderer[0]).toFixed(2), latency_orderer[2], latency_orderer[3]);
     } else {
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] orderer latency stats: tx num= %d, total time: %d ms, avg= NA ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_orderer[0], latency_orderer[1], latency_orderer[2], latency_orderer[3]);
     }
 
     // output event latency
-    if ( latency_event[0] != 0 ) {
-        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] event latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_event[0], latency_event[1], (latency_event[1]/latency_event[0]).toFixed(2), latency_event[2], latency_event[3]);
+    if (latency_event[0] != 0) {
+        logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] event latency stats: tx num= %d, total time: %d ms, avg= %d ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_event[0], latency_event[1], (latency_event[1] / latency_event[0]).toFixed(2), latency_event[2], latency_event[3]);
     } else {
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d latency_output] event latency stats: tx num= %d, total time: %d ms, avg= NA ms, min= %d ms, max= %d ms', Nid, channelName, org, pid, latency_event[0], latency_event[1], latency_event[2], latency_event[3]);
     }
@@ -1771,35 +1766,36 @@ function latency_update(inv_m, td, latency) {
 
     latency[0] = inv_m;
     latency[1] = latency[1] + td;
-    if ( td < latency[2] ) {
+    if (td < latency[2]) {
         latency[2] = td;
     }
-    if ( td > latency[3] ) {
+    if (td > latency[3]) {
         latency[3] = td;
     }
 
 }
 var devFreq;
+
 function getRandomNum(min0, max0) {
-        return Math.floor(Math.random() * (max0-min0)) + min0;
+    return Math.floor(Math.random() * (max0 - min0)) + min0;
 }
 
 function invoke_move_const_go_evtBlock(t1, freq) {
 
-    var freq_n=freq;
-    if ( devFreq > 0 ) {
-        freq_n=getRandomNum(freq-devFreq, freq+devFreq);
+    var freq_n = freq;
+    if (devFreq > 0) {
+        freq_n = getRandomNum(freq - devFreq, freq + devFreq);
     }
     tCurr = new Date().getTime();
     t1 = tCurr - t1;
-    if ( t1 < freq_n ) {
-       freq_n = freq_n - t1;
+    if (t1 < freq_n) {
+        freq_n = freq_n - t1;
     } else {
-       freq_n = 0;
+        freq_n = 0;
     }
-    setTimeout(function(){
+    setTimeout(function () {
         invoke_move_const_evtBlock(freq);
-    },freq_n);
+    }, freq_n);
 
 }
 
@@ -1812,24 +1808,24 @@ function invoke_move_const_evtBlock(freq) {
 
     var ts = new Date().getTime();
     channel.sendTransactionProposal(request_invoke)
-    .then((results) => {
+        .then((results) => {
 
             var te = new Date().getTime();
-            latency_update(inv_m, te-ts, latency_peer);
+            latency_update(inv_m, te - ts, latency_peer);
 
             var proposalResponses = results[0];
 
             getTxRequest(results);
             txidList[tx_id.getTransactionID().toString()] = new Date().getTime();
 
-                var tos = new Date().getTime();
-                return channel.sendTransaction(txRequest)
+            var tos = new Date().getTime();
+            return channel.sendTransaction(txRequest)
                 .then((results) => {
 
                     var toe = new Date().getTime();
-                    latency_update(inv_m, toe-tos, latency_orderer);
+                    latency_update(inv_m, toe - tos, latency_orderer);
 
-                    if ( results.status != 'SUCCESS' ) {
+                    if (results.status != 'SUCCESS') {
                         logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] failed to sendTransaction status: %j ', Nid, channelName, org, pid, results);
                         if (ordererFO == 'TRUE') {
                             ordererFailover(channel, client);
@@ -1839,24 +1835,24 @@ function invoke_move_const_evtBlock(freq) {
                     }
 
                     // hist output
-                    if ( recHist == 'HIST' ) {
+                    if (recHist == 'HIST') {
                         tCurr = new Date().getTime();
-                        buff = PTEid +':'+ Nid +':'+ pid + ':' + channelName +':' + org + ' ' + transType[0]+':'+invokeType[0] + ':' + inv_m + ' time:'+ tCurr + '\n';
-                        fs.appendFile(ofile, buff, function(err) {
+                        buff = PTEid + ':' + Nid + ':' + pid + ':' + channelName + ':' + org + ' ' + transType[0] + ':' + invokeType[0] + ':' + inv_m + ' time:' + tCurr + '\n';
+                        fs.appendFile(ofile, buff, function (err) {
                             if (err) {
-                               return logger.error(err);
+                                return logger.error(err);
                             }
                         })
                     }
 
                     isExecDone('Move');
-                    if ( IDone != 1 ) {
+                    if (IDone != 1) {
                         invoke_move_const_go_evtBlock(t1, freq);
                     } else {
                         tCurr = new Date().getTime();
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] completed %d, evtTimoutCnt %d, unceived events %d, %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, evtTimeoutCnt, remain, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
+                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] completed %d, evtTimoutCnt %d, unceived events %d, %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, evtTimeoutCnt, remain, transType, invokeType, tCurr - tLocal, tLocal, tCurr);
                         var remain = Object.keys(txidList).length;
-                        if ( remain > 0 ) {
+                        if (remain > 0) {
                             console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] unreceived events(%d), txidList', Nid, channelName, org, pid, remain, txidList);
                         }
                         return;
@@ -1865,7 +1861,7 @@ function invoke_move_const_evtBlock(freq) {
 
                 }).catch((err) => {
                     var toe = new Date().getTime();
-                    latency_update(inv_m, toe-tos, latency_orderer);
+                    latency_update(inv_m, toe - tos, latency_orderer);
 
                     logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
                     if (ordererFO == 'TRUE') {
@@ -1876,37 +1872,37 @@ function invoke_move_const_evtBlock(freq) {
                     //return;
                 })
         }).catch((err) => {
-                var te = new Date().getTime();
-                latency_update(inv_m, te-ts, latency_peer);
+            var te = new Date().getTime();
+            latency_update(inv_m, te - ts, latency_peer);
 
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                if (peerFO == 'TRUE') {
-                    peerFailover(channel, client);
-                }
+            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const_evtBlock] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+            if (peerFO == 'TRUE') {
+                peerFailover(channel, client);
+            }
 
-                isExecDone('Move');
-                if ( IDone != 1 ) {
-                    invoke_move_const_go_evtBlock(t1, freq);
-                }
+            isExecDone('Move');
+            if (IDone != 1) {
+                invoke_move_const_go_evtBlock(t1, freq);
+            }
         });
 }
 
 function invoke_move_const_go(t1, freq) {
 
-    var freq_n=freq;
-    if ( devFreq > 0 ) {
-        freq_n=getRandomNum(freq-devFreq, freq+devFreq);
+    var freq_n = freq;
+    if (devFreq > 0) {
+        freq_n = getRandomNum(freq - devFreq, freq + devFreq);
     }
     tCurr = new Date().getTime();
     t1 = tCurr - t1;
-    if ( t1 < freq_n ) {
-       freq_n = freq_n - t1;
+    if (t1 < freq_n) {
+        freq_n = freq_n - t1;
     } else {
-       freq_n = 0;
+        freq_n = 0;
     }
-    setTimeout(function(){
+    setTimeout(function () {
         invoke_move_const(freq);
-    },freq_n);
+    }, freq_n);
 
 }
 // invoke_move_const
@@ -1926,10 +1922,10 @@ function invoke_move_const(freq) {
     var ts = new Date().getTime();
     // channel.sendTransactionProposal(request_invoke)
     channel.sendTransactionProposal(txProposal)
-    .then((results) => {
+        .then((results) => {
 
             var te = new Date().getTime();
-            latency_update(inv_m, te-ts, latency_peer);
+            latency_update(inv_m, te - ts, latency_peer);
 
             var proposalResponses = results[0];
 
@@ -1938,77 +1934,81 @@ function invoke_move_const(freq) {
             txidList[txProposal.txId.getTransactionID().toString()] = new Date().getTime();
 
             //  eventRegister(tx_id, function(sendPromise) {
-            eventRegister(txProposal.txId, function(sendPromise) {
+            eventRegister(txProposal.txId, function (sendPromise) {
 
-                var tos = new Date().getTime();
-                // var sendPromise = channel.sendTransaction(txRequest);
-                var sendPromise = channel.sendTransaction({proposalResponses: results[0], proposal: results[1], header: results[2]});
-                return Promise.all([sendPromise].concat(eventPromises))
-                .then((results) => {
+                    var tos = new Date().getTime();
+                    // var sendPromise = channel.sendTransaction(txRequest);
+                    var sendPromise = channel.sendTransaction({
+                        proposalResponses: results[0],
+                        proposal: results[1],
+                        header: results[2]
+                    });
+                    return Promise.all([sendPromise].concat(eventPromises))
+                        .then((results) => {
 
-                    var toe = new Date().getTime();
-                    latency_update(inv_m, toe-tos, latency_orderer);
+                            var toe = new Date().getTime();
+                            latency_update(inv_m, toe - tos, latency_orderer);
 
-                    if ( results[0].status != 'SUCCESS' ) {
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] failed to sendTransaction status: %j ', Nid, channelName, org, pid, results[0]);
-                        if (ordererFO == 'TRUE') {
-                            ordererFailover(channel, client);
-                        }
-                        invoke_move_const_go(t1, freq);
-                        return;
-                    }
-
-                    // hist output
-                    if ( recHist == 'HIST' ) {
-                        tCurr = new Date().getTime();
-                        buff = PTEid +':'+ Nid +':'+ pid + ':' + channelName +':' + org + ' ' + transType[0]+':'+invokeType[0] + ':' + inv_m + ' time:'+ tCurr + '\n';
-                        fs.appendFile(ofile, buff, function(err) {
-                            if (err) {
-                               return logger.error(err);
+                            if (results[0].status != 'SUCCESS') {
+                                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] failed to sendTransaction status: %j ', Nid, channelName, org, pid, results[0]);
+                                if (ordererFO == 'TRUE') {
+                                    ordererFailover(channel, client);
+                                }
+                                invoke_move_const_go(t1, freq);
+                                return;
                             }
+
+                            // hist output
+                            if (recHist == 'HIST') {
+                                tCurr = new Date().getTime();
+                                buff = PTEid + ':' + Nid + ':' + pid + ':' + channelName + ':' + org + ' ' + transType[0] + ':' + invokeType[0] + ':' + inv_m + ' time:' + tCurr + '\n';
+                                fs.appendFile(ofile, buff, function (err) {
+                                    if (err) {
+                                        return logger.error(err);
+                                    }
+                                })
+                            }
+
+                            isExecDone('Move');
+                            if (IDone != 1) {
+                                invoke_move_const_go(t1, freq);
+                            } else {
+                                tCurr = new Date().getTime();
+                                var remain = Object.keys(txidList).length;
+                                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] completed %d, evtTimoutCnt %d, unceived events %d, %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, evtTimeoutCnt, remain, transType, invokeType, tCurr - tLocal, tLocal, tCurr);
+                                if (remain > 0) {
+                                    console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] unreceived events(%d), txidList', Nid, channelName, org, pid, remain, txidList);
+                                }
+                                return;
+                            }
+                            //return results[0];
+
+                        }).catch((err) => {
+                            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                            if (ordererFO == 'TRUE') {
+                                ordererFailover(channel, client);
+                            }
+                            invoke_move_const_go(t1, freq);
+                            //evtDisconnect();
+                            //return;
                         })
-                    }
-
-                    isExecDone('Move');
-                    if ( IDone != 1 ) {
-                        invoke_move_const_go(t1, freq);
-                    } else {
-                        tCurr = new Date().getTime();
-                        var remain = Object.keys(txidList).length;
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] completed %d, evtTimoutCnt %d, unceived events %d, %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, evtTimeoutCnt, remain, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
-                        if ( remain > 0 ) {
-                            console.log('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] unreceived events(%d), txidList', Nid, channelName, org, pid, remain, txidList);
-                        }
-                        return;
-                    }
-                    //return results[0];
-
-                }).catch((err) => {
-                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                    if (ordererFO == 'TRUE') {
-                        ordererFailover(channel, client);
-                    }
+                },
+                function (err) {
+                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] Failed to send event register due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
                     invoke_move_const_go(t1, freq);
                     //evtDisconnect();
-                    //return;
                 })
-            },
-            function(err) {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] Failed to send event register due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                invoke_move_const_go(t1, freq);
-                //evtDisconnect();
-            })
 
         }).catch((err) => {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                if (peerFO == 'TRUE') {
-                    peerFailover(channel, client);
-                }
+            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_const] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+            if (peerFO == 'TRUE') {
+                peerFailover(channel, client);
+            }
 
-                isExecDone('Move');
-                if ( IDone != 1 ) {
-                    invoke_move_const_go(t1, freq);
-                }
+            isExecDone('Move');
+            if (IDone != 1) {
+                invoke_move_const_go(t1, freq);
+            }
         });
 }
 
@@ -2019,93 +2019,94 @@ function invoke_query_const(freq) {
 
     getQueryRequest();
     channel.queryByChaincode(request_query)
-    .then(
-        function(response_payloads) {
-            // output
-            if ( recHist == 'HIST' ) {
-                tCurr = new Date().getTime();
-                buff = PTEid +':'+ Nid +':'+ pid + ':' + channelName +':' + org + ' ' + transType[0] +':'+invokeType[0]+ ':' + inv_q + ' time:'+ tCurr + '\n';
-                fs.appendFile(ofile, buff, function(err) {
-                    if (err) {
-                       return logger.error(err);
-                    }
-                })
-            }
-            isExecDone('Query');
-            if ( QDone != 1 ) {
-                var freq_n=getRandomNum(freq-devFreq, freq+devFreq);
-                setTimeout(function(){
-                    invoke_query_const(freq);
-                },freq_n);
-            } else {
-                tCurr = new Date().getTime();
-                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] query result response_payloads length:', Nid, channelName, org, pid, response_payloads.length);
-                for(let j = 0; j < response_payloads.length; j++) {
-                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] query result:', Nid, channelName, org, pid, response_payloads[j].toString('utf8'));
+        .then(
+            function (response_payloads) {
+                // output
+                if (recHist == 'HIST') {
+                    tCurr = new Date().getTime();
+                    buff = PTEid + ':' + Nid + ':' + pid + ':' + channelName + ':' + org + ' ' + transType[0] + ':' + invokeType[0] + ':' + inv_q + ' time:' + tCurr + '\n';
+                    fs.appendFile(ofile, buff, function (err) {
+                        if (err) {
+                            return logger.error(err);
+                        }
+                    })
                 }
-                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] pte-exec:completed %d transaction %s(%s) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_q, transType, invokeType, tCurr-tLocal, tLocal, tCurr,(inv_q/(tCurr-tLocal)*1000).toFixed(2));
+                isExecDone('Query');
+                if (QDone != 1) {
+                    var freq_n = getRandomNum(freq - devFreq, freq + devFreq);
+                    setTimeout(function () {
+                        invoke_query_const(freq);
+                    }, freq_n);
+                } else {
+                    tCurr = new Date().getTime();
+                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] query result response_payloads length:', Nid, channelName, org, pid, response_payloads.length);
+                    for (let j = 0; j < response_payloads.length; j++) {
+                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] query result:', Nid, channelName, org, pid, response_payloads[j].toString('utf8'));
+                    }
+                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] pte-exec:completed %d transaction %s(%s) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_q, transType, invokeType, tCurr - tLocal, tLocal, tCurr, (inv_q / (tCurr - tLocal) * 1000).toFixed(2));
+                    process.exit();
+                }
+            },
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] pte-exec:completed:error Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                process.exit();
+            })
+        .catch(
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] pte-exec:completed:error %s failed: ', Nid, channelName, org, pid, transType, err.stack ? err.stack : err);
                 process.exit();
             }
-        },
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] pte-exec:completed:error Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-            process.exit();
-        })
-    .catch(
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_const] pte-exec:completed:error %s failed: ', Nid, channelName, org, pid, transType,  err.stack ? err.stack : err);
-            process.exit();
-        }
-    );
+        );
 
 }
+
 function execModeConstant() {
 
     // send proposal to endorser
-    if ( transType == 'INVOKE' ) {
+    if (transType == 'INVOKE') {
         if (uiContent.constantOpt.recHist) {
             recHist = uiContent.constantOpt.recHist.toUpperCase();
         }
         logger.info('recHist: ', recHist);
 
-        if ( payLoadType == 'FIXED' ) {
+        if (payLoadType == 'FIXED') {
             var rlen = payLoadMin;
             var buf = String(PTEid).repeat(rlen).substring(0, rlen);
-            for ( i = 0; i < keyPayLoad.length; i++ ) {
+            for (i = 0; i < keyPayLoad.length; i++) {
                 testInvokeArgs[keyPayLoad[i]] = buf;
             }
         }
 
         tLocal = new Date().getTime();
-        if ( runDur > 0 ) {
+        if (runDur > 0) {
             tEnd = tLocal + runDur;
         }
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeConstant] tStart %d, tLocal %d', Nid, channelName, org, pid, tStart, tLocal);
         var freq = parseInt(uiContent.constantOpt.constFreq);
-        ofile = 'ConstantResults'+PTEid+'.txt';
+        ofile = 'ConstantResults' + PTEid + '.txt';
 
-        if (typeof( uiContent.constantOpt.devFreq ) == 'undefined') {
+        if (typeof (uiContent.constantOpt.devFreq) == 'undefined') {
             logger.error('[Nid:chan:org:id=%d:%s:%s:%d execModeConstant] devFreq undefined, set to 0', Nid, channelName, org, pid);
-            devFreq=0;
+            devFreq = 0;
         } else {
             devFreq = parseInt(uiContent.constantOpt.devFreq);
         }
 
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeConstant] Constant Freq: %d ms, variance Freq: %d ms', Nid, channelName, org, pid, freq, devFreq);
 
-        if ( invokeType == 'MOVE' ) {
-            if ( ccType == 'general' ) {
-                if ( freq < 20000 ) {
+        if (invokeType == 'MOVE') {
+            if (ccType == 'general') {
+                if (freq < 20000) {
                     freq = 20000;
                 }
             }
 
             if (evtType == 'FILTEREDBLOCK') {
-                if ( evtListener == 'BLOCK') {
+                if (evtListener == 'BLOCK') {
                     eventRegisterFilteredBlock();
                     invoke_move_const_evtBlock(freq);
                 } else {
-                   invoke_move_const(freq);
+                    invoke_move_const(freq);
                 }
             } else if (evtListener == 'BLOCK') {
                 eventRegisterBlock();
@@ -2117,7 +2118,7 @@ function execModeConstant() {
                 requestPusher(getMoveRequest, (freq / 10));
                 invoke_move_const(freq);
             }
-        } else if ( invokeType == 'QUERY' ) {
+        } else if (invokeType == 'QUERY') {
             invoke_query_const(freq);
         }
     } else {
@@ -2128,10 +2129,10 @@ function execModeConstant() {
 
 // mix mode
 function invoke_move_mix_go(freq) {
-    setTimeout(function(){
+    setTimeout(function () {
         arg0--;
         invoke_query_mix(freq);
-    },freq);
+    }, freq);
 }
 
 function invoke_move_mix(freq) {
@@ -2145,51 +2146,51 @@ function invoke_move_mix(freq) {
     }
 
     channel.sendTransactionProposal(request_invoke)
-    .then((results) => {
+        .then((results) => {
             var proposalResponses = results[0];
 
             getTxRequest(results);
-            eventRegister(request_invoke.txId, function(sendPromise) {
+            eventRegister(request_invoke.txId, function (sendPromise) {
 
-                var sendPromise = channel.sendTransaction(txRequest);
-                return Promise.all([sendPromise].concat(eventPromises))
-                .then((results) => {
+                    var sendPromise = channel.sendTransaction(txRequest);
+                    return Promise.all([sendPromise].concat(eventPromises))
+                        .then((results) => {
 
-                    if ( results[0].status != 'SUCCESS' ) {
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] sendTransaction status: %d', Nid, channelName, org, pid, results[0]);
-                        invoke_move_mix_go(freq);
-                        return;
-                    }
+                            if (results[0].status != 'SUCCESS') {
+                                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] sendTransaction status: %d', Nid, channelName, org, pid, results[0]);
+                                invoke_move_mix_go(freq);
+                                return;
+                            }
 
-                    if ( IDone != 1 ) {
-                        invoke_move_mix_go(freq);
-                    } else {
-                        tCurr = new Date().getTime();
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
-                    //    return;
-                    }
-                    return results[0];
+                            if (IDone != 1) {
+                                invoke_move_mix_go(freq);
+                            } else {
+                                tCurr = new Date().getTime();
+                                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr);
+                                //    return;
+                            }
+                            return results[0];
 
-                }).catch((err) => {
-                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                        }).catch((err) => {
+                            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                            invoke_move_mix_go(freq);
+                            //evtDisconnect();
+                            //return;
+                        })
+                },
+                function (err) {
+                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] Failed to send event register due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
                     invoke_move_mix_go(freq);
                     //evtDisconnect();
-                    //return;
                 })
-            },
-            function(err) {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] Failed to send event register due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                invoke_move_mix_go(freq);
-                //evtDisconnect();
-            })
 
         }).catch((err) => {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_mix] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
 
-                isExecDone('Move');
-                if ( IDone != 1 ) {
-                    invoke_move_mix_go(freq);
-                }
+            isExecDone('Move');
+            if (IDone != 1) {
+                invoke_move_mix_go(freq);
+            }
         });
 }
 
@@ -2199,58 +2200,59 @@ function invoke_query_mix(freq) {
 
     getQueryRequest();
     channel.queryByChaincode(request_query)
-    .then(
-        function(response_payloads) {
+        .then(
+            function (response_payloads) {
                 if (mixQuery == 'TRUE') {
-                    for(let j = 0; j < response_payloads.length; j++) {
+                    for (let j = 0; j < response_payloads.length; j++) {
                         logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] query result:', Nid, channelName, org, pid, response_payloads[j].toString('utf8'));
                     }
                 }
                 isExecDone('Move');
-                if ( IDone != 1 ) {
+                if (IDone != 1) {
                     invoke_move_mix(freq);
                 } else {
-                    for(let j = 0; j < response_payloads.length; j++) {
+                    for (let j = 0; j < response_payloads.length; j++) {
                         logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] query result:', Nid, channelName, org, pid, response_payloads[j].toString('utf8'));
                     }
                     tCurr = new Date().getTime();
-                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] pte-exec:completed %d Invoke(move) and %d Invoke(query) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_m,inv_q,tCurr-tLocal, tLocal, tCurr,((inv_q+inv_m)/(tCurr-tLocal)*1000).toFixed(2));
+                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] pte-exec:completed %d Invoke(move) and %d Invoke(query) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_m, inv_q, tCurr - tLocal, tLocal, tCurr, ((inv_q + inv_m) / (tCurr - tLocal) * 1000).toFixed(2));
                     process.exit(0);
                 }
-        },
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-            invoke_move_mix(freq);
-            //evtDisconnect();
-            //return;
-        })
-    .catch(
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] %s failed: ', Nid, channelName, org, pid, transType,  err.stack ? err.stack : err);
-            invoke_move_mix(freq);
-            //evtDisconnect();
-        }
-    );
+            },
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                invoke_move_mix(freq);
+                //evtDisconnect();
+                //return;
+            })
+        .catch(
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_mix] %s failed: ', Nid, channelName, org, pid, transType, err.stack ? err.stack : err);
+                invoke_move_mix(freq);
+                //evtDisconnect();
+            }
+        );
 
 }
 
 var mixQuery;
+
 function execModeMix() {
 
     // send proposal to endorser
     mixQuery = uiContent.mixOpt.mixQuery.toUpperCase();
     logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeMix] mixQuery: %s', Nid, channelName, org, pid, mixQuery);
-    if ( transType == 'INVOKE' ) {
+    if (transType == 'INVOKE') {
         // no need to check since a query is issued after every invoke
         invokeCheck = 'FALSE';
         tLocal = new Date().getTime();
-        if ( runDur > 0 ) {
+        if (runDur > 0) {
             tEnd = tLocal + runDur;
         }
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeMix] tStart %d, tEnd %d, tLocal %d', Nid, channelName, org, pid, tStart, tEnd, tLocal);
         var freq = parseInt(uiContent.mixOpt.mixFreq);
-        if ( ccType == 'general' ) {
-            if ( freq < 20000 ) {
+        if (ccType == 'general') {
+            if (freq < 20000) {
                 freq = 20000;
             }
         }
@@ -2271,27 +2273,27 @@ function invoke_move_proposal() {
     getMoveRequest();
 
     channel.sendTransactionProposal(request_invoke)
-    .then(
-        function(results) {
-            var proposalResponses = results[0];
+        .then(
+            function (results) {
+                var proposalResponses = results[0];
 
-            isExecDone('Move');
-            if ( IDone == 1 ) {
-               tCurr = new Date().getTime();
-               logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_proposal] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
-               evtDisconnect();
-               return;
-            } else {
+                isExecDone('Move');
+                if (IDone == 1) {
+                    tCurr = new Date().getTime();
+                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_proposal] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr);
+                    evtDisconnect();
+                    return;
+                } else {
                     invoke_move_proposal();
                     return results[0];
-            }
+                }
 
 
-        },
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_proposal] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-            evtDisconnect();
-        });
+            },
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_proposal] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                evtDisconnect();
+            });
 
 
 }
@@ -2300,20 +2302,20 @@ function invoke_move_proposal() {
 function execModeProposal() {
 
     // send proposal to endorser
-    if ( transType == 'INVOKE' ) {
+    if (transType == 'INVOKE') {
         tLocal = new Date().getTime();
-        if ( runDur > 0 ) {
+        if (runDur > 0) {
             tEnd = tLocal + runDur;
         }
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeProposal] tStart %d, tLocal %d', Nid, channelName, org, pid, tStart, tLocal);
-        if ( invokeType == 'MOVE' ) {
+        if (invokeType == 'MOVE') {
             var freq = 20000;
-            if ( ccType == 'ccchecker' ) {
+            if (ccType == 'ccchecker') {
                 freq = 0;
             }
             invoke_move_latency();
             invoke_move_proposal();
-        } else if ( invokeType == 'QUERY' ) {
+        } else if (invokeType == 'QUERY') {
             logger.error('[Nid:chan:org:id=%d:%s:%s:%d execModeProposal] invalid invokeType= %s', Nid, channelName, org, pid, invokeType);
             evtDisconnect();
         }
@@ -2328,8 +2330,8 @@ var burstFreq0;
 var burstDur0;
 var burstFreq1;
 var burstDur1;
-var tDur=[];
-var tFreq=[];
+var tDur = [];
+var tFreq = [];
 var tUpd0;
 var tUpd1;
 var bFreq;
@@ -2339,9 +2341,9 @@ function getBurstFreq() {
     tCurr = new Date().getTime();
 
     // set up burst traffic duration and frequency
-    if ( tCurr < tUpd0 ) {
+    if (tCurr < tUpd0) {
         bFreq = tFreq[0];
-    } else if ( tCurr < tUpd1 ) {
+    } else if (tCurr < tUpd1) {
         bFreq = tFreq[1];
     } else {
         tUpd0 = tCurr + tDur[0];
@@ -2353,10 +2355,10 @@ function getBurstFreq() {
 
 // invoke_move_burst
 
-function invoke_move_burst_go(){
-    setTimeout(function(){
+function invoke_move_burst_go() {
+    setTimeout(function () {
         invoke_move_burst();
-    },bFreq);
+    }, bFreq);
 }
 
 function invoke_move_burst() {
@@ -2367,52 +2369,52 @@ function invoke_move_burst() {
     getMoveRequest();
 
     channel.sendTransactionProposal(request_invoke)
-    .then((results) => {
+        .then((results) => {
             var proposalResponses = results[0];
 
             getTxRequest(results);
-            eventRegister(request_invoke.txId, function(sendPromise) {
+            eventRegister(request_invoke.txId, function (sendPromise) {
 
-                var sendPromise = channel.sendTransaction(txRequest);
-                return Promise.all([sendPromise].concat(eventPromises))
-                .then((results) => {
+                    var sendPromise = channel.sendTransaction(txRequest);
+                    return Promise.all([sendPromise].concat(eventPromises))
+                        .then((results) => {
 
-                    if ( results[0].status != 'SUCCESS' ) {
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] sendTransactionProposal status: %d', Nid, channelName, org, pid, results[0]);
-                        invoke_move_burst_go();
-                        return;
-                    }
+                            if (results[0].status != 'SUCCESS') {
+                                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] sendTransactionProposal status: %d', Nid, channelName, org, pid, results[0]);
+                                invoke_move_burst_go();
+                                return;
+                            }
 
-                    isExecDone('Move');
-                    if ( IDone != 1 ) {
-                        invoke_move_burst_go();
-                    } else {
-                        tCurr = new Date().getTime();
-                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr-tLocal, tLocal, tCurr);
-                        return;
-                    }
-                    //return results[0];
+                            isExecDone('Move');
+                            if (IDone != 1) {
+                                invoke_move_burst_go();
+                            } else {
+                                tCurr = new Date().getTime();
+                                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] completed %d %s(%s) in %d ms, timestamp: start %d end %d', Nid, channelName, org, pid, inv_m, transType, invokeType, tCurr - tLocal, tLocal, tCurr);
+                                return;
+                            }
+                            //return results[0];
 
-                }).catch((err) => {
-                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                        }).catch((err) => {
+                            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] Failed to send transaction due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                            invoke_move_burst_go();
+                            //evtDisconnect();
+                            return;
+                        })
+                },
+                function (err) {
+                    logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] Failed to send eventRegister due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
                     invoke_move_burst_go();
                     //evtDisconnect();
-                    return;
                 })
-            },
-            function(err) {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] Failed to send eventRegister due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-                invoke_move_burst_go();
-                //evtDisconnect();
-            })
 
         }).catch((err) => {
-                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_move_burst] Failed to send transaction proposal due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
 
-                isExecDone('Move');
-                if ( IDone != 1 ) {
-                    invoke_move_burst_go();
-                }
+            isExecDone('Move');
+            if (IDone != 1) {
+                invoke_move_burst_go();
+            }
         });
 }
 
@@ -2426,36 +2428,37 @@ function invoke_query_burst() {
 
     getQueryRequest();
     channel.queryByChaincode(request_query)
-    .then(
-        function(response_payloads) {
-            isExecDone('Query');
-            if ( QDone != 1 ) {
-                setTimeout(function(){
-                    invoke_query_burst();
-                },bFreq);
-            } else {
-                tCurr = new Date().getTime();
-                for(let j = 0; j < response_payloads.length; j++) {
-                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] query result:', Nid, channelName, org, pid, response_payloads[j].toString('utf8'));
-                }
+        .then(
+            function (response_payloads) {
+                isExecDone('Query');
+                if (QDone != 1) {
+                    setTimeout(function () {
+                        invoke_query_burst();
+                    }, bFreq);
+                } else {
+                    tCurr = new Date().getTime();
+                    for (let j = 0; j < response_payloads.length; j++) {
+                        logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] query result:', Nid, channelName, org, pid, response_payloads[j].toString('utf8'));
+                    }
 
-                logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] pte-exec:completed %d transaction %s(%s) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_q, transType, invokeType, tCurr-tLocal, tLocal, tCurr,(inv_q/(tCurr-tLocal)*1000).toFixed(2));
-                //return;
+                    logger.info('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] pte-exec:completed %d transaction %s(%s) in %d ms, timestamp: start %d end %d,Throughput=%d TPS', Nid, channelName, org, pid, inv_q, transType, invokeType, tCurr - tLocal, tLocal, tCurr, (inv_q / (tCurr - tLocal) * 1000).toFixed(2));
+                    //return;
+                }
+            },
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
+                evtDisconnect();
+                return;
+            })
+        .catch(
+            function (err) {
+                logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] %s failed: ', Nid, channelName, org, pid, transType, err.stack ? err.stack : err);
+                evtDisconnect();
             }
-        },
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] Failed to send query due to error: ', Nid, channelName, org, pid, err.stack ? err.stack : err);
-            evtDisconnect();
-            return;
-        })
-    .catch(
-        function(err) {
-            logger.error('[Nid:chan:org:id=%d:%s:%s:%d invoke_query_burst] %s failed: ', Nid, channelName, org, pid, transType,  err.stack ? err.stack : err);
-            evtDisconnect();
-        }
-    );
+        );
 
 }
+
 function execModeBurst() {
 
     // init TcertBatchSize
@@ -2464,28 +2467,28 @@ function execModeBurst() {
     burstFreq1 = parseInt(uiContent.burstOpt.burstFreq1);
     burstDur1 = parseInt(uiContent.burstOpt.burstDur1);
     tFreq = [burstFreq0, burstFreq1];
-    tDur  = [burstDur0, burstDur1];
+    tDur = [burstDur0, burstDur1];
 
-    logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeBurst] Burst setting: tDur =',Nid, channelName, org, pid, tDur);
-    logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeBurst] Burst setting: tFreq=',Nid, channelName, org, pid, tFreq);
+    logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeBurst] Burst setting: tDur =', Nid, channelName, org, pid, tDur);
+    logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeBurst] Burst setting: tFreq=', Nid, channelName, org, pid, tFreq);
 
     // get time
     tLocal = new Date().getTime();
 
-    tUpd0 = tLocal+tDur[0];
-    tUpd1 = tLocal+tDur[1];
+    tUpd0 = tLocal + tDur[0];
+    tUpd1 = tLocal + tDur[1];
     bFreq = tFreq[0];
 
     // send proposal to endorser
-    if ( transType == 'INVOKE' ) {
+    if (transType == 'INVOKE') {
         tLocal = new Date().getTime();
-        if ( runDur > 0 ) {
+        if (runDur > 0) {
             tEnd = tLocal + runDur;
         }
         logger.info('[Nid:chan:org:id=%d:%s:%s:%d execModeBurst] tStart %d, tLocal %d', Nid, channelName, org, pid, tStart, tLocal);
-        if ( invokeType == 'MOVE' ) {
+        if (invokeType == 'MOVE') {
             invoke_move_burst();
-        } else if ( invokeType == 'QUERY' ) {
+        } else if (invokeType == 'QUERY') {
             invoke_query_burst();
         }
     } else {
@@ -2499,7 +2502,7 @@ function sleep(ms) {
 }
 
 function evtDisconnect() {
-    for ( i=0; i<eventHubs.length; i++) {
+    for (i = 0; i < eventHubs.length; i++) {
         if (eventHubs[i] && eventHubs[i].isconnected()) {
             logger.info('Disconnecting the event hub: %d', i);
             eventHubs[i].disconnect();
@@ -2508,8 +2511,8 @@ function evtDisconnect() {
 }
 
 function requestPusher(fn, delay) {
-    if ( (inv_m < nRequest) || (nRequest == 0) ) {
-        if ( requestQueue.length < maxRequestQueueLength ) {
+    if ((inv_m < nRequest) || (nRequest == 0)) {
+        if (requestQueue.length < maxRequestQueueLength) {
             var data = fn();
             requestQueue.unshift(data);
         } else {
