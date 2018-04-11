@@ -17,6 +17,7 @@ echo "removing all exits record..."
 DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
 mkdir $DIRNAME
 mv -f *.txt ./$DIRNAME
+mv -f *.csv ./$DIRNAME
 chmod +x ./record_system_stats.sh
 echo "running screen on local to record cpu usage..."
 screen -dmS local ./record_system_stats.sh

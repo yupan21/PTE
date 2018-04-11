@@ -85,7 +85,7 @@ def check_memory_ecs():
         men = psutil.virtual_memory()
         net = psutil.net_io_counters()
         disk = psutil.disk_io_counters(perdisk=True)
-        t = str(datetime.now().strftime('%Y-%m-%d %I:%M:%S'))[11:]
+        t = str(datetime.now().strftime('%Y-%m-%d %I:%M:%S'))
         # set timestamp
         memory_prec = t+"     "+"Memory(%)"+"     "+str(men[2])
         current_io_value = [net[i] - last_io_value[i] for i in range(2)]
