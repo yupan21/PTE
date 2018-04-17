@@ -4,21 +4,26 @@ import statistics
 import os
 import pandas as pd
 import numpy as np
+from copy import copy
 from datetime import datetime
+import psutil
 
 # global data
 # csv name
-csvData_title = ["Processes","tag","tStart","tEnd","Duration","TPS","waiting_time_peer_to_propsoal(sum/avg/min/max)","waiting_time_check_promise(sum/avg/min/max)","waiting_time_event(sum/avg/min/max)"]
+title_row = ["Processes","tag","tStart","tEnd","Duration","TPS","waiting_time_peer_to_propsoal(sum/avg/min/max) ms","waiting_time_check_promise(sum/avg/min/max) ms","waiting_time_event(sum/avg/min/max) ms"]
+csvData_title = copy(title_row)
 csvData_client = []
 csvData_set = []
 username = os.uname()[1]
+
+
 # client is not include in hostname
 # hostname = ["iZwz9gd8k08kdmtd4qg7rhZ"] # ecs single test case
 # hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"] # ecs multiple test case
 hostname = ["blockchainmaster151","blockchainmonion153"] # local multiple network test case
 
 # global arguments to None to assigning anything
-Processes = 0
+Processes = 1
 TestID = None
 tStart = None
 tEnd = None
@@ -56,6 +61,8 @@ avg_memory_usage = None
 max_cpu_usage = None
 avg_cpu_usage = None
 
+# read disk name
+diskName = [x for x in psutil.disk_io_counters(perdisk=True)]
 
 def __initTime(tStart, tEnd):
     # print("initializing...")
@@ -160,9 +167,9 @@ def writeDiskIO(fileName, tStart, tEnd, elasep):
                         avg_write_data = round(statistics.mean(write_data),2)
                         print("avg write data kb/s", avg_write_data)
 
-                        max_busy_time = np.max(busy_time,axis=0)
+                        max_busy_time = [round(x,2) for x in np.max(busy_time,axis=0)]
                         print("max busy time %", max_busy_time)
-                        avg_busy_time =  np.average(busy_time,axis=0)
+                        avg_busy_time =  [round(x,2) for x in np.average(busy_time,axis=0)]
                         print("avg busy time %", avg_busy_time)
                         return
     return "writeDiskIO"
@@ -304,16 +311,21 @@ def readLog(path,fileName):
     global waiting_time_peer_to_propsoal
     global waiting_time_check_promise
     global waiting_time_event
-
+    # set default mode, to get the watiting time request
     print("Loading...", fileName, "-----")
     # pwd = os.getcwd()
     tag = True  # This tag is used to check time
     with open("{}/{}".format(path, fileName), "r") as file:
+        Processes = 1
         for i in reversed(file.readlines()):
+            if i.find("Threads run completed") > -1:
+                temp = [int(s) for s in i.split() if s.isdigit()]
+                Processes = temp[1]
             i = i.strip()
             # find a summary list
             if i != "" and i.find("Test Summary") > -1:
                 if i.find("Test Summary:Total") > -1:
+                    # use to check the TPS
                     print(i[10:])
                     tps_index = i.find("total throughput=")+len("total throughput=")
                     tps = i[tps_index:-3]
@@ -338,11 +350,11 @@ def readLog(path,fileName):
                     tStart = i[index_1+5:index_2].replace(" ", "")
                     tEnd = i[index_2+3:index_3].replace(" ", "")
             elif i != "" and i.find("waiting_time") > -1:
+                # use to check waiting time for each transaction
                 index_output = i.find("Time:")+ 6
                 if i.find("peer") > -1:
                     out = i[index_output:]
                     waiting_time_peer_to_propsoal += np.array([float(x) for x in out.split(",")])
-                    Processes += 1
                 elif i.find("promise") > -1:
                     out = i[index_output:]
                     waiting_time_check_promise += np.array([float(x) for x in out.split(",")])
@@ -351,10 +363,13 @@ def readLog(path,fileName):
                     waiting_time_event += np.array([float(x) for x in out.split(",")])
             
             # TODO:process waiting_time
-        print(Processes)
-        waiting_time_peer_to_propsoal = waiting_time_peer_to_propsoal/Processes
-        waiting_time_check_promise = waiting_time_check_promise/Processes
-        waiting_time_event = waiting_time_event/Processes
+        print("The PTE Process is :", Processes)
+        waiting_time_peer_to_propsoal = [round(x/Processes,2) for x in waiting_time_peer_to_propsoal]
+        print("waiting time peer to propsoal:", waiting_time_peer_to_propsoal)
+        waiting_time_check_promise = [round(x/Processes,2) for x in waiting_time_check_promise]
+        print("waiting time check promise:", waiting_time_check_promise)
+        waiting_time_event = [round(x/Processes,2) for x in waiting_time_event]
+        print("waiting time event:", waiting_time_event)
 
     return int(tStart), int(tEnd)
 
@@ -430,8 +445,8 @@ def writeCSV(logsPath,logsLists):
                         "{} disk max write data(kb/s)".format(host),
                         "{} disk sum write data(kb)".format(host),
                         "{} disk avg write data(kb/s)".format(host),
-                        "{} disk max busy time(%)".format(host),
-                        "{} disk avg busy time(%)".format(host),
+                        "{} disk max busy time {}(%)".format(host,diskName),
+                        "{} disk avg busy time {}(%)".format(host,diskName),
                         "{} memory max usage(%)".format(host),
                         "{} memory avg usage(%)".format(host),
                         "{} cpu max usage(%)".format(host),
@@ -492,8 +507,8 @@ def writeCSV(logsPath,logsLists):
                             "{} disk max write data(kb/s)".format(host),
                             "{} disk sum write data(kb)".format(host),
                             "{} disk avg write data(kb/s)".format(host),
-                            "{} disk max busy time(%)".format(host),
-                            "{} disk avg busy time(%)".format(host),
+                            "{} disk max busy time{}(%)".format(host,diskName),
+                            "{} disk avg busy time{}(%)".format(host,diskName),
                             "{} memory max usage(%)".format(host),
                             "{} memory avg usage(%)".format(host),
                             "{} cpu max usage(%)".format(host),
@@ -502,13 +517,13 @@ def writeCSV(logsPath,logsLists):
                 csvData_set += csvData_client
         print("Writing file to csv")
         print()
+        # print(csvData_set,csvData_title)
         print("lenth of csv",len(csvData_set),len(csvData_title))
         csvData.append(csvData_set)
         csvData_title_all = csvData_title
         # append the csv set to csvfile
         csvData_set = []
-        csvData_title = ["Processes","tag","tStart","tEnd","Duration","TPS"]
-        # print(csvData_set,csvData_title)
+        csvData_title = copy(title_row)
         # print global arguments
         # print(TestID, tStart, tEnd, elasep, tps)
         # print(avg_send,max_send,avg_receive,max_receive)
