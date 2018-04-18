@@ -53,4 +53,4 @@ bash ./test_driver.sh -t RMT-ecs
 # calculate and reciving cpu records 
 cd $PROCESS_CPU_DIR
 bash ./calculate.sh $HOST
-python client-main.py $LOGS_DIR
+python client-main.py

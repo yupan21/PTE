@@ -31,4 +31,4 @@ done
 
 # get the system record log
 cd $PROCESS_CPU_DIR
-python client-main.py $LOGS_DIR
+python client-main.py

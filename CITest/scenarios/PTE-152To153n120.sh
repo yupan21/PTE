@@ -34,6 +34,7 @@ cd $PROCESS_CPU_DIR
 # running test-----------------
 cd $CISCRIPT_DIR
 node ./config.js RMT-multi nProcPerOrg 1
+node ./config.js RMT-multi eventOpt.timeout 600000
 node ./config.js RMT-multi nRequest 0
 node ./config.js RMT-multi runDur 600
 node ./config.js RMT-multi ccOpt.payLoadMin 256
@@ -86,16 +87,6 @@ bash ./test_driver.sh -t RMT-multi
 # bash ./test_driver.sh -t RMT-multi
 # ## ending case ----------------
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 30
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Move
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
 
 # # running test-----------------
 # cd $CISCRIPT_DIR

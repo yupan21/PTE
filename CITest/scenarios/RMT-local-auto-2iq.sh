@@ -96,7 +96,7 @@ bash /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/pro
 
 # caculate cpu log
 cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
-python client-main.py /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs
+python client-main.py
 
 
 # usage sample:
@@ -141,5 +141,5 @@ python client-main.py /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-
 
 # # caculate cpu log
 # cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
-# python client-main.py /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs
+# python client-main.py
 ## ending sample

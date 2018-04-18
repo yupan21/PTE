@@ -20,6 +20,7 @@ mv -f *.txt ./$DIRNAME
 mv -f *.csv ./$DIRNAME
 chmod +x ./record_system_stats.sh
 echo "running screen on local to record cpu usage..."
+screen -XS local quit
 screen -dmS local ./record_system_stats.sh
 
 # connect host to record system status
@@ -27,6 +28,7 @@ for HOST in $HOST1 $HOST2; do
     echo "connecting to remote ${HOST} to record cpu usage..."
     ssh root@$HOST -i ~/.ssh/id_rsa "cd ${PROCESS_CPU_DIR}; echo \"remove *.txt on ${HOST} and start a screen\"; \
         rm -rf *.txt ; \
+        screen -XS host quit; \
         screen -dmS host ./record_system_stats.sh"
 done
 

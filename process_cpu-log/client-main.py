@@ -7,21 +7,24 @@ import numpy as np
 from copy import copy
 from datetime import datetime
 import psutil
+import utils
 
-# global data
+# global arguments
 # csv name
 title_row = ["Processes","tag","tStart","tEnd","Duration","TPS","waiting_time_peer_to_propsoal(sum/avg/min/max) ms","waiting_time_check_promise(sum/avg/min/max) ms","waiting_time_event(sum/avg/min/max) ms"]
 csvData_title = copy(title_row)
 csvData_client = []
 csvData_set = []
 username = os.uname()[1]
-
+global_logsPath = "/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs"
+global_hostIP = ["120.79.163.88","172.16.50.153"]
 
 # client is not include in hostname
 # hostname = ["iZwz9gd8k08kdmtd4qg7rhZ"] # ecs single test case
 # hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"] # ecs multiple test case
 # hostname = ["blockchainmaster151","blockchainmonion153"] # remote multiple network test case
-hostname = ["iZwz9gd8k08kdmtd4qg7rhZ","blockchainmonion153"] # public multiple network test case
+# hostname = ["iZwz9gd8k08kdmtd4qg7rhZ","blockchainmonion153"] # public multiple network test case
+
 
 # global arguments to None to assigning anything
 Processes = 1
@@ -62,8 +65,8 @@ avg_memory_usage = None
 max_cpu_usage = None
 avg_cpu_usage = None
 
-# read disk name
-diskName = [x for x in psutil.disk_io_counters(perdisk=True)]
+
+
 
 def __initTime(tStart, tEnd):
     # print("initializing...")
@@ -227,84 +230,6 @@ def writeCPU(fileName, tStart, tEnd, elasep):
                         return
     return "writeCPU"
 
-# def readIO(fileName, tStart, tEnd, elasep):
-#     # read disk and network IO
-#     send_read = []
-#     recv_write = []
-#     busy_time = []
-#     read_bytes = []
-#     write_bytes = []
-#     print("Loading", fileName, "-----")
-#     with open("./{}".format(fileName),"r") as file:
-#         elasep_count = 0
-#         for i in file.readlines():
-#             i = i.strip()
-#             # replace linebreak
-#             if i != "":
-#                 i = i.split("     ")
-#                 if i[0].find(tStart) > -1 or elasep_count != 0:
-#                     try:
-#                         send_read.append(float(i[2]))
-#                         recv_write.append(float(i[3]))
-#                         try:
-#                             read_bytes.append(float(i[4]))
-#                             write_bytes.append(float(i[5]))
-#                             busy_time.append(float(i[6]))
-#                         except:
-#                             pass
-#                     except:
-#                         print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
-#                         print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
-#                         print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
-#                         print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
-#                         if fileName.find("disk") > -1:
-#                             print("The Max/Sum busy time(s):", max(busy_time),sum(busy_time))
-#                             print("Max Read data(KB/s):",max(read_bytes))
-#                             print("Max Write data(KB/s):",max(write_bytes))
-#                         return
-#                     elasep_count += 1
-#                     if elasep_count == elasep or i[0].find(tEnd) > -1 :
-#                         print("The max [{}] of send or read io is".format(fileName[:5]), max(send_read))
-#                         print("The avg [{}] of send or read io is".format(fileName[:5]), round(statistics.mean(send_read)))
-#                         print("The max [{}] of receive or write io is".format(fileName[:5]), max(recv_write))
-#                         print("The avg [{}] of receive or write io is".format(fileName[:5]), round(statistics.mean(recv_write)))
-#                         if fileName.find("disk") > -1:
-#                             print("The Max/Sum busy time(s):", max(busy_time),sum(busy_time))
-#                             print("Max Read data(KB/s):",max(read_bytes))
-#                             print("Max Write data(KB/s):",max(write_bytes))
-#                         return
-#     print("readIO ends...")
-#     return
-
-
-# def readSys(fileName, tStart, tEnd, elasep):
-#     # read cpu and memory txt
-#     user_cpu = []
-#     print("Loading", fileName, "-----")
-#     # pwd = os.getcwd()
-#     with open("./{}".format(fileName), "r") as file:
-#         elasep_count = 0
-#         for i in file.readlines():
-#             i = i.strip()
-#             if i != "":
-#                 i = i.split("     ")
-#                 if i[0].find(tStart) > -1 or elasep_count != 0:
-#                     try:
-#                         user_cpu.append(float(i[2]))
-#                     except:
-#                         print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
-#                         print("The avg [{}] is:".format(fileName[:5]),
-#                               round(statistics.mean(user_cpu), 2))
-#                         return
-#                     elasep_count += 1
-#                     if elasep_count == elasep or i[0].find(tEnd) > -1:
-#                         print("The max [{}] is:".format(fileName[:5]), max(user_cpu))
-#                         print("The avg [{}] is:".format(fileName[:5]),
-#                               round(statistics.mean(user_cpu), 2))
-#                         return
-#             # break
-#     return
-
 
 def readLog(path,fileName):
     global Processes
@@ -376,7 +301,7 @@ def readLog(path,fileName):
 
 
 
-def writeCSV(logsPath,logsLists):
+def writeCSV(logsPath,logsLists,hostIP):
     csvData = []
     global csvData_title
     global csvData_client
@@ -384,6 +309,7 @@ def writeCSV(logsPath,logsLists):
 
     for log in logsLists:
         if log[-3:] == "log":
+            diskName = [x for x in psutil.disk_io_counters(perdisk=True)] # local diskName
             # header parameter
             # Processes = ""
             tag = ""
@@ -458,7 +384,9 @@ def writeCSV(logsPath,logsLists):
             # end read client file
             # read the stats file
             sut_host_count = 0
-            for name in hostname:
+            for IP in hostIP:
+                diskName,name = utils.readDiskName(IP)
+                print(diskName,name)
                 for fileName in statsFileList:
                     if fileName.find(name) > -1:
                         # check other log
@@ -543,41 +471,21 @@ def writeCSV(logsPath,logsLists):
             
 
 def main():
+    global global_logsPath
+    global global_hostIP
+
     arg = sys.argv[1:]
     # read arguments
-    filesList = os.listdir("./")
+    # filesList = os.listdir("./")
+    logsPath = global_logsPath
     if not arg:
-        logsPath = "/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs"
-    elif arg[0] == "test":
-        logsPath = "./"
+        hostIP = global_hostIP
     else:
-        logsPath = arg[0]
+        hostIP = arg[0].split("-")
     logsLists = [i for i in os.listdir(logsPath) if i.endswith(".log")]
     print(logsLists)
 
-    writeCSV(logsPath,logsLists)
-    # for i in logsLists:
-    #     try:
-    #         if i[-3:] == "log":
-    #             print("------[calculating log...]------")
-    #             LogfileName = i
-    #             tStart, tEnd = readLog(logsPath,LogfileName)
-    #             # read logs
-    #             elasep = int((tEnd-tStart)/1000)
-    #             tStart, tEnd = __initTime(tStart, tEnd)
-    #             # calculate start time and elasep time
-    #             print("Elasep time:", elasep)
-    #             print("----------------")
-    #             for fileName in filesList:
-    #                 if fileName.endswith(".txt"):
-    #                     # read computer status log
-    #                     if fileName.startswith("networkIO") or fileName.startswith("disk"):
-    #                         # read IO file
-    #                         readIO(fileName, tStart, tEnd, elasep)
-    #                     else:
-    #                         readSys(fileName, tStart, tEnd, elasep)
-    #     except print(0):
-    #         pass
+    writeCSV(logsPath,logsLists,hostIP)
     
 
 if __name__ == "__main__":
