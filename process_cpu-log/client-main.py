@@ -20,7 +20,8 @@ username = os.uname()[1]
 # client is not include in hostname
 # hostname = ["iZwz9gd8k08kdmtd4qg7rhZ"] # ecs single test case
 # hostname = ["iZwz9gd8k08kdmtd4qg7riZ","iZwz9gd8k08kdmtd4qg7rhZ"] # ecs multiple test case
-hostname = ["blockchainmaster151","blockchainmonion153"] # local multiple network test case
+# hostname = ["blockchainmaster151","blockchainmonion153"] # remote multiple network test case
+hostname = ["iZwz9gd8k08kdmtd4qg7rhZ","blockchainmonion153"] # public multiple network test case
 
 # global arguments to None to assigning anything
 Processes = 1
