@@ -4,6 +4,8 @@
 
 ## Usage
 
++ Make sure you joined as a swarm node in fabric
+
 #### the main scenarios file is located on `./CITest/scenarios`
 
 you can edit the scripts to suit you environments:
@@ -57,6 +59,8 @@ to end the test and transport the file to you client can use
     # caculate cpu log
     cd /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
     python client-main.py /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs
+
+
 
 
 ### python requirements
