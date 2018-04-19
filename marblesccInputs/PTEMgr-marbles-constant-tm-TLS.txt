@@ -1,3 +1,0 @@
-driver=pte marblesccInputs/runCases-marbles-constant-tm1-TLS.txt
-driver=pte marblesccInputs/runCases-marbles-constant-tm2-TLS.txt
-driver=pte marblesccInputs/runCases-marbles-constant-tm3-TLS.txt
