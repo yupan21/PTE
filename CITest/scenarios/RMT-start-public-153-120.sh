@@ -11,8 +11,10 @@ HOST3=120.79.163.88
 HOST3COMPOSE=machine3-kafka-2peer-1ca.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 
+
 HOST1_mapping=114.242.193.198
 HOST2_mapping=114.242.193.198
+HOST3_mapping=114.242.193.198
 
 # HOST1COMPOSE=machine-solo-3orderer.yml
 # HOST2COMPOSE=machine-solo-4peer-2ca.yml
@@ -31,7 +33,6 @@ SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/
 # config scfiles -------------
 function config_scfile() {
     cd $CISCRIPT_DIR 
-    
     node ./config_sc.js RMT-config-multi.json orderer.orderer0.url grpcs://$HOST1_mapping:2377
     # node ./config_sc.js RMT-config-multi.json orderer.orderer1.url grpcs://$HOST1:4789
     # node ./config_sc.js RMT-config-multi.json orderer.orderer2.url grpcs://$HOST1:7946
@@ -44,7 +45,7 @@ function config_scfile() {
 
     node ./config_sc.js RMT-config-multi.json org2.ca.url https://$HOST3:7055
     node ./config_sc.js RMT-config-multi.json org2.peer1.requests grpcs://$HOST3:4789
-    node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST3:6053
+    node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST3:7946
     node ./config_sc.js RMT-config-multi.json org2.peer2.requests grpcs://$HOST3:7064
     node ./config_sc.js RMT-config-multi.json org2.peer2.events grpcs://$HOST3:6054
 }

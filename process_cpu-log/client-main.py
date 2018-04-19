@@ -11,7 +11,7 @@ import utils
 
 # global arguments
 # csv name
-title_row = ["Processes","tag","tStart","tEnd","Duration","TPS","waiting_time_peer_to_propsoal(sum/avg/min/max) ms","waiting_time_check_promise(sum/avg/min/max) ms","waiting_time_event(sum/avg/min/max) ms"]
+title_row = ["Processes","tag","tStart","tEnd","Duration(s)","TPS","waiting_time_peer_to_propsoal(sum/avg/min/max) ms","waiting_time_check_promise(sum/avg/min/max) ms","waiting_time_event(sum/avg/min/max) ms"]
 csvData_title = copy(title_row)
 csvData_client = []
 csvData_set = []
