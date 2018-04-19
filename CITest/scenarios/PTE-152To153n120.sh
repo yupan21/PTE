@@ -34,9 +34,9 @@ cd $PROCESS_CPU_DIR
 # running test-----------------
 cd $CISCRIPT_DIR
 node ./config.js RMT-multi nProcPerOrg 1
-node ./config.js RMT-multi eventOpt.timeout 600000
-node ./config.js RMT-multi nRequest 0
-node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 1
+node ./config.js RMT-multi runDur 0
 node ./config.js RMT-multi ccOpt.payLoadMin 256
 node ./config.js RMT-multi ccOpt.payLoadMax 256
 node ./config.js RMT-multi invokeType Move

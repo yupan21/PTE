@@ -3,7 +3,7 @@
 # check sample usage in the end of the scripts
 
 LOCAL=172.16.50.151
-HOST=172.16.50.153
+LOCAL=172.16.50.153
 
 # loading cpu moniting
 chmod +x /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log/manage_host.sh

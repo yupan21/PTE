@@ -214,6 +214,9 @@ var payLoadMin = 0;
 var payLoadMax = 0;
 var payLoadType = 'RANDOM'
 var arg0 = 0;
+var userKey = "fncJrnlId";
+var userKeyArg = 0;
+// user case key
 var keyIdx = [];
 if (typeof (uiContent.ccOpt.keyIdx) !== 'undefined') {
     for (i = 0; i < uiContent.ccOpt.keyIdx.length; i++) {
@@ -332,6 +335,17 @@ function getMoveRequest() {
         for (i = 0; i < keyPayLoad.length; i++) {
             testInvokeArgs[keyPayLoad[i]] = String(r);
         }
+    } else if (ccType == 'user'){
+        var testInvokeArgs = [];
+        userKeyArg++
+        for (i = 0; i < uiContent.invoke.move.args.length; i++) {
+            var json_args = uiContent.invoke.move.args[i];
+            json_args[userKey] = String(userKeyArg);
+            var string_args = JSON.stringify(json_args);
+            testInvokeArgs.push(string_args);
+        }
+        // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
+        // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
     }
 
     tx_id = client.newTransactionID();
@@ -425,6 +439,18 @@ function getQueryRequest() {
                 testQueryArgs[keyIdx[i]] = queryMarbleName + '_' + txIDVar + '_' + arg0;
             }
         }
+    } else if (ccType == 'user'){
+        var testQueryArgs = [];
+        userKeyArg++
+        for (i = 0; i < uiContent.invoke.query.args.length; i++) {
+            var json_args = uiContent.invoke.query.args[i];
+            // json_args[userKey] = String(userKeyArg);
+            // var string_args = JSON.stringify(json_args);
+            var string_args = json_args;
+            testQueryArgs.push(string_args);
+        }
+        // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
+        // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
     }
 
     tx_id = client.newTransactionID();
