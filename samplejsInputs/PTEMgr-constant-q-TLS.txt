@@ -1,3 +1,0 @@
-driver=pte samplejsInputs/runCases-constant-q1-TLS.txt
-driver=pte samplejsInputs/runCases-constant-q2-TLS.txt
-driver=pte samplejsInputs/runCases-constant-q3-TLS.txt
