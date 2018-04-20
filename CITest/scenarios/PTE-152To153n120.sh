@@ -35,172 +35,144 @@ cd $PROCESS_CPU_DIR
 cd $CISCRIPT_DIR
 node ./config.js RMT-multi nProcPerOrg 1
 node ./config.js RMT-multi eventOpt.timeout 240000
-node ./config.js RMT-multi nRequest 1
-node ./config.js RMT-multi runDur 0
-node ./config.js RMT-multi ccOpt.payLoadMin 256
-node ./config.js RMT-multi ccOpt.payLoadMax 256
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
 node ./config.js RMT-multi invokeType Move
 bash ./test_driver.sh -t RMT-multi
 ## ending case ----------------
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 5
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Move
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 10
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Move
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
-
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 15
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Move
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
-
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 20
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Move
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 5
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Move
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
 
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 1
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 10
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Move
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
 
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 5
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 15
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Move
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
 
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 10
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 20
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Move
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
 
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 20
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
+# end recording -----------------
+cd $PROCESS_CPU_DIR
+./end_record.sh $HOST1 $HOST2
+# end recording ---------------
 
 
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 30
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
+
+# start recording ----------------
+cd $PROCESS_CPU_DIR
+./start_record.sh $HOST1 $HOST2
+# start recording ---------------
+
+
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 1
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Query
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
+
+
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 5
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Query
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 10
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Query
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 20
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Query
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 30
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Query
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
 
 
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 40
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 40
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Query
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
 
 
-
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 60
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
-
-
-
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 80
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
-
-
-
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 100
-# node ./config.js RMT-multi nRequest 0
-# node ./config.js RMT-multi runDur 600
-# node ./config.js RMT-multi ccOpt.payLoadMin 256
-# node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Query
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
-
-
+# running test-----------------
+cd $CISCRIPT_DIR
+node ./config.js RMT-multi nProcPerOrg 60
+node ./config.js RMT-multi eventOpt.timeout 240000
+node ./config.js RMT-multi nRequest 0
+node ./config.js RMT-multi runDur 600
+node ./config.js RMT-multi invokeType Query
+bash ./test_driver.sh -t RMT-multi
+## ending case ----------------
 
 
 # end recording -----------------

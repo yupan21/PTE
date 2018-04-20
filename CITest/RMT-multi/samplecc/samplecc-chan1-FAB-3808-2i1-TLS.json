@@ -55,7 +55,7 @@
     "invoke": {
         "query": {
             "fcn": "queryBizFncBscinfByFncJrnlId",
-            "args": [1]
+            "args": ["1"]
         },
         "move": {
             "fcn": "saveOrUpdateBizFncBscinf",

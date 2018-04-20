@@ -446,8 +446,7 @@ function getQueryRequest() {
             var json_args = uiContent.invoke.query.args[i];
             // json_args[userKey] = String(userKeyArg);
             // var string_args = JSON.stringify(json_args);
-            var string_args = json_args;
-            testQueryArgs.push(string_args);
+            testQueryArgs.push(json_args);
         }
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
