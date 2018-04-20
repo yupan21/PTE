@@ -4,17 +4,16 @@
 
 
 HOST1=172.16.50.153
-HOST1COMPOSE=machine-kafka-3orderer-1kfka-1zk.yml
-HOST2=172.16.50.151
-HOST2COMPOSE=machine-kafka-4peer-2ca.yml
+HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
+HOST2=172.16.50.153
+HOST2COMPOSE=machine2-kafka-2peer-1ca.yml
+HOST3=172.16.50.151
+HOST3COMPOSE=machine3-kafka-2peer-1ca.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 
 
 # HOST1COMPOSE=machine-solo-3orderer.yml
 # HOST2COMPOSE=machine-solo-4peer-2ca.yml
-
-
-
 
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
@@ -27,69 +26,76 @@ NL_DIR=/opt/go/src/github.com/hyperledger/fabric-test/tools/NL
 SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/CISCFiles
 # scfile needs for PTE test
 
-
 # config scfiles -------------
+function config_scfile() {
+    cd $CISCRIPT_DIR 
+    node ./config_sc.js RMT-config-multi.json orderer.orderer0.url grpcs://$HOST1:2377
+    # node ./config_sc.js RMT-config-multi.json orderer.orderer1.url grpcs://$HOST1:4789
+    # node ./config_sc.js RMT-config-multi.json orderer.orderer2.url grpcs://$HOST1:7946
+
+    node ./config_sc.js RMT-config-multi.json org1.ca.url https://$HOST2:7054
+    node ./config_sc.js RMT-config-multi.json org1.peer1.requests grpcs://$HOST2:4789
+    node ./config_sc.js RMT-config-multi.json org1.peer1.events grpcs://$HOST2:7946
+    node ./config_sc.js RMT-config-multi.json org1.peer2.requests grpcs://$HOST2:7062
+    node ./config_sc.js RMT-config-multi.json org1.peer2.events grpcs://$HOST2:6052
+
+    node ./config_sc.js RMT-config-multi.json org2.ca.url https://$HOST3:7055
+    node ./config_sc.js RMT-config-multi.json org2.peer1.requests grpcs://$HOST3:4789
+    node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST3:7946
+    node ./config_sc.js RMT-config-multi.json org2.peer2.requests grpcs://$HOST3:7064
+    node ./config_sc.js RMT-config-multi.json org2.peer2.events grpcs://$HOST3:6054
+}
 echo "Configing PTE SCfiles"
-cd $CISCRIPT_DIR 
-node ./config_sc.js RMT-config-multi.json orderer.orderer0.url grpcs://$HOST1:5005
-# node ./config_sc.js RMT-config-multi.json orderer.orderer1.url grpcs://$HOST1:5006
-# node ./config_sc.js RMT-config-multi.json orderer.orderer2.url grpcs://$HOST1:5007
+config_scfile
+# config scfiles ----------------
 
-node ./config_sc.js RMT-config-multi.json org1.ca.url https://$HOST2:7054
-node ./config_sc.js RMT-config-multi.json org1.peer1.requests grpcs://$HOST2:7061
-node ./config_sc.js RMT-config-multi.json org1.peer1.events grpcs://$HOST2:6051
-node ./config_sc.js RMT-config-multi.json org1.peer2.requests grpcs://$HOST2:7062
-node ./config_sc.js RMT-config-multi.json org1.peer2.events grpcs://$HOST2:6052
-
-node ./config_sc.js RMT-config-multi.json org2.ca.url https://$HOST2:7055
-node ./config_sc.js RMT-config-multi.json org2.peer1.requests grpcs://$HOST2:7063
-node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST2:6053
-node ./config_sc.js RMT-config-multi.json org2.peer2.requests grpcs://$HOST2:7064
-node ./config_sc.js RMT-config-multi.json org2.peer2.events grpcs://$HOST2:6054
-
-echo "Sending scfile to $HOST1"
-cd $SCFILES_DIR
-scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$HOST1:$SCFILES_DIR
-echo "Sending scfile to $HOST2"
-cd $SCFILES_DIR
-scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$HOST2:$SCFILES_DIR
-# config scfiles -------------
+# sendingCI scfiles ----------------
+function sendingCI(){
+    echo "Sending scfile to $1"
+    cd $SCFILES_DIR
+    scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$1:$SCFILES_DIR
+}
+sendingCI $HOST1
+sendingCI $HOST2
+sendingCI $HOST3
+# sendingCI scfiles ----------------
 
 
 # cleanup the network and restart ------------
-for HOST in $HOST1 $HOST2; do
-    echo "Connecting to ${HOST} to cleanup the network."
-    ssh root@${HOST} -i ~/.ssh/id_rsa "cd ${NL_DIR}; \
-        ./cleanNetwork.sh example.com; \ 
-        yes | docker network prune; \
-        docker network create --attachable --driver overlay fabric_ov --subnet 10.10.0.0/24 "
-done
+function clean_network(){
+    echo "Connecting to $1 to cleanup the network."
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR; \
+        ./cleanNetwork.sh example.com; \
+        rm -rf /tmp/* "
+}
 rm -rf /tmp/*
+clean_network $HOST1
+clean_network $HOST2
+clean_network $HOST3
 # cleanup the network ------------
 
 
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR; \
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/extra_host_compose; \
         docker-compose -f $2 up -d "
 }
 
 # startup the network ------------
 startup_network $HOST1 $HOST1COMPOSE
 startup_network $HOST2 $HOST2COMPOSE
+startup_network $HOST3 $HOST3COMPOSE
 # startup the network ------------
 
 
 # start channel -------------
-# echo "Connecting to ${HOST1} to startup the channel."
-# ssh root@${HOST1} -i ~/.ssh/id_rsa "cd ${CISCRIPT_DIR}; \
-#     bash test_driver.sh -m RMT-multi -p -c samplecc"
 cd $CISCRIPT_DIR
 bash test_driver.sh -m RMT-multi -p -c samplecc
 # start channel -------------
 
 
+# # -------------------------------------------------------------------
 # # -------------------------------------------------------------------
 # # start recording ----------------
 # cd $PROCESS_CPU_DIR

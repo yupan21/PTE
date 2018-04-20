@@ -340,7 +340,7 @@ function getMoveRequest() {
         userKeyArg++
         for (i = 0; i < uiContent.invoke.move.args.length; i++) {
             var json_args = uiContent.invoke.move.args[i];
-            json_args[userKey] = String(userKeyArg);
+            json_args[userKey] = String(txIDVar + '_' + userKeyArg);
             var string_args = JSON.stringify(json_args);
             testInvokeArgs.push(string_args);
         }
