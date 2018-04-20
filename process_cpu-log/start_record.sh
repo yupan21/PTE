@@ -5,8 +5,9 @@
 
 
 
-HOST1=$1
-HOST2=$2
+for HOST in $*; do
+    IPvalue=${IPvalue}"-"$HOST
+done
 
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 LOGS_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/Logs
@@ -20,11 +21,11 @@ mv -f *.txt ./$DIRNAME
 mv -f *.csv ./$DIRNAME
 chmod +x ./record_system_stats.sh
 echo "running screen on local to record cpu usage..."
-screen -XS local quit
-screen -dmS local ./record_system_stats.sh
+screen -XS host quit
+screen -dmS host ./record_system_stats.sh
 
 # connect host to record system status
-for HOST in $HOST1 $HOST2; do
+for HOST in $*; do
     echo "connecting to remote ${HOST} to record cpu usage..."
     ssh root@$HOST -i ~/.ssh/id_rsa "cd ${PROCESS_CPU_DIR}; echo \"remove *.txt on ${HOST} and start a screen\"; \
         rm -rf *.txt ; \
