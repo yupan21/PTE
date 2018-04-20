@@ -443,7 +443,7 @@ function getQueryRequest() {
         var testQueryArgs = [];
         userKeyArg++
         for (i = 0; i < uiContent.invoke.query.args.length; i++) {
-            var json_args = uiContent.invoke.query.args[i];
+            var json_args = txIDVar + '_' + uiContent.invoke.query.args[i];
             // json_args[userKey] = String(userKeyArg);
             // var string_args = JSON.stringify(json_args);
             testQueryArgs.push(json_args);

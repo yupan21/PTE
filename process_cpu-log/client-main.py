@@ -335,7 +335,15 @@ def writeCSV(logsPath,logsLists,hostIP):
                         writeNetworkIO(fileName, tStart, tEnd, elasep)
             # end read client file
             # jump out of loop
-            csvData_client = [Processes,tag,tStart, tEnd, elasep, tps, str(waiting_time_peer_to_propsoal), str(waiting_time_check_promise), str(waiting_time_event), 
+            csvData_client = [Processes,
+                            tag,
+                            tStart, 
+                            tEnd, 
+                            elasep, 
+                            tps, 
+                            str(waiting_time_peer_to_propsoal), 
+                            str(waiting_time_check_promise), 
+                            str(waiting_time_event), 
                             avg_send, 
                             max_send, 
                             avg_receive, 
@@ -386,6 +394,7 @@ def writeCSV(logsPath,logsLists,hostIP):
             sut_host_count = 0
             for IP in hostIP:
                 diskName,name = utils.readDiskName(IP)
+                # read host disk name and uname
                 print(diskName,name)
                 for fileName in statsFileList:
                     if fileName.find(name) > -1:
