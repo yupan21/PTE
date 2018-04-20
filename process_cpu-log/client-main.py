@@ -481,7 +481,8 @@ def main():
     if not arg:
         hostIP = global_hostIP
     else:
-        hostIP = arg[0].split("-")
+        hostIP = [x for x in arg[0].split("-") if x != ""]
+        print(hostIP)
     logsLists = [i for i in os.listdir(logsPath) if i.endswith(".log")]
     print(logsLists)
 

@@ -6,7 +6,7 @@
 
 
 for HOST in $*; do
-    IPvalue=${IPvalue}"-"$HOST
+    IPvalue=${IPvalue}$HOST"-"
 done
 
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
