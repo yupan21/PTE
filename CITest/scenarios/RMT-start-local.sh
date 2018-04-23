@@ -54,6 +54,9 @@ function sendingCI(){
     echo "Sending scfile to $1"
     cd $SCFILES_DIR
     scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$1:$SCFILES_DIR
+    echo "Sending docker-compose file to $1"
+    cd $NL_DIR
+    scp -i ~/.ssh/id_rsa -r extra_host_compose_local root@$1:$NL_DIR
 }
 sendingCI $HOST1
 sendingCI $HOST2
@@ -78,7 +81,7 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/extra_host_compose; \
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/extra_host_compose_local; \
         docker-compose -f $2 up -d "
 }
 
