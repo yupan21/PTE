@@ -2,7 +2,8 @@
 
 # run
 
-## Usage
+## some feature Usage
++ `go tool pprof http://172.16.50.153:6060/debug/pprof/profile?seconds=120`
 
 + Make sure you joined as a swarm node in fabric
 

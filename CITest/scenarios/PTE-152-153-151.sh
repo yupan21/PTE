@@ -4,7 +4,6 @@
 
 
 HOST1=172.16.50.153
-HOST1MAPPING=114.242.193.198
 HOST2=172.16.50.151
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
