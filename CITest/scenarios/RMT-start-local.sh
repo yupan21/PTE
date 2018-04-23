@@ -49,8 +49,8 @@ echo "Configing PTE SCfiles"
 config_scfile
 # config scfiles ----------------
 
-# sendingCI scfiles ----------------
-function sendingCI(){
+# sendingCI scfiles and copy compose files ----------------
+function sendingCIcompose(){
     echo "Sending scfile to $1"
     cd $SCFILES_DIR
     scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$1:$SCFILES_DIR
@@ -58,10 +58,12 @@ function sendingCI(){
     cd $NL_DIR
     scp -i ~/.ssh/id_rsa -r extra_host_compose_local root@$1:$NL_DIR
 }
-sendingCI $HOST1
-sendingCI $HOST2
-sendingCI $HOST3
-# sendingCI scfiles ----------------
+echo "Copying file to $NL_DIR"
+yes | cp -r ../../composeFile/* $NL_DIR
+sendingCIcompose $HOST1
+sendingCIcompose $HOST2
+sendingCIcompose $HOST3
+# sendingCI scfiles and copy compose files ----------------
 
 
 # cleanup the network and restart ------------
