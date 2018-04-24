@@ -13,7 +13,7 @@
     "runDur": "600",
     "TLS": "enabled",
     "channelOpt": {
-        "name": "testorgschannel1",
+        "name": "testorgschannel2",
         "channelTX": "/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/testorgschannel2.tx",
         "action":  "create",
         "orgName": [

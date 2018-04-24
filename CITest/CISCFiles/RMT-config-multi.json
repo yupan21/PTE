@@ -11,26 +11,6 @@
                 "url": "grpcs://39.108.167.205:5005",
                 "server-hostname": "orderer0.example.com",
                 "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
-            },
-            "orderer1": {
-                "name": "OrdererOrg",
-                "mspid": "OrdererOrg",
-                "mspPath": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config",
-                "adminPath": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp",
-                "comName": "example.com",
-                "url": "grpcs://39.108.167.205:5006",
-                "server-hostname": "orderer1.example.com",
-                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
-            },
-            "orderer2": {
-                "name": "OrdererOrg",
-                "mspid": "OrdererOrg",
-                "mspPath": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config",
-                "adminPath": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp",
-                "comName": "example.com",
-                "url": "grpcs://39.108.167.205:5007",
-                "server-hostname": "orderer2.example.com",
-                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
             }
         },
         "org1": {

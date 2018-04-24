@@ -15,7 +15,7 @@
     "runDur": "600",
     "TLS": "enabled",
     "channelOpt": {
-        "name": "testorgschannel1",
+        "name": "testorgschannel2",
         "action":  "join",
         "orgName": [
             "org3",

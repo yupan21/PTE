@@ -9,10 +9,10 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
-      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/ed815eb9da2df21dcfccb86fb3f56d46db892cab5e121e7435c67483f52f9d9c_sk
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/305780810ae942df441ce734576405bd957e298dbb33edbb50fc1d1155ec38e9_sk
     ports: 
       - 7055:7054
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/ed815eb9da2df21dcfccb86fb3f56d46db892cab5e121e7435c67483f52f9d9c_sk -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/305780810ae942df441ce734576405bd957e298dbb33edbb50fc1d1155ec38e9_sk -b admin:adminpw -d'
     volumes: 
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca1
@@ -46,8 +46,8 @@ services:
       - /var/run/:/host/var/run/
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config:/opt/hyperledger/fabric/msp/crypto-config
     ports: 
-      - 4789:7051
-      - 7946:7053
+      - 7053:7051
+      - 6053:7053
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     container_name: peer0.org2.example.com
@@ -55,7 +55,7 @@ services:
       - "orderer0.example.com:172.16.50.153"
       - "orderer1.example.com:172.16.50.153"
       - "orderer2.example.com:172.16.50.153"
-      - "peer0.org1.example.com:172.16.50.153"
+      - "peer0.org1.example.com:172.16.50.151"
 
   peer1.org2.example.com:
     image: hyperledger/fabric-peer
