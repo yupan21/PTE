@@ -3,12 +3,12 @@
 #
 
 
-HOST1=172.16.50.153
-HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
+HOST1=172.16.50.151
+HOST1COMPOSE=machine1-solo-orderer.yml
 HOST2=172.16.50.153
-HOST2COMPOSE=machine2-kafka-2peer-1ca.yml
+HOST2COMPOSE=machine2-solo-org12.yml
 HOST3=172.16.50.151
-HOST3COMPOSE=machine3-kafka-2peer-1ca.yml
+HOST3COMPOSE=machine3-solo-org34.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 
 
@@ -29,24 +29,24 @@ SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/
 # config scfiles -------------
 function config_scfile() {
     cd $CISCRIPT_DIR 
-    node ./config_sc.js RMT-config-multi.json orderer.orderer0.url grpcs://$HOST1:2377
+    node ./config_sc.js RMT-config-multi.json orderer.orderer0.url grpcs://$HOST1:5005
     # node ./config_sc.js RMT-config-multi.json orderer.orderer1.url grpcs://$HOST1:4789
     # node ./config_sc.js RMT-config-multi.json orderer.orderer2.url grpcs://$HOST1:7946
 
     node ./config_sc.js RMT-config-multi.json org1.ca.url https://$HOST2:7054
-    node ./config_sc.js RMT-config-multi.json org1.peer1.requests grpcs://$HOST2:4789
-    node ./config_sc.js RMT-config-multi.json org1.peer1.events grpcs://$HOST2:7946
+    node ./config_sc.js RMT-config-multi.json org1.peer1.requests grpcs://$HOST2:7061
+    node ./config_sc.js RMT-config-multi.json org1.peer1.events grpcs://$HOST2:6051
     node ./config_sc.js RMT-config-multi.json org1.peer2.requests grpcs://$HOST2:7062
     node ./config_sc.js RMT-config-multi.json org1.peer2.events grpcs://$HOST2:6052
 
     node ./config_sc.js RMT-config-multi.json org2.ca.url https://$HOST3:7055
-    node ./config_sc.js RMT-config-multi.json org2.peer1.requests grpcs://$HOST3:4789
-    node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST3:7946
+    node ./config_sc.js RMT-config-multi.json org2.peer1.requests grpcs://$HOST3:7063
+    node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST3:6053
     node ./config_sc.js RMT-config-multi.json org2.peer2.requests grpcs://$HOST3:7064
     node ./config_sc.js RMT-config-multi.json org2.peer2.events grpcs://$HOST3:6054
 }
-echo "Configing PTE SCfiles"
-config_scfile
+# echo "Configing PTE SCfiles"
+# config_scfile
 # config scfiles ----------------
 
 # sendingCI scfiles and copy compose files ----------------

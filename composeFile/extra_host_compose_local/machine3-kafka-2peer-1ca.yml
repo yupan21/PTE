@@ -9,10 +9,10 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
-      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/c04f72098aa379fed7a4116031fb380442805ed6ba8853edfa2a507c07985141_sk
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/ed815eb9da2df21dcfccb86fb3f56d46db892cab5e121e7435c67483f52f9d9c_sk
     ports: 
       - 7055:7054
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/c04f72098aa379fed7a4116031fb380442805ed6ba8853edfa2a507c07985141_sk -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/ed815eb9da2df21dcfccb86fb3f56d46db892cab5e121e7435c67483f52f9d9c_sk -b admin:adminpw -d'
     volumes: 
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca1
@@ -22,7 +22,6 @@ services:
   peer0.org2.example.com:
     image: hyperledger/fabric-peer
     environment:
-      - CORE_METRICS_ENABLED=true
       - CORE_PEER_EVENTS_BUFFERSIZE=1000
       - CORE_PEER_EVENTS_TIMEOUT=100ms 
       - GODEBUG=netdns=go
@@ -61,7 +60,6 @@ services:
   peer1.org2.example.com:
     image: hyperledger/fabric-peer
     environment: 
-      - CORE_METRICS_ENABLED=true
       - CORE_PEER_EVENTS_BUFFERSIZE=1000
       - CORE_PEER_EVENTS_TIMEOUT=100ms 
       - GODEBUG=netdns=go
