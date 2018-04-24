@@ -15,7 +15,7 @@
     "channelOpt": {
         "name": "testorgschannel2",
         "action": "create",
-        "orgName": ["org3"]
+        "orgName": ["org3","org4"]
     },
     "burstOpt": {
         "burstFreq0": "500",
@@ -32,7 +32,8 @@
         "devFreq": "0"
     },
     "listOpt": {
-        "org3": ["peer1"]
+        "org3": ["peer1"],
+        "org4": ["peer1"]
     },
     "eventOpt": {
         "listener": "Transaction",

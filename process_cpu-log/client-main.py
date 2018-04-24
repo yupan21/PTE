@@ -241,6 +241,8 @@ def readLog(path,fileName):
     print("Loading...", fileName, "-----")
     # pwd = os.getcwd()
     tag = True  # This tag is used to check time
+    tps = 0
+    count_tps = 0
     with open("{}/{}".format(path, fileName), "r") as file:
         Processes = 1
         for i in reversed(file.readlines()):
@@ -251,11 +253,18 @@ def readLog(path,fileName):
             # find a summary list
             if i != "" and i.find("Test Summary") > -1:
                 if i.find("Test Summary:Total") > -1:
-                    # use to check the TPS
-                    print(i[10:])
-                    tps_index = i.find("total throughput=")+len("total throughput=")
-                    tps = i[tps_index:-3]
-                    print("The tps is", tps)
+                    if i.find("INVOKE") > -1:
+                        print(i[10:])
+                        tps_index = i.find("total throughput=")+len("total throughput=")
+                        count_tps = i[tps_index:-3]
+                        print("one channel tps is", count_tps)
+                        tps += float(count_tps)
+                    elif i.find("QUERY") > -1:
+                        print(i[10:])
+                        tps_index = i.find("total throughput=")+len("total throughput=")
+                        count_tps = i[tps_index:-3]
+                        print("one channel tps is", count_tps)
+                        tps += float(count_tps)
                     # ======= the main print ========
                 # filter the invoke check
                 if i.find("timestamp:") > -1 and tag == True:

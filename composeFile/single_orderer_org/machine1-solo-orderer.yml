@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+
+  orderer0.example.com:
+    image: hyperledger/fabric-orderer
+    environment: 
+      - ORDERER_GENERAL_PROFILE_ENABLED=true
+      - GODEBUG=netdns=go
+      - ORDERER_GENERAL_LOGLEVEL=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/opt/hyperledger/fabric/msp/crypto-config/ordererOrganizations/orderer.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererOrg
+      - ORDERER_GENERAL_LOCALMSPDIR=/opt/hyperledger/fabric/msp/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/opt/hyperledger/fabric/msp/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/opt/hyperledger/fabric/msp/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/opt/hyperledger/fabric/msp/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes: 
+      - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config:/opt/hyperledger/fabric/msp/crypto-config
+    ports: 
+      - 6061:6060
+      - 7050:7050
+    container_name: orderer0.example.com
