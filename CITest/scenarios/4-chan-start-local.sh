@@ -2,6 +2,9 @@
 #
 #
 
+testcasename=RMT-channel
+networkcasename=4orgcompose
+CISconfigfilename=config-chan2-1peerorg4-TLS.json
 
 HOST1=172.16.50.151
 HOST1COMPOSE=machine1-solo-orderer.yml
@@ -29,21 +32,21 @@ SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/
 # config scfiles -------------
 function config_scfile() {
     cd $CISCRIPT_DIR 
-    node ./config_sc.js RMT-config-multi.json orderer.orderer0.url grpcs://$HOST1:5005
-    # node ./config_sc.js RMT-config-multi.json orderer.orderer1.url grpcs://$HOST1:4789
-    # node ./config_sc.js RMT-config-multi.json orderer.orderer2.url grpcs://$HOST1:7946
+    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:5005
+    # node ./config_sc.js $CISconfigfilename orderer.orderer1.url grpcs://$HOST1:4789
+    # node ./config_sc.js $CISconfigfilename orderer.orderer2.url grpcs://$HOST1:7946
 
-    node ./config_sc.js RMT-config-multi.json org1.ca.url https://$HOST2:7054
-    node ./config_sc.js RMT-config-multi.json org1.peer1.requests grpcs://$HOST2:7061
-    node ./config_sc.js RMT-config-multi.json org1.peer1.events grpcs://$HOST2:6051
-    node ./config_sc.js RMT-config-multi.json org1.peer2.requests grpcs://$HOST2:7062
-    node ./config_sc.js RMT-config-multi.json org1.peer2.events grpcs://$HOST2:6052
+    node ./config_sc.js $CISconfigfilename org1.ca.url https://$HOST2:7054
+    node ./config_sc.js $CISconfigfilename org1.peer1.requests grpcs://$HOST2:7061
+    node ./config_sc.js $CISconfigfilename org1.peer1.events grpcs://$HOST2:6051
+    node ./config_sc.js $CISconfigfilename org1.peer2.requests grpcs://$HOST2:7062
+    node ./config_sc.js $CISconfigfilename org1.peer2.events grpcs://$HOST2:6052
 
-    node ./config_sc.js RMT-config-multi.json org2.ca.url https://$HOST3:7055
-    node ./config_sc.js RMT-config-multi.json org2.peer1.requests grpcs://$HOST3:7063
-    node ./config_sc.js RMT-config-multi.json org2.peer1.events grpcs://$HOST3:6053
-    node ./config_sc.js RMT-config-multi.json org2.peer2.requests grpcs://$HOST3:7064
-    node ./config_sc.js RMT-config-multi.json org2.peer2.events grpcs://$HOST3:6054
+    node ./config_sc.js $CISconfigfilename org2.ca.url https://$HOST3:7055
+    node ./config_sc.js $CISconfigfilename org2.peer1.requests grpcs://$HOST3:7063
+    node ./config_sc.js $CISconfigfilename org2.peer1.events grpcs://$HOST3:6053
+    node ./config_sc.js $CISconfigfilename org2.peer2.requests grpcs://$HOST3:7064
+    node ./config_sc.js $CISconfigfilename org2.peer2.events grpcs://$HOST3:6054
 }
 # echo "Configing PTE SCfiles"
 # config_scfile
@@ -53,10 +56,10 @@ function config_scfile() {
 function sendingCIcompose(){
     echo "Sending scfile to $1"
     cd $SCFILES_DIR
-    scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$1:$SCFILES_DIR
+    scp -i ~/.ssh/id_rsa ./$CISconfigfilename root@$1:$SCFILES_DIR
     echo "Sending docker-compose file to $1"
     cd $NL_DIR
-    scp -i ~/.ssh/id_rsa -r extra_host_compose_local root@$1:$NL_DIR
+    scp -i ~/.ssh/id_rsa -r $networkcasename root@$1:$NL_DIR
 }
 echo "Copying file to $NL_DIR"
 yes | cp -r ../../composeFile/* $NL_DIR
@@ -83,7 +86,7 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/extra_host_compose_local; \
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkcasename; \
         docker-compose -f $2 up -d "
 }
 
@@ -96,7 +99,7 @@ startup_network $HOST3 $HOST3COMPOSE
 
 # start channel -------------
 cd $CISCRIPT_DIR
-bash test_driver.sh -m RMT-multi -p -c samplecc
+bash test_driver.sh -m $testcasename -p -c samplecc
 # start channel -------------
 
 

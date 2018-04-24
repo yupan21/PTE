@@ -2,6 +2,7 @@
 #
 #
 
+networkcasename=extra_host_compose_local
 
 HOST1=172.16.50.153
 HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
@@ -56,7 +57,7 @@ function sendingCIcompose(){
     scp -i ~/.ssh/id_rsa ./RMT-config-multi.json root@$1:$SCFILES_DIR
     echo "Sending docker-compose file to $1"
     cd $NL_DIR
-    scp -i ~/.ssh/id_rsa -r extra_host_compose_local root@$1:$NL_DIR
+    scp -i ~/.ssh/id_rsa -r $networkcasename root@$1:$NL_DIR
 }
 echo "Copying file to $NL_DIR"
 yes | cp -r ../../composeFile/* $NL_DIR
@@ -83,7 +84,7 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/extra_host_compose_local; \
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkcasename; \
         docker-compose -f $2 up -d "
 }
 
