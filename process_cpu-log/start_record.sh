@@ -19,6 +19,7 @@ DIRNAME=$(date '+%Y-%m-%d-%H-%M-%S')
 mkdir $DIRNAME
 mv -f *.txt ./$DIRNAME
 mv -f *.csv ./$DIRNAME
+mv -f *.pdf ./$DIRNAME
 chmod +x ./record_system_stats.sh
 echo "running screen on local to record cpu usage..."
 screen -XS host quit

@@ -7,13 +7,17 @@
     "transMode": "Simple",
     "transType": "instantiate",
     "invokeType": "Move",
-    "targetPeers": "OrgAnchor",
+    "targetPeers": "List",
     "nOrderer": "1",
     "nPeer": "4",
     "nProcPerOrg": "4",
     "nRequest": "1000",
     "runDur": "600",
     "TLS": "enabled",
+    "listOpt": {
+        "org1": ["peer1"],
+        "org3": ["peer1"]
+    },
     "channelOpt": {
         "name":  "testorgschannel2",
         "action":  "create",

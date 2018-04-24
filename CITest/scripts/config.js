@@ -1,11 +1,15 @@
 const fs = require('fs');
 var args = process.argv.slice(2);
 
-filepath = "../"+args[0]+"/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json"
+if(args[0].includes("/")){
+    filepath = "../"+args[0];
+} else {
+    filepath = "../"+args[0]+"/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json";
+}
 
 let config = fs.readFileSync(filepath);
 let config_data = JSON.parse(config)
-console.log("changing " + args[1] + " to " + args[2])
+console.log("changing "+ args[0] +" "+ args[1] + " to " + args[2])
 args_list = args[1].split(".")
 if (args_list.length > 1) {
     if (args_list.length > 2){

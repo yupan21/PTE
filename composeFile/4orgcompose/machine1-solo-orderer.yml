@@ -23,5 +23,5 @@ services:
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config:/opt/hyperledger/fabric/msp/crypto-config
     ports: 
       - 6061:6060
-      - 5005:7050
+      - 7050:7050
     container_name: orderer0.example.com
