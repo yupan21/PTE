@@ -13,7 +13,6 @@ HOST2COMPOSE=machine2-solo-org12.yml
 # HOST3=172.16.50.151
 # HOST3COMPOSE=machine3-solo-org34.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
-
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
@@ -24,6 +23,7 @@ NL_DIR=/opt/go/src/github.com/hyperledger/fabric-test/tools/NL
 # launch you network in this directory
 SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/CISCFiles
 # scfile needs for PTE test
+# global parameters #####################################################################
 
 # config scfiles -------------
 function config_scfile() {
@@ -97,27 +97,3 @@ startup_network $HOST2 $HOST2COMPOSE
 cd $CISCRIPT_DIR
 bash test_driver.sh -m $testcasename -p -c samplecc
 # start channel -------------
-
-
-# # -------------------------------------------------------------------
-# # -------------------------------------------------------------------
-# # start recording ----------------
-# cd $PROCESS_CPU_DIR
-# ./start_record.sh $HOST1 $HOST2
-# # start recording ---------------
-
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js RMT-multi nProcPerOrg 1
-# node ./config.js RMT-multi nRequest 10
-# node ./config.js RMT-multi runDur 0
-# # node ./config.js RMT-multi ccOpt.payLoadMin 256
-# # node ./config.js RMT-multi ccOpt.payLoadMax 256
-# node ./config.js RMT-multi invokeType Move
-# bash ./test_driver.sh -t RMT-multi
-# ## ending case ----------------
-
-# # end recording -----------------
-# cd $PROCESS_CPU_DIR
-# ./end_record.sh $HOST1 $HOST2
-# # end recording ---------------

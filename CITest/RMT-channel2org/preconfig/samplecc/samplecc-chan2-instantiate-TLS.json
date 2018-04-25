@@ -15,13 +15,13 @@
     "runDur": "600",
     "TLS": "enabled",
     "listOpt": {
-        "org1": ["peer1"]
+        "org2": ["peer1"]
     },
     "channelOpt": {
         "name":  "testorgschannel2",
         "action":  "create",
         "orgName": [
-            "org1"
+            "org2"
         ]
     },
     "burstOpt": {

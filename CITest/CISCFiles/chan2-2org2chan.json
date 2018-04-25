@@ -8,7 +8,7 @@
 				"mspPath": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config",
 				"adminPath": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp",
 				"comName": "example.com",
-				"url": "grpcs://172.16.50.151:5005",
+				"url": "grpcs://172.16.50.151:7050",
 				"server-hostname": "orderer0.example.com",
 				"tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
 			}
