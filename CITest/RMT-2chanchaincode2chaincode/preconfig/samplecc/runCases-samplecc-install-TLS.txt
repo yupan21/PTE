@@ -1,2 +1,0 @@
-sdk=node CITest/RMT-2chanchaincode2chaincode/preconfig/samplecc/samplecc-chan1-install1-TLS.json
-sdk=node CITest/RMT-2chanchaincode2chaincode/preconfig/samplecc/samplecc-chan2-install1-TLS.json
