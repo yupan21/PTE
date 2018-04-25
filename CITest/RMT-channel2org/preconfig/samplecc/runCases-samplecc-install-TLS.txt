@@ -1,0 +1,2 @@
+sdk=node CITest/RMT-channel2org/preconfig/samplecc/samplecc-chan1-install1-TLS.json
+sdk=node CITest/RMT-channel2org/preconfig/samplecc/samplecc-chan2-install1-TLS.json
