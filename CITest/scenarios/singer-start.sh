@@ -2,15 +2,15 @@
 #
 #
 
-testcasename='RMT-multip'
+testcasename='RMT-multi'
 testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
 
 networkcasename=singleordererorg
 CISconfigfilename=RMT-config-multi.json
 
-HOST1=172.16.50.151
+HOST1=172.16.50.153
 HOST1COMPOSE=machine1-solo-orderer.yml
-HOST2=172.16.50.153
+HOST2=172.16.50.151
 HOST2COMPOSE=machine2-solo-org12.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 
@@ -32,24 +32,24 @@ SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/
 # config scfiles -------------
 function config_scfile() {
     cd $CISCRIPT_DIR 
-    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:5005
+    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:7050
     # node ./config_sc.js $CISconfigfilename orderer.orderer1.url grpcs://$HOST1:4789
     # node ./config_sc.js $CISconfigfilename orderer.orderer2.url grpcs://$HOST1:7946
 
-    node ./config_sc.js $CISconfigfilename org1.ca.url https://$HOST2:7054
-    node ./config_sc.js $CISconfigfilename org1.peer1.requests grpcs://$HOST2:7061
-    node ./config_sc.js $CISconfigfilename org1.peer1.events grpcs://$HOST2:6051
-    node ./config_sc.js $CISconfigfilename org1.peer2.requests grpcs://$HOST2:7062
-    node ./config_sc.js $CISconfigfilename org1.peer2.events grpcs://$HOST2:6052
+    # node ./config_sc.js $CISconfigfilename org1.ca.url https://$HOST2:7054
+    # node ./config_sc.js $CISconfigfilename org1.peer1.requests grpcs://$HOST2:7061
+    # node ./config_sc.js $CISconfigfilename org1.peer1.events grpcs://$HOST2:6051
+    # node ./config_sc.js $CISconfigfilename org1.peer2.requests grpcs://$HOST2:7062
+    # node ./config_sc.js $CISconfigfilename org1.peer2.events grpcs://$HOST2:6052
 
-    node ./config_sc.js $CISconfigfilename org2.ca.url https://$HOST3:7055
-    node ./config_sc.js $CISconfigfilename org2.peer1.requests grpcs://$HOST3:7063
-    node ./config_sc.js $CISconfigfilename org2.peer1.events grpcs://$HOST3:6053
-    node ./config_sc.js $CISconfigfilename org2.peer2.requests grpcs://$HOST3:7064
-    node ./config_sc.js $CISconfigfilename org2.peer2.events grpcs://$HOST3:6054
+    # node ./config_sc.js $CISconfigfilename org2.ca.url https://$HOST3:7055
+    # node ./config_sc.js $CISconfigfilename org2.peer1.requests grpcs://$HOST3:7063
+    # node ./config_sc.js $CISconfigfilename org2.peer1.events grpcs://$HOST3:6053
+    # node ./config_sc.js $CISconfigfilename org2.peer2.requests grpcs://$HOST3:7064
+    # node ./config_sc.js $CISconfigfilename org2.peer2.events grpcs://$HOST3:6054
 }
-# echo "Configing PTE SCfiles"
-# config_scfile
+echo "Configing PTE SCfiles"
+config_scfile
 # config scfiles ----------------
 
 # sendingCI scfiles and copy compose files ----------------

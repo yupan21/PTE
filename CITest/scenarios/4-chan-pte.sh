@@ -58,42 +58,6 @@ cd $PROCESS_CPU_DIR
 ./start_record.sh $HOST1 $HOST2
 # start recording ---------------
 
-# running test-----------------
-cd $CISCRIPT_DIR
-nodeconfig nProcPerOrg 1
-nodeconfig nRequest 0
-nodeconfig runDur 600
-nodeconfig invokeType Move
-bash ./test_driver.sh -t $testcasename
-## ending case ----------------
-
-# running test-----------------
-cd $CISCRIPT_DIR
-nodeconfig nProcPerOrg 5
-nodeconfig nRequest 0
-nodeconfig runDur 600
-nodeconfig invokeType Move
-bash ./test_driver.sh -t $testcasename
-## ending case ----------------
-
-# running test-----------------
-cd $CISCRIPT_DIR
-nodeconfig nProcPerOrg 10
-nodeconfig nRequest 0
-nodeconfig runDur 600
-nodeconfig invokeType Move
-bash ./test_driver.sh -t $testcasename
-## ending case ----------------
-
-# running test-----------------
-cd $CISCRIPT_DIR
-nodeconfig nProcPerOrg 15
-nodeconfig nRequest 0
-nodeconfig runDur 600
-nodeconfig invokeType Move
-bash ./test_driver.sh -t $testcasename
-## ending case ----------------
-
 
 # running test-----------------
 cd $CISCRIPT_DIR
@@ -104,6 +68,111 @@ nodeconfig invokeType Move
 getpprof &
 bash ./test_driver.sh -t $testcasename
 ## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 1
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 5
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 10
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 20
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 30
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 40
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 60
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 80
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 100
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Query
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 25
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Move
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 30
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Move
+getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
 
 # end recording -----------------
 cd $PROCESS_CPU_DIR

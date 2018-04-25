@@ -2,15 +2,15 @@
 #
 #
 
-testcasename='RMT-multip'
+testcasename='RMT-multi'
 testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
 
 networkcasename=singleordererorg
 CISconfigfilename=RMT-config-multi.json
 
-HOST1=172.16.50.151
+HOST1=172.16.50.153
 HOST1COMPOSE=machine1-solo-orderer.yml
-HOST2=172.16.50.153
+HOST2=172.16.50.151
 HOST2COMPOSE=machine2-solo-org12.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 
@@ -50,22 +50,73 @@ function nodeconfig(){
 # # -------------------------------------------------------------------
 # # -------------------------------------------------------------------
 
-# # start recording ----------------
-# cd $PROCESS_CPU_DIR
-# ./start_record.sh $HOST1 $HOST2
-# # start recording ---------------
+# start recording ----------------
+cd $PROCESS_CPU_DIR
+./start_record.sh $HOST1 $HOST2
+# start recording ---------------
 
 # running test-----------------
 cd $CISCRIPT_DIR
-nodeconfig nProcPerOrg 30
-nodeconfig nRequest 10
-nodeconfig runDur 0
+nodeconfig nProcPerOrg 5
+nodeconfig nRequest 0
+nodeconfig runDur 600
 nodeconfig invokeType Move
 # getpprof &
 bash ./test_driver.sh -t $testcasename
 ## ending case ----------------
 
-# # end recording -----------------
-# cd $PROCESS_CPU_DIR
-# ./end_record.sh $HOST1 $HOST2
-# # end recording ---------------
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 10
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Move
+# getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 20
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Move
+# getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 30
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Move
+# getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 40
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Move
+# getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# running test-----------------
+cd $CISCRIPT_DIR
+nodeconfig nProcPerOrg 50
+nodeconfig nRequest 0
+nodeconfig runDur 600
+nodeconfig invokeType Move
+# getpprof &
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
+
+# end recording -----------------
+cd $PROCESS_CPU_DIR
+./end_record.sh $HOST1 $HOST2
+# end recording ---------------
