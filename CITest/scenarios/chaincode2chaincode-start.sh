@@ -2,7 +2,7 @@
 #
 #
 
-testcasename=RMT-channel2org
+testcasename=RMT-channel2chaincode
 networkcasename=2chan2org
 CISconfigfilename=chan2-2org2chan.json
 testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
@@ -29,7 +29,7 @@ SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/
 # config scfiles -------------
 function config_scfile() {
     cd $CISCRIPT_DIR 
-    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:5005
+    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:7050
     # node ./config_sc.js $CISconfigfilename orderer.orderer1.url grpcs://$HOST1:4789
     # node ./config_sc.js $CISconfigfilename orderer.orderer2.url grpcs://$HOST1:7946
 
