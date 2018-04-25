@@ -47,7 +47,7 @@
     "deploy": {
         "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/chaincode_chaincode/chaincode_example02",
         "fcn": "init",
-        "args": ["init","a", "100", "b","200"]
+        "args": ["a", "100", "b","200"]
     },
     "invoke": {
         "query": {
