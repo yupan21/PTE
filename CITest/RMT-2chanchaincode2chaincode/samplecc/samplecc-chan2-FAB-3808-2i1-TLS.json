@@ -38,7 +38,7 @@
         "listener": "Transaction",
         "timeout": "240000"
     },
-    "ccType": "user",
+    "ccType": "chaincode2chaincode",
     "ccOpt": {
         "keyIdx": [1],
         "keyPayLoad": [2],
