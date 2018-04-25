@@ -347,10 +347,18 @@ function getMoveRequest() {
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
     } else if (ccType == 'chaincode2chaincode') {
-        // var testInvokeArgs = [];
-        // for (i = 0; i < uiContent.invoke.move.args.length; i++) {
-        //     testInvokeArgs.push(uiContent.invoke.move.args[i]);
-        // }
+        var testInvokeArgs = [];
+        userKeyArg++
+        for (i = 0; i < uiContent.invoke.move.args.length; i++) {
+            var list_args = uiContent.invoke.move.args[i]
+            if (list_args == 'a'){
+                list_args = String(txIDVar + '_' + userKeyArg + list_args);
+            }
+            if (list_args == 'b'){
+                list_args = String(txIDVar + '_' + userKeyArg + list_args);
+            }
+            testInvokeArgs.push(list_args);
+        }
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
     }
 
@@ -457,10 +465,14 @@ function getQueryRequest() {
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
     } else if (ccType == 'chaincode2chaincode') {
-        // var testQueryArgs = [];
-        // for (i = 0; i < uiContent.invoke.query.args.length; i++) {
-        //     testQueryArgs.push(uiContent.invoke.query.args[i]);
-        // }
+        var testQueryArgs = [];
+        for (i = 0; i < uiContent.invoke.query.args.length; i++) {
+            list_args = uiContent.invoke.query.args[i]
+            if(list_args == 'a') {
+                list_args = String(txIDVar + '_1' + list_args);
+            }
+            testQueryArgs.push(list_args);
+        }
         // logger.info("[-- DEBUG --] testInvokeArgs:",testQueryArgs)
     }
 

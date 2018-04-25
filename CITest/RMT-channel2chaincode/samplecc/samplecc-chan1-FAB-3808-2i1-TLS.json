@@ -58,7 +58,7 @@
         },
         "move": {
             "fcn": "invoke",
-            "args": ["a","b","10"]
+            "args": ["a","b","1"]
         }
     },
     "SCFile": [{
