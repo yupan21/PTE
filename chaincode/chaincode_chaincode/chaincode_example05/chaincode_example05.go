@@ -71,7 +71,7 @@ func (t *SimpleChaincode) invoke(stub shim.ChaincodeStubInterface, args []string
 	var sum, channelName string // Sum entity
 	var Aval, Bval, sumVal int  // value of sum entity - to be computed
 	var err error
-
+	fmt.Println(args)
 	if len(args) < 2 {
 		return shim.Error("Incorrect number of arguments. Expecting atleast 2")
 	}

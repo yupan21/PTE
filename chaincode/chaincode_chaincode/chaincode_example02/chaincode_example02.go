@@ -89,7 +89,7 @@ func (t *SimpleChaincode) invoke(stub shim.ChaincodeStubInterface, args []string
 	var Aval, Bval int // Asset holdings
 	var X int          // Transaction value
 	var err error
-
+	fmt.Println(args)
 	if len(args) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}

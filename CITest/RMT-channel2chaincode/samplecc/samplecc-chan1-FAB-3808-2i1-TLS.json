@@ -38,7 +38,7 @@
         "listener": "Transaction",
         "timeout": "240000"
     },
-    "ccType": "general",
+    "ccType": "chaincode2chaincode",
     "ccOpt": {
         "keyIdx": [1],
         "keyPayLoad": [2],
@@ -53,12 +53,12 @@
     },
     "invoke": {
         "query": {
-            "fcn": "query",
-            "args": ["query","a"]
+            "fcn": "invoke",
+            "args": ["a"]
         },
         "move": {
             "fcn": "invoke",
-            "args": ["invoke","a","b","10"]
+            "args": ["a","b","10"]
         }
     },
     "SCFile": [{

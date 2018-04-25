@@ -38,7 +38,7 @@
         "listener": "Transaction",
         "timeout": "240000"
     },
-    "ccType": "general",
+    "ccType": "chaincode2chaincode",
     "ccOpt": {
         "keyIdx": [1],
         "keyPayLoad": [2],
@@ -53,12 +53,12 @@
     },
     "invoke": {
         "query": {
-            "fcn": "query",
-            "args": ["query","chaincode_example02_ch1","sum","testorgschannel1"]
+            "fcn": "invoke",
+            "args": ["chaincode_example02_ch1","sum","testorgschannel1"]
         },
         "move": {
             "fcn": "invoke",
-            "args": ["invoke","chaincode_example02_ch1","sum","testorgschannel1"]
+            "args": ["chaincode_example02_ch1","sum","testorgschannel1"]
         }
     },
     "SCFile": [{

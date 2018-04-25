@@ -346,6 +346,12 @@ function getMoveRequest() {
         }
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
+    } else if (ccType == 'chaincode2chaincode') {
+        // var testInvokeArgs = [];
+        // for (i = 0; i < uiContent.invoke.move.args.length; i++) {
+        //     testInvokeArgs.push(uiContent.invoke.move.args[i]);
+        // }
+        // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
     }
 
     tx_id = client.newTransactionID();
@@ -450,6 +456,12 @@ function getQueryRequest() {
         }
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
+    } else if (ccType == 'chaincode2chaincode') {
+        // var testQueryArgs = [];
+        // for (i = 0; i < uiContent.invoke.query.args.length; i++) {
+        //     testQueryArgs.push(uiContent.invoke.query.args[i]);
+        // }
+        // logger.info("[-- DEBUG --] testInvokeArgs:",testQueryArgs)
     }
 
     tx_id = client.newTransactionID();
