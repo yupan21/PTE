@@ -253,7 +253,9 @@ def readLog(path,fileName):
             i = i.strip()
             # find a summary list
             if i != "" and i.find("Test Summary") > -1:
+                # fliter the total and timestamp
                 if i.find("Test Summary:Total") > -1:
+                    # find total
                     if i.find("INVOKE") > -1:
                         print(i[10:])
                         tps_index = i.find("total throughput=")+len("total throughput=")
@@ -269,8 +271,8 @@ def readLog(path,fileName):
                         print("one tps is", count_tps)
                         tps += round(float(count_tps),2)
                     # ======= the main print ========
-                # filter the invoke check
                 if i.find("timestamp:") > -1 and tag == True:
+                    # find timestamp
                     tag = False
                     index_1 = i.find("start")
                     index_2 = i.find("end")
@@ -300,7 +302,7 @@ def readLog(path,fileName):
                     out = i[index_output:]
                     waiting_time_event += np.array([float(x) for x in out.split(",")])
             # end loop
-        tps = str(tps)+ ":" +"_".join([str(x) for x in tpslist])
+        tps = str(tps)+ "  " +"  ".join([str(x) for x in tpslist])
             
         print("The PTE Process is :", Processes)
         waiting_time_peer_to_propsoal = [round(x/Processes,2) for x in waiting_time_peer_to_propsoal]
