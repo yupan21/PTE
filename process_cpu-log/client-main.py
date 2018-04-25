@@ -241,6 +241,7 @@ def readLog(path,fileName):
     print("Loading...", fileName, "-----")
     # pwd = os.getcwd()
     tag = True  # This tag is used to check time
+    tpslist = []
     tps = 0
     count_tps = 0
     with open("{}/{}".format(path, fileName), "r") as file:
@@ -257,14 +258,16 @@ def readLog(path,fileName):
                         print(i[10:])
                         tps_index = i.find("total throughput=")+len("total throughput=")
                         count_tps = i[tps_index:-3]
-                        print("one channel tps is", count_tps)
-                        tps += float(count_tps)
+                        tpslist.append(count_tps)
+                        print("one tps is", count_tps)
+                        tps += round(float(count_tps),2)
                     elif i.find("QUERY") > -1:
                         print(i[10:])
                         tps_index = i.find("total throughput=")+len("total throughput=")
                         count_tps = i[tps_index:-3]
-                        print("one channel tps is", count_tps)
-                        tps += float(count_tps)
+                        tpslist.append(count_tps)
+                        print("one tps is", count_tps)
+                        tps += round(float(count_tps),2)
                     # ======= the main print ========
                 # filter the invoke check
                 if i.find("timestamp:") > -1 and tag == True:
@@ -296,8 +299,9 @@ def readLog(path,fileName):
                 elif i.find("time_event") > -1:
                     out = i[index_output:]
                     waiting_time_event += np.array([float(x) for x in out.split(",")])
+            # end loop
+        tps = str(tps)+ ":" +"_".join([str(x) for x in tpslist])
             
-            # TODO:process waiting_time
         print("The PTE Process is :", Processes)
         waiting_time_peer_to_propsoal = [round(x/Processes,2) for x in waiting_time_peer_to_propsoal]
         print("waiting time peer to propsoal:", waiting_time_peer_to_propsoal)
