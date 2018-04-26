@@ -467,7 +467,7 @@ function getQueryRequest() {
     } else if (ccType == 'chaincode2chaincode') {
         var testQueryArgs = [];
         for (i = 0; i < uiContent.invoke.query.args.length; i++) {
-            list_args = uiContent.invoke.query.args[i]
+            var list_args = uiContent.invoke.query.args[i]
             if(list_args == 'a') {
                 list_args = String(txIDVar + '_1' + list_args);
             }

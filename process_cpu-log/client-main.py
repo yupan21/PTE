@@ -302,7 +302,10 @@ def readLog(path,fileName):
                     out = i[index_output:]
                     waiting_time_event += np.array([float(x) for x in out.split(",")])
             # end loop
-        tps = str(tps)+ "  " +"  ".join([str(x) for x in tpslist])
+        if len(tpslist) > 1:
+            tps = str(tps)+ "  " +"  ".join([str(x) for x in tpslist])
+        else :
+            tps = str(tps)
             
         print("The PTE Process is :", Processes)
         waiting_time_peer_to_propsoal = [round(x/Processes,2) for x in waiting_time_peer_to_propsoal]
