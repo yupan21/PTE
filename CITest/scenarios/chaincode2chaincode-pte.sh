@@ -34,7 +34,6 @@ function getpprof(){
     go tool pprof -pdf http://$HOST2:6060/debug/pprof/profile?seconds=120 > peer-$HOST2-pprof.pdf &
     # peer
 }
-
 function nodeconfig(){
     node ./config.js $testcasename$testcaseconfigfile1 $1 $2
     node ./config.js $testcasename$testcaseconfigfile2 $1 $2
@@ -43,24 +42,27 @@ function nodeconfig(){
 # # -------------------------------------------------------------------
 # # -------------------------------------------------------------------
 
-# # start recording ----------------
-# cd $PROCESS_CPU_DIR
-# ./start_record.sh $HOST1 $HOST2
-# # start recording ---------------
+# start recording ----------------
+cd $PROCESS_CPU_DIR
+./start_record.sh $HOST1 $HOST2
+# start recording ---------------
 
+for numofRequest in 1 5 10 15 20 25 30; do
+    # running test-----------------
+    cd $CISCRIPT_DIR
+    nodeconfig nProcPerOrg $numofRequest
+    nodeconfig nRequest 0
+    nodeconfig runDur 600
+    nodeconfig invokeType Move
+    if [ $numofRequest = 30 ] ;then
+        echo "This case will record pprof"
+        getpprof &
+    fi
+    bash ./test_driver.sh -t $testcasename
+    ## ending case ----------------
+done
 
-# running test-----------------
-cd $CISCRIPT_DIR
-nodeconfig nProcPerOrg 1
-nodeconfig nRequest 10
-nodeconfig runDur 0
-nodeconfig invokeType Move
-# getpprof &
-bash ./test_driver.sh -t $testcasename
-## ending case ----------------
-
-
-# # end recording -----------------
-# cd $PROCESS_CPU_DIR
-# ./end_record.sh $HOST1 $HOST2
-# # end recording ---------------
+# end recording -----------------
+cd $PROCESS_CPU_DIR
+./end_record.sh $HOST1 $HOST2
+# end recording ---------------
