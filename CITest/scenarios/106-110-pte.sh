@@ -2,7 +2,7 @@
 #
 #
 testcasename='RMT-multi'
-networkCompose='extra_host_compose_local'
+networkCompose='106110upgrade'
 CISconfigfilename='RMT-config-multi.json'
 IMAGE_TAG='x86_64-1.0.6'
 

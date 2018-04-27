@@ -51,6 +51,7 @@ services:
     volumes: 
       - /var/run/:/host/var/run/
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config:/opt/hyperledger/fabric/msp/crypto-config
+      - /data/ledger_backup/peer0.org1.example.com:/var/hyperledger/production
     ports: 
       - 7061:7051
       - 6051:7053
@@ -90,6 +91,7 @@ services:
     volumes: 
       - /var/run/:/host/var/run/
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config:/opt/hyperledger/fabric/msp/crypto-config
+      - /data/ledger_backup/peer1.org1.example.com:/var/hyperledger/production
     ports: 
       - 7062:7051
       - 6052:7053

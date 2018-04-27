@@ -3,7 +3,7 @@
 #
 
 testcasename='RMT-multi'
-networkCompose='extra_host_compose_local'
+networkCompose='106110upgrade'
 CISconfigfilename='RMT-config-multi.json'
 fabric_version='x86_64-1.0.6'
 
@@ -87,7 +87,7 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd /data/ledger_backup/*; cd $NL_DIR/$networkCompose; \
+    ssh root@$1 -i ~/.ssh/id_rsa "cd /data/ledger_backup/*/*; cd $NL_DIR/$networkCompose; \
         IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }
 
