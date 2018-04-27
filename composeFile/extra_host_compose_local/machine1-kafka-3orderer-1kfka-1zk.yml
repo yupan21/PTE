@@ -37,7 +37,7 @@ services:
   #   container_name: kafka0
 
   orderer0.example.com:
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment: 
       - ORDERER_GENERAL_PROFILE_ENABLED=true
       - GODEBUG=netdns=go

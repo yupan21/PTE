@@ -3,7 +3,7 @@ version: '2'
 services:
 
   ca0:
-    image: hyperledger/fabric-ca
+    image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:
       - GODEBUG=netdns=go
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
@@ -21,7 +21,7 @@ services:
 
 
   peer0.org1.example.com:
-    image: hyperledger/fabric-peer
+    image: hyperledger/fabric-peer:$IMAGE_TAG
     environment: 
       # - CORE_metrics_enabled=true
       # - CORE_METRICS_REPORTER=prom
@@ -65,7 +65,7 @@ services:
       - "peer0.org2.example.com:172.16.50.153"
 
   peer1.org1.example.com:
-    image: hyperledger/fabric-peer
+    image: hyperledger/fabric-peer:$IMAGE_TAG
     environment: 
       - CORE_PEER_EVENTS_BUFFERSIZE=1000
       - CORE_PEER_EVENTS_TIMEOUT=100ms 

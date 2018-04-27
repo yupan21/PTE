@@ -5,7 +5,7 @@
 testcasename='RMT-multi'
 networkcasename='extra_host_compose_local'
 CISconfigfilename='RMT-config-multi.json'
-
+fabric_version='x86_64-1.0.6'
 
 HOST1=172.16.50.153
 HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
@@ -88,7 +88,7 @@ function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
     ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkcasename; \
-        docker-compose -f $2 up -d "
+        IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }
 
 # startup the network ------------
