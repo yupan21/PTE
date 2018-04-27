@@ -1,9 +1,17 @@
 #!/bin/bash
 #
 #
+testcasename='RMT-multi'
+networkcasename='extra_host_compose_local'
+CISconfigfilename='RMT-config-multi.json'
+
 
 HOST1=172.16.50.153
+HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
 HOST2=172.16.50.151
+HOST2COMPOSE=machine2-kafka-2peer-1ca.yml
+HOST3=172.16.50.153
+HOST3COMPOSE=machine3-kafka-2peer-1ca.yml
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
@@ -37,10 +45,10 @@ cd $PROCESS_CPU_DIR
 
 # running test-----------------
 cd $CISCRIPT_DIR
-node ./config.js RMT-multi nProcPerOrg 30
-node ./config.js RMT-multi nRequest 0
-node ./config.js RMT-multi runDur 600
-node ./config.js RMT-multi invokeType Move
+node ./config.js $testcasename nProcPerOrg 30
+node ./config.js $testcasename nRequest 0
+node ./config.js $testcasename runDur 600
+node ./config.js $testcasename invokeType Move
 getpprof &
 bash ./test_driver.sh -t RMT-multi
 ## ending case ----------------

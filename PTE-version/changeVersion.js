@@ -1,3 +1,4 @@
+// usage: node changeVersion.js 110
 var exec = require('child_process').exec;
 var args = process.argv.slice(2);
 // get the parameter expect the first two arguments: node and the js filename; returns string list
