@@ -9,10 +9,10 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
-      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/305780810ae942df441ce734576405bd957e298dbb33edbb50fc1d1155ec38e9_sk
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/7e89020f363bb78b2d20778e82392cc918a510c09e9294232e5f93e987364c6c_sk
     ports: 
       - 7055:7054
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/305780810ae942df441ce734576405bd957e298dbb33edbb50fc1d1155ec38e9_sk -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/7e89020f363bb78b2d20778e82392cc918a510c09e9294232e5f93e987364c6c_sk -b admin:adminpw -d'
     volumes: 
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca1
@@ -25,7 +25,7 @@ services:
       - CORE_PEER_EVENTS_BUFFERSIZE=1000
       - CORE_PEER_EVENTS_TIMEOUT=100ms 
       - GODEBUG=netdns=go
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=extrahostcomposelocal_default
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=extra_host_compose_local_default
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_LOGGING_LEVEL=INFO
       - CORE_PEER_ENDORSER_ENABLED=true
@@ -46,7 +46,7 @@ services:
       - /var/run/:/host/var/run/
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config:/opt/hyperledger/fabric/msp/crypto-config
     ports: 
-      - 7053:7051
+      - 7063:7051
       - 6053:7053
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
@@ -63,7 +63,7 @@ services:
       - CORE_PEER_EVENTS_BUFFERSIZE=1000
       - CORE_PEER_EVENTS_TIMEOUT=100ms 
       - GODEBUG=netdns=go
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=extrahostcomposelocal_default
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=extra_host_compose_local_default
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_LOGGING_LEVEL=INFO
       - CORE_PEER_ENDORSER_ENABLED=true
