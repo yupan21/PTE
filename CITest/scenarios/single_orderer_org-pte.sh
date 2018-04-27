@@ -5,7 +5,7 @@
 testcasename='RMT-multi'
 testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
 
-networkcasename=singleordererorg
+networkCompose=singleordererorg
 CISconfigfilename=RMT-config-multi.json
 
 HOST1=172.16.50.153

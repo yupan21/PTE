@@ -2,9 +2,9 @@
 #
 #
 testcasename='RMT-multi'
-networkcasename='extra_host_compose_local'
+networkCompose='extra_host_compose_local'
 CISconfigfilename='RMT-config-multi.json'
-IMAGE_TAG='x86_64-1.0.6'
+IMAGE_TAG='latest'
 
 
 HOST1=172.16.50.153

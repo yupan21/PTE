@@ -3,7 +3,7 @@
 #
 
 testcasename=RMT-channel2org
-networkcasename=2chan2org
+networkCompose=2chan2org
 CISconfigfilename=chan2-2org2chan.json
 testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
 testcaseconfigfile2='/samplecc/samplecc-chan2-FAB-3808-2i1-TLS.json'

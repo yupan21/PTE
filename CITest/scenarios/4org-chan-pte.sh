@@ -5,7 +5,7 @@
 testcasename='RMT-channel'
 testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
 testcaseconfigfile2='/samplecc/samplecc-chan2-FAB-3808-2i1-TLS.json'
-networkcasename=4orgcompose
+networkCompose=4orgcompose
 CISconfigfilename=config-chan2-1peerorg4-TLS.json
 
 HOST1=172.16.50.151

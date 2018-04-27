@@ -5,7 +5,7 @@
 testcasename='RMT-multi'
 testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
 
-networkcasename=singleordererorg
+networkCompose=singleordererorg
 CISconfigfilename=RMT-config-multi.json
 
 HOST1=172.16.50.153
@@ -59,7 +59,7 @@ function sendingCIcompose(){
     scp -i ~/.ssh/id_rsa ./$CISconfigfilename root@$1:$SCFILES_DIR
     echo "Sending docker-compose file to $1"
     cd $NL_DIR
-    scp -i ~/.ssh/id_rsa -r $networkcasename root@$1:$NL_DIR
+    scp -i ~/.ssh/id_rsa -r $networkCompose root@$1:$NL_DIR
 }
 echo "Copying file to $NL_DIR"
 yes | cp -r ../../composeFile/* $NL_DIR
@@ -85,7 +85,7 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkcasename; \
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkCompose; \
         docker-compose -f $2 up -d "
 }
 

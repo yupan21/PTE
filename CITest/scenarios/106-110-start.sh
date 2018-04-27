@@ -2,18 +2,23 @@
 #
 #
 
-testcasename=RMT-channel2org
-networkCompose=2chan2org
-CISconfigfilename=chan2-2org2chan.json
-testcaseconfigfile1='/samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json'
-testcaseconfigfile2='/samplecc/samplecc-chan2-FAB-3808-2i1-TLS.json'
-HOST1=172.16.50.151
-HOST1COMPOSE=machine1-solo-orderer.yml
-HOST2=172.16.50.153
-HOST2COMPOSE=machine2-solo-org12.yml
-# HOST3=172.16.50.151
-# HOST3COMPOSE=machine3-solo-org34.yml
+testcasename='RMT-multi'
+networkCompose='extra_host_compose_local'
+CISconfigfilename='RMT-config-multi.json'
+fabric_version='x86_64-1.0.6'
+
+HOST1=172.16.50.153
+HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
+HOST2=172.16.50.151
+HOST2COMPOSE=machine2-kafka-2peer-1ca.yml
+HOST3=172.16.50.153
+HOST3COMPOSE=machine3-kafka-2peer-1ca.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
+
+
+# HOST1COMPOSE=machine-solo-3orderer.yml
+# HOST2COMPOSE=machine-solo-4peer-2ca.yml
+
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
@@ -24,12 +29,11 @@ NL_DIR=/opt/go/src/github.com/hyperledger/fabric-test/tools/NL
 # launch you network in this directory
 SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/CISCFiles
 # scfile needs for PTE test
-# global parameters #####################################################################
 
 # config scfiles -------------
 function config_scfile() {
     cd $CISCRIPT_DIR 
-    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:5005
+    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:7050
     # node ./config_sc.js $CISconfigfilename orderer.orderer1.url grpcs://$HOST1:4789
     # node ./config_sc.js $CISconfigfilename orderer.orderer2.url grpcs://$HOST1:7946
 
@@ -45,8 +49,8 @@ function config_scfile() {
     node ./config_sc.js $CISconfigfilename org2.peer2.requests grpcs://$HOST3:7064
     node ./config_sc.js $CISconfigfilename org2.peer2.events grpcs://$HOST3:6054
 }
-# echo "Configing PTE SCfiles"
-# config_scfile
+echo "Configing PTE SCfiles"
+config_scfile
 # config scfiles ----------------
 
 # sendingCI scfiles and copy compose files ----------------
@@ -62,7 +66,7 @@ echo "Copying file to $NL_DIR"
 yes | cp -r ../../composeFile/* $NL_DIR
 sendingCIcompose $HOST1
 sendingCIcompose $HOST2
-# sendingCIcompose $HOST3
+sendingCIcompose $HOST3
 # sendingCI scfiles and copy compose files ----------------
 
 
@@ -76,21 +80,21 @@ function clean_network(){
 rm -rf /tmp/*
 clean_network $HOST1
 clean_network $HOST2
-# clean_network $HOST3
+clean_network $HOST3
 # cleanup the network ------------
 
 
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkCompose; \
-        docker-compose -f $2 up -d "
+    ssh root@$1 -i ~/.ssh/id_rsa "cd /data/ledger_backup/*; cd $NL_DIR/$networkCompose; \
+        IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }
 
 # startup the network ------------
 startup_network $HOST1 $HOST1COMPOSE
 startup_network $HOST2 $HOST2COMPOSE
-# startup_network $HOST3 $HOST3COMPOSE
+startup_network $HOST3 $HOST3COMPOSE
 # startup the network ------------
 
 
@@ -98,3 +102,27 @@ startup_network $HOST2 $HOST2COMPOSE
 cd $CISCRIPT_DIR
 bash test_driver.sh -m $testcasename -p -c samplecc
 # start channel -------------
+
+
+# # -------------------------------------------------------------------
+# # -------------------------------------------------------------------
+# # start recording ----------------
+# cd $PROCESS_CPU_DIR
+# ./start_record.sh $HOST1 $HOST2
+# # start recording ---------------
+
+# # running test-----------------
+# cd $CISCRIPT_DIR
+# node ./config.js $testcasename nProcPerOrg 1
+# node ./config.js $testcasename nRequest 10
+# node ./config.js $testcasename runDur 0
+# # node ./config.js $testcasename ccOpt.payLoadMin 256
+# # node ./config.js $testcasename ccOpt.payLoadMax 256
+# node ./config.js $testcasename invokeType Move
+# bash ./test_driver.sh -t $testcasename
+# ## ending case ----------------
+
+# # end recording -----------------
+# cd $PROCESS_CPU_DIR
+# ./end_record.sh $HOST1 $HOST2
+# # end recording ---------------
