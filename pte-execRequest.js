@@ -307,6 +307,10 @@ var request_invoke;
 
 function getMoveRequest() {
     if (ccType == 'ccchecker') {
+        testInvokeArgs = [];
+        for (i = 0; i < uiContent.invoke.move.args.length; i++) {
+            testInvokeArgs.push(uiContent.invoke.move.args[i]);
+        }
         arg0++;
         for (i = 0; i < keyIdx.length; i++) {
             testInvokeArgs[keyIdx[i]] = 'key_' + txIDVar + '_' + arg0;
@@ -336,7 +340,7 @@ function getMoveRequest() {
             testInvokeArgs[keyPayLoad[i]] = String(r);
         }
     } else if (ccType == 'user'){
-        var testInvokeArgs = [];
+        testInvokeArgs = [];
         userKeyArg++
         for (i = 0; i < uiContent.invoke.move.args.length; i++) {
             var json_args = uiContent.invoke.move.args[i];
@@ -347,7 +351,7 @@ function getMoveRequest() {
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
     } else if (ccType == 'chaincode2chaincode') {
-        var testInvokeArgs = [];
+        testInvokeArgs = [];
         userKeyArg++
         for (i = 0; i < uiContent.invoke.move.args.length; i++) {
             var list_args = uiContent.invoke.move.args[i]
@@ -454,7 +458,7 @@ function getQueryRequest() {
             }
         }
     } else if (ccType == 'user'){
-        var testQueryArgs = [];
+        testQueryArgs = [];
         userKeyArg++
         for (i = 0; i < uiContent.invoke.query.args.length; i++) {
             var json_args = txIDVar + '_' + uiContent.invoke.query.args[i];
@@ -465,7 +469,7 @@ function getQueryRequest() {
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
     } else if (ccType == 'chaincode2chaincode') {
-        var testQueryArgs = [];
+        testQueryArgs = [];
         for (i = 0; i < uiContent.invoke.query.args.length; i++) {
             var list_args = uiContent.invoke.query.args[i]
             if(list_args == 'a') {

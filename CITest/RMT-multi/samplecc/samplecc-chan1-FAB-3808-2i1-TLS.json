@@ -39,7 +39,7 @@
         "listener": "Transaction",
         "timeout": "240000"
     },
-    "ccType": "user",
+    "ccType": "ccchecker",
     "ccOpt": {
         "keyIdx": [1],
         "keyPayLoad": [2],
