@@ -3,6 +3,8 @@
 # 
 ORDERER_CA=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 CH_NAME=testorgschannel1
+OrdererHost=127.0.0.1
+DELAY=2
 
 
 function setOrdererGlobals() {
@@ -26,8 +28,8 @@ function setGlobals () {
 		fi
 	elif [ $ORG -eq 2 ] ; then
 		CORE_PEER_LOCALMSPID="PeerOrg2"
-		CORE_PEER_TLS_ROOTCERT_FILE=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org2.example.com/tls/ca.crt
-		CORE_PEER_MSPCONFIGPATH=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org2.example.com/msp
+		CORE_PEER_TLS_ROOTCERT_FILE=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+		CORE_PEER_MSPCONFIGPATH=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp
 		if [ $PEER -eq 0 ]; then
 			CORE_PEER_ADDRESS=peer0.org2.example.com:7051
 		else
@@ -60,7 +62,8 @@ function fetchChannelConfig(){
     CORE_PEER_MSPCONFIGPATH=$CORE_PEER_MSPCONFIGPATH \
     CORE_PEER_TLS_ROOTCERT_FILE=$CORE_PEER_TLS_ROOTCERT_FILE \
     CORE_PEER_LOCALMSPID=$CORE_PEER_LOCALMSPID \
-    peer channel fetch config config_block.pb --orderer 127.0.0.1:7050 --ordererTLSHostnameOverride orderer0.example.com -c $CH_NAME --tls --cafile $ORDERER_CA
+    peer channel fetch config config_block.pb --orderer $OrdererHost:7050 --ordererTLSHostnameOverride orderer0.example.com -c $CH_NAME --tls --cafile $ORDERER_CA
+    
     configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > "${OUTPUT}"
 
 }
@@ -88,10 +91,13 @@ function signConfigtxAsPeerOrg() {
         TX=$2
         setGlobals 0 $PEERORG
         set -x
+        CORE_PEER_MSPCONFIGPATH=$CORE_PEER_MSPCONFIGPATH \
+        CORE_PEER_TLS_ROOTCERT_FILE=$CORE_PEER_TLS_ROOTCERT_FILE \
+        CORE_PEER_LOCALMSPID=$CORE_PEER_LOCALMSPID \
         peer channel signconfigtx -f "${TX}"
         res=$?
         set +x
-        echo "$res"
+        echo "sign done."
 }
 
 function addCapabilityToChannel() {
@@ -143,15 +149,42 @@ function addCapabilityToChannel() {
                setOrdererGlobals
         fi
 
-        # set -x
-        # peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer.example.com:7050 --tls true --cafile $ORDERER_CA
-        # res=$?
-        # set +x
+        set -x
+        CORE_PEER_MSPCONFIGPATH=$CORE_PEER_MSPCONFIGPATH \
+        CORE_PEER_TLS_ROOTCERT_FILE=$CORE_PEER_TLS_ROOTCERT_FILE \
+        CORE_PEER_LOCALMSPID=$CORE_PEER_LOCALMSPID \
+        peer channel update -f config_update_in_envelope.pb -c $CH_NAME --orderer $OrdererHost:7050 --ordererTLSHostnameOverride orderer0.example.com --tls true --cafile $ORDERER_CA
+        res=$?
+        set +x
 
         # verifyResult $res "Config update for \"$GROUP\" on \"$CH_NAME\" failed"
         # echo "===================== Config update for \"$GROUP\" on \"$CH_NAME\" is completed ===================== "
 
 }
-addCapabilityToChannel $CH_NAME orderer
-addCapabilityToChannel $CH_NAME channel
-addCapabilityToChannel $CH_NAME application
+#Config update for /Channel/Orderer on testchainid
+echo "Config update for /Channel/Orderer on testchainid"
+addCapabilityToChannel testchainid orderer
+
+sleep $DELAY
+
+#Config update for /Channel on testchainid
+echo "Config update for /Channel on testchainid"
+addCapabilityToChannel testchainid channel
+
+sleep $DELAY
+
+#Config update for /Channel/Orderer
+echo "Config update for /Channel/Orderer on \"$CHANNEL_NAME\""
+addCapabilityToChannel $CHANNEL_NAME orderer
+
+sleep $DELAY
+
+#Config update for /Channel/Application
+echo "Config update for /Channel/Application on \"$CHANNEL_NAME\""
+addCapabilityToChannel $CHANNEL_NAME application
+
+sleep $DELAY
+
+#Config update for /Channel
+echo "Config update for /Channel on \"$CHANNEL_NAME\""
+addCapabilityToChannel $CHANNEL_NAME channel

@@ -8,17 +8,17 @@ CISconfigfilename='RMT-config-multi.json'
 fabric_version='x86_64-1.0.6'
 
 HOST1=172.16.50.153
-HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
+HOST1COMPOSE=machine1-106.yml
 HOST2=172.16.50.151
-HOST2COMPOSE=machine2-kafka-2peer-1ca.yml
+HOST2COMPOSE=machine2-106.yml
 HOST3=172.16.50.153
-HOST3COMPOSE=machine3-kafka-2peer-1ca.yml
+HOST3COMPOSE=machine3-106.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 
 
 # HOST1COMPOSE=machine-solo-3orderer.yml
 # HOST2COMPOSE=machine-solo-4peer-2ca.yml
-
+Scenarios_DIR=${PWD}
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
@@ -87,7 +87,7 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd /data/ledger_backup/*/*; cd $NL_DIR/$networkCompose; \
+    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkCompose; \
         IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }
 
@@ -102,7 +102,8 @@ startup_network $HOST3 $HOST3COMPOSE
 cd $CISCRIPT_DIR
 bash test_driver.sh -m $testcasename -p -c samplecc
 # start channel -------------
-
+# cd $Scenarios_DIR
+# bash ./Upgrade/changeVersionScripts.sh
 
 # # -------------------------------------------------------------------
 # # -------------------------------------------------------------------
