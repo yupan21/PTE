@@ -55,7 +55,7 @@ services:
     command: orderer
     volumes: 
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config:/opt/hyperledger/fabric/msp/crypto-config
-      # - /data/ledgers_backup/orderer0.example.com:/var/hyperledger/production/orderer
+      - /data/ledgers_backup/orderer0.example.com:/var/hyperledger/production/orderer
     ports: 
       - 6061:6060
       - 7050:7050
