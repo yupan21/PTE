@@ -87,7 +87,8 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkCompose; \
+    ssh root@$1 -i ~/.ssh/id_rsa "rm -rf /data/ledgers_backup/*/*/*; \
+        cd $NL_DIR/$networkCompose; \
         IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }
 
@@ -102,8 +103,8 @@ startup_network $HOST3 $HOST3COMPOSE
 cd $CISCRIPT_DIR
 bash test_driver.sh -m $testcasename -p -c samplecc
 # start channel -------------
-# cd $Scenarios_DIR
-# bash ./Upgrade/changeVersionScripts.sh
+cd $Scenarios_DIR
+bash ./Upgrade/changeVersionScripts.sh
 
 # # -------------------------------------------------------------------
 # # -------------------------------------------------------------------

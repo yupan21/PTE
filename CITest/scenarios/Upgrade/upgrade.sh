@@ -174,17 +174,17 @@ addCapabilityToChannel testchainid channel
 sleep $DELAY
 
 #Config update for /Channel/Orderer
-echo "Config update for /Channel/Orderer on \"$CHANNEL_NAME\""
-addCapabilityToChannel $CHANNEL_NAME orderer
+echo "Config update for /Channel/Orderer on \"$CH_NAME\""
+addCapabilityToChannel $CH_NAME orderer
 
 sleep $DELAY
 
 #Config update for /Channel/Application
-echo "Config update for /Channel/Application on \"$CHANNEL_NAME\""
-addCapabilityToChannel $CHANNEL_NAME application
+echo "Config update for /Channel/Application on \"$CH_NAME\""
+addCapabilityToChannel $CH_NAME application
 
 sleep $DELAY
 
 #Config update for /Channel
-echo "Config update for /Channel on \"$CHANNEL_NAME\""
-addCapabilityToChannel $CHANNEL_NAME channel
+echo "Config update for /Channel on \"$CH_NAME\""
+addCapabilityToChannel $CH_NAME channel
