@@ -101,13 +101,13 @@ function signConfigtxAsPeerOrg() {
 }
 
 function addCapabilityToChannel() {
-        CH_NAME=$1
+        CH_NAME_CAPA=$1
         GROUP=$2
 
         setOrdererGlobals
 
         # Get the current channel config, decode and write it to config.json
-        fetchChannelConfig $CH_NAME config.json
+        fetchChannelConfig $CH_NAME_CAPA config.json
 
         # Modify the correct section of the config based on capabilities group
         if [ $GROUP == "orderer" ]; then
@@ -120,10 +120,10 @@ function addCapabilityToChannel() {
 
         # Create a config updated for this channel based on the differences between config.json and modified_config.json
         # write the output to config_update_in_envelope.pb
-        createConfigUpdate "$CH_NAME" config.json modified_config.json config_update_in_envelope.pb
+        createConfigUpdate "$CH_NAME_CAPA" config.json modified_config.json config_update_in_envelope.pb
 
         # Sign, and set the correct identity for submission.
-        if [ $CH_NAME != "testchainid" ] ; then
+        if [ $CH_NAME_CAPA != "testchainid" ] ; then
                 if [ $GROUP == "orderer" ]; then
                       # Modifying the orderer group requires only the Orderer admin to sign.
                       # Prepare to sign the update as the OrdererOrg.Admin
@@ -153,12 +153,12 @@ function addCapabilityToChannel() {
         CORE_PEER_MSPCONFIGPATH=$CORE_PEER_MSPCONFIGPATH \
         CORE_PEER_TLS_ROOTCERT_FILE=$CORE_PEER_TLS_ROOTCERT_FILE \
         CORE_PEER_LOCALMSPID=$CORE_PEER_LOCALMSPID \
-        peer channel update -f config_update_in_envelope.pb -c $CH_NAME --orderer $OrdererHost:7050 --ordererTLSHostnameOverride orderer0.example.com --tls true --cafile $ORDERER_CA
+        peer channel update -f config_update_in_envelope.pb -c $CH_NAME_CAPA --orderer $OrdererHost:7050 --ordererTLSHostnameOverride orderer0.example.com --tls true --cafile $ORDERER_CA
         res=$?
         set +x
 
-        # verifyResult $res "Config update for \"$GROUP\" on \"$CH_NAME\" failed"
-        # echo "===================== Config update for \"$GROUP\" on \"$CH_NAME\" is completed ===================== "
+        # verifyResult $res "Config update for \"$GROUP\" on \"$CH_NAME_CAPA\" failed"
+        # echo "===================== Config update for \"$GROUP\" on \"$CH_NAME_CAPA\" is completed ===================== "
 
 }
 #Config update for /Channel/Orderer on testchainid

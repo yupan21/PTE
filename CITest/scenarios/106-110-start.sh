@@ -8,11 +8,11 @@ CISconfigfilename='RMT-config-multi.json'
 fabric_version='x86_64-1.0.6'
 
 HOST1=172.16.50.153
-HOST1COMPOSE=machine1-106.yml
+HOST1COMPOSE=machine1-106.1.yml
 HOST2=172.16.50.151
-HOST2COMPOSE=machine2-106.yml
+HOST2COMPOSE=machine2-106.1.yml
 HOST3=172.16.50.153
-HOST3COMPOSE=machine3-106.yml
+HOST3COMPOSE=machine3-106.1.yml
 # if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 
 
@@ -75,6 +75,7 @@ function clean_network(){
     echo "Connecting to $1 to cleanup the network."
     ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR; \
         ./cleanNetwork.sh example.com; \
+        rm -rf /data/ledgers_backup/*; \
         rm -rf /tmp/* "
 }
 rm -rf /tmp/*
@@ -87,7 +88,7 @@ clean_network $HOST3
 function startup_network() {
     echo "Connecting to $1 to startup the network."
     echo "Startup $2"
-    ssh root@$1 -i ~/.ssh/id_rsa "rm -rf /data/ledgers_backup/*/*/*; \
+    ssh root@$1 -i ~/.ssh/id_rsa " \
         cd $NL_DIR/$networkCompose; \
         IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }

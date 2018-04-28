@@ -29,16 +29,16 @@ function upgradeContainer(){
     Container=$3
     ledgers_data=$4
     ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkCompose; \
-        rm -rf /data/ledgers_backup/*/*/*; \
-        mkdir -p /data/ledgers_backup/$Container; \
-        docker cp -a $Container:/var/hyperledger/production$ledgers_data /data/ledgers_backup/$Container; \
+        # rm -rf /data/ledgers_backup/*/*/*; \
+        # mkdir -p /data/ledgers_backup/$Container; \
+        # docker cp -a $Container:/var/hyperledger/production$ledgers_data /data/ledgers_backup/$Container; \
         docker-compose -f $COMPOSE_FILES stop $Container; \
         bash cleanChaincodeimage.sh $Container
         IMAGE_TAG=x86_64-1.1.0 docker-compose -f $COMPOSE_FILES up -d --no-deps $Container; \
         echo 666 "
 }
 # upgrade container: hostip; compose file name; container name
-upgradeContainer $HOST1 $HOST1COMPOSE orderer0.example.com /orderer
+upgradeContainer $HOST1 $HOST1COMPOSE orderer0.example.com
 upgradeContainer $HOST2 $HOST2COMPOSE ca0
 upgradeContainer $HOST2 $HOST2COMPOSE peer0.org1.example.com
 upgradeContainer $HOST2 $HOST2COMPOSE peer1.org1.example.com
