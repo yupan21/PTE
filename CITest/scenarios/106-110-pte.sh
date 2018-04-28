@@ -39,24 +39,23 @@ function getpprof(){
     # peer
 }
 
-# start recording ----------------
-cd $PROCESS_CPU_DIR
-./start_record.sh $HOST1 $HOST2
-# start recording ---------------
+# # start recording ----------------
+# cd $PROCESS_CPU_DIR
+# ./start_record.sh $HOST1 $HOST2
+# # start recording ---------------
 
 # running test-----------------
 cd $CISCRIPT_DIR
-node ./config.js $testcasename nProcPerOrg 30
-node ./config.js $testcasename nRequest 0
-node ./config.js $testcasename runDur 600
+node ./config.js $testcasename nProcPerOrg 1
+node ./config.js $testcasename nRequest 10
+node ./config.js $testcasename runDur 0
 node ./config.js $testcasename invokeType Move
-getpprof &
 bash ./test_driver.sh -t RMT-multi
 ## ending case ----------------
 
 
 
-# end recording -----------------
-cd $PROCESS_CPU_DIR
-./end_record.sh $HOST1 $HOST2
-# end recording ---------------
+# # end recording -----------------
+# cd $PROCESS_CPU_DIR
+# ./end_record.sh $HOST1 $HOST2
+# # end recording ---------------

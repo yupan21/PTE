@@ -28,9 +28,9 @@ function upgradeContainer(){
     COMPOSE_FILES=$2
     Container=$3
     ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkCompose; \
-        docker-compose $COMPOSE_FILES stop $Container; \
+        docker-compose -f $COMPOSE_FILES stop $Container; \
         bash cleanChaincodeimage.sh $Container
-        IMAGE_TAG=x86_64-1.1.0 docker-compose $COMPOSE_FILES up -d --no-deps $Container; \
+        IMAGE_TAG=x86_64-1.1.0 docker-compose -f $COMPOSE_FILES up -d --no-deps $Container; \
         echo 666 "
 }
 upgradeContainer $HOST1 $HOST1COMPOSE orderer0.example.com
@@ -40,3 +40,12 @@ upgradeContainer $HOST2 $HOST2COMPOSE peer1.org1.example.com
 upgradeContainer $HOST3 $HOST3COMPOSE ca1
 upgradeContainer $HOST3 $HOST3COMPOSE peer0.org2.example.com
 upgradeContainer $HOST3 $HOST3COMPOSE peer1.org2.example.com
+
+function startConfigtxlator(){
+    HOST=$1
+    echo "Starting configtxlatro RESTful API on $HOST"
+    ssh root@$1 -i ~/.ssh/id_rsa "configtxlator start"
+}
+# startConfigtxlator $HOST1
+
+# curl -X POST --data-binary @configuration_block.pb http://172.16.50.153:7059/protolator/decode/common.Block

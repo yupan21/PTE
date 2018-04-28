@@ -1051,6 +1051,8 @@ function performance_main() {
                 var channel = client.newChannel(channelName);
                 logger.info('[performance_main] channel name: ', channelName);
                 joinChannel(channel, client, org);
+            } else if (channelOpt.action.toUpperCase() == 'UPGRADE'){
+                // TODO: upgrade channel
             }
         } else if (transType.toUpperCase() == 'QUERYBLOCK') {
             var channel = client.newChannel(channelName);
