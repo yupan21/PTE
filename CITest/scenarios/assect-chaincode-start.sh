@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 #
+unset http_proxy https_proxy
 
 testcasename='RMT-multi'
 networkCompose='couchdb'
