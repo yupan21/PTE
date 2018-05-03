@@ -107,8 +107,6 @@ services:
   couchdb2:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
     environment:
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=admin
     ports: 
       - 5986:5984
     container_name: couchdb2
@@ -116,8 +114,6 @@ services:
   couchdb3:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
     environment:
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=admin
     ports: 
       - 5987:5984
     container_name: couchdb3
