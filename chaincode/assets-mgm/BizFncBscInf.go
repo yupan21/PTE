@@ -209,7 +209,7 @@ func saveOrUpdateBizFncBscinfList(stub shim.ChaincodeStubInterface, args []strin
 	}
 
 	bizFncBscinfList := args[0]
-	fmt.Println("- the received bizFncBscinfList args is :", bizFncBscinfList)
+	// fmt.Println("- the received bizFncBscinfList args is :", bizFncBscinfList)
 	bizFncBscinf1List := []BizFncBscinf{}
 	err = json.Unmarshal([]byte(bizFncBscinfList), &bizFncBscinf1List)
 	if err != nil {

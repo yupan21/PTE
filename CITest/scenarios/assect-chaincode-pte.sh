@@ -54,41 +54,44 @@ function restartChaincode(){
 }
 # restartChaincode
 
-# # start recording ----------------
-# cd $PROCESS_CPU_DIR
-# ./start_record.sh $HOST1 $HOST2
-# # start recording ---------------
+# start recording ----------------
+cd $PROCESS_CPU_DIR
+./start_record.sh $HOST1 $HOST2
+# start recording ---------------
 
 
-# running test-----------------
-cd $CISCRIPT_DIR
-node ./config.js $testcasename nProcPerOrg 1
-node ./config.js $testcasename nRequest 10
-node ./config.js $testcasename runDur 0
-node ./config.js $testcasename invokeType Move
+# # running test-----------------
+# cd $CISCRIPT_DIR
+# node ./config.js $testcasename nProcPerOrg 1
+# node ./config.js $testcasename nRequest 10
+# node ./config.js $testcasename runDur 0
+# node ./config.js $testcasename invokeType Move
+# node ./config.js $testcasename invoke_nums_per_time 100
 # getpprof &
-bash ./test_driver.sh -t RMT-multi
-## ending case ----------------
+# bash ./test_driver.sh -t RMT-multi
+# ## ending case ----------------
 
 
 
+for n in 1 5 10 15 20 30; do 
+    # running test-----------------
+    cd $CISCRIPT_DIR
+    node ./config.js $testcasename nProcPerOrg $n
+    node ./config.js $testcasename nRequest 0
+    node ./config.js $testcasename runDur 600
+    node ./config.js $testcasename invokeType Move
+    node ./config.js $testcasename invoke_nums_per_time 100
+    if [ $n = 30 ] ;then
+        echo "This case will record pprof"
+        getpprof &
+    fi
+    bash ./test_driver.sh -t RMT-multi
+    ## ending case ----------------
+done 
 
-# for n in 1 5 10 15 20 ; do 
-
-#     # running test-----------------
-#     cd $CISCRIPT_DIR
-#     node ./config.js $testcasename chaincodeID sample_cc11
-#     node ./config.js $testcasename nProcPerOrg $n
-#     node ./config.js $testcasename nRequest 0
-#     node ./config.js $testcasename runDur 600
-#     node ./config.js $testcasename invokeType Move
-#     bash ./test_driver.sh -t RMT-multi
-#     ## ending case ----------------
-# done 
 
 
-
-# # end recording -----------------
-# cd $PROCESS_CPU_DIR
-# ./end_record.sh $HOST1 $HOST2
-# # end recording ---------------
+# end recording -----------------
+cd $PROCESS_CPU_DIR
+./end_record.sh $HOST1 $HOST2
+# end recording ---------------
