@@ -6,6 +6,7 @@ testcasename='RMT-multi'
 networkCompose='couchdb'
 CISconfigfilename='RMT-config-multi.json'
 fabric_version='x86_64-1.1.0'
+support_version='x86_64-0.4.6'
 chaincode='assets-mgm'
 
 HOST1=172.16.50.153
@@ -91,7 +92,7 @@ function startup_network() {
     echo "Startup $2"
     ssh root@$1 -i ~/.ssh/id_rsa " \
         cd $NL_DIR/$networkCompose; \
-        IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
+        SUPPORT_TAG=$support_version IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }
 
 # startup the network ------------
