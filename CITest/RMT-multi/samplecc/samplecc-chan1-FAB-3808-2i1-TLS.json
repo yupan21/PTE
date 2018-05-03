@@ -40,7 +40,7 @@
         "timeout": "240000"
     },
     "ccType": "list",
-    "invoke_nums_per_time": "1000",
+    "invoke_nums_per_time": "2",
     "userKey":"fncJrnlId",
     "ccOpt": {
         "keyIdx": [1],

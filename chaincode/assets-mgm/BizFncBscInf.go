@@ -209,13 +209,13 @@ func saveOrUpdateBizFncBscinfList(stub shim.ChaincodeStubInterface, args []strin
 	}
 
 	bizFncBscinfList := args[0]
-	//fmt.Println("- the received bizFncBscinf args is :", bizFncBscinf)
+	fmt.Println("- the received bizFncBscinfList args is :", bizFncBscinfList)
 	bizFncBscinf1List := []BizFncBscinf{}
 	err = json.Unmarshal([]byte(bizFncBscinfList), &bizFncBscinf1List)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-
+	fmt.Println("- the len of tx list:", len(bizFncBscinf1List))
 	for _, bizFncBscinf1 := range bizFncBscinf1List {
 		if bizFncBscinf1.FncJrnlId == "" {
 			return shim.Error("fncJrnlId can't be null")
