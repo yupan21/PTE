@@ -6,6 +6,10 @@ networkCompose='106110upgrade'
 CISconfigfilename='RMT-config-multi.json'
 IMAGE_TAG='x86_64-1.0.6'
 
+testcaseconfigfile1='/preconfig/samplecc/samplecc-chan1-install1-TLS.json'
+testcaseconfigfile2='/preconfig/samplecc/samplecc-chan1-install2-TLS.json'
+testcaseconfigfile3='/preconfig/samplecc/samplecc-chan1-instantiate-TLS.json'
+
 
 HOST1=172.16.50.153
 HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
@@ -44,14 +48,30 @@ function getpprof(){
 # ./start_record.sh $HOST1 $HOST2
 # # start recording ---------------
 
-# running test-----------------
-cd $CISCRIPT_DIR
-node ./config.js $testcasename nProcPerOrg 1
-node ./config.js $testcasename nRequest 10
-node ./config.js $testcasename runDur 0
-node ./config.js $testcasename invokeType Move
-bash ./test_driver.sh -t RMT-multi
-## ending case ----------------
+function restartChaincode(){
+    # restart chaincode ---------------
+    cd $CISCRIPT_DIR
+    node ./config.js $testcasename$testcaseconfigfile1 chaincodeID sample_cc11
+    node ./config.js $testcasename$testcaseconfigfile2 chaincodeID sample_cc11
+    node ./config.js $testcasename$testcaseconfigfile3 chaincodeID sample_cc11
+    bash test_driver.sh -m $testcasename -c samplecc
+    # restart chaincode ---------------
+}
+
+for n in 1 5 10 15 20 ; do 
+
+    # running test-----------------
+    cd $CISCRIPT_DIR
+    node ./config.js $testcasename chaincodeID sample_cc11
+    node ./config.js $testcasename nProcPerOrg $n
+    node ./config.js $testcasename nRequest 0
+    node ./config.js $testcasename runDur 600
+    node ./config.js $testcasename invokeType Move
+    bash ./test_driver.sh -t RMT-multi
+    ## ending case ----------------
+
+
+done 
 
 
 

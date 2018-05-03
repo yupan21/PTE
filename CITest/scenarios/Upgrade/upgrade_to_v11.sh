@@ -1,36 +1,22 @@
 #!/bin/bash
-
-echo
-echo " ____    _____      _      ____    _____ "
-echo "/ ___|  |_   _|    / \    |  _ \  |_   _|"
-echo "\___ \    | |     / _ \   | |_) |   | |  "
-echo " ___) |   | |    / ___ \  |  _ <    | |  "
-echo "|____/    |_|   /_/   \_\ |_| \_\   |_|  "
-echo
-echo "Upgrade your first network (BYFN) from v1.0.x to v1.1 end-to-end test"
 echo
 CHANNEL_NAME="$1"
 DELAY="$2"
 LANGUAGE="$3"
 TIMEOUT="$4"
-: ${CHANNEL_NAME:="mychannel"}
-: ${DELAY:="5"}
+GODEBUG=netdns=go
+: ${CHANNEL_NAME:="testorgschannel1"}
+: ${DELAY:="1"}
 : ${LANGUAGE:="golang"}
 : ${TIMEOUT:="10"}
-LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
-COUNTER=1
-MAX_RETRY=5
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
-
-CC_SRC_PATH="github.com/chaincode/chaincode_example02/go/"
-if [ "$LANGUAGE" = "node" ]; then
-        CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/node/"
-fi
-
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+export http_proxy=http://172.16.50.151:8118
+unset http_proxy https_proxy
+CORE_PEER_TLS_ENABLED=true
 echo "Channel name : "$CHANNEL_NAME
 
 # import utils
-. scripts/utils.sh
+. utils.sh
 
 # addCapabilityToChannel <channel_id> <capabilities_group>
 # This function pulls the current channel config, modifies it with capabilities
@@ -46,11 +32,11 @@ addCapabilityToChannel() {
 
         # Modify the correct section of the config based on capabilities group
         if [ $GROUP == "orderer" ]; then
-                jq -s '.[0] * {"channel_group":{"groups":{"Orderer": {"values": {"Capabilities": .[1]}}}}}' config.json ./scripts/capabilities.json > modified_config.json
+                jq -s '.[0] * {"channel_group":{"groups":{"Orderer": {"values": {"Capabilities": .[1]}}}}}' config.json ./capabilities.json > modified_config.json
         elif [ $GROUP == "channel" ]; then
-                jq -s '.[0] * {"channel_group":{"values": {"Capabilities": .[1]}}}' config.json ./scripts/capabilities.json > modified_config.json
+                jq -s '.[0] * {"channel_group":{"values": {"Capabilities": .[1]}}}' config.json ./capabilities.json > modified_config.json
         elif [ $GROUP == "application" ]; then
-                jq -s '.[0] * {"channel_group":{"groups":{"Application": {"values": {"Capabilities": .[1]}}}}}' config.json ./scripts/capabilities.json > modified_config.json
+                jq -s '.[0] * {"channel_group":{"groups":{"Application": {"values": {"Capabilities": .[1]}}}}}' config.json ./capabilities.json > modified_config.json
         fi
 
         # Create a config updated for this channel based on the differences between config.json and modified_config.json
@@ -86,12 +72,12 @@ addCapabilityToChannel() {
 
         if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 set -x
-                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer.example.com:7050 --cafile $ORDERER_CA
+                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer0.example.com:7050 --cafile $ORDERER_CA
                 res=$?
                 set +x
         else
                 set -x
-                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer.example.com:7050 --tls true --cafile $ORDERER_CA
+                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer0.example.com:7050 --tls true --cafile $ORDERER_CA
                 res=$?
                 set +x
         fi
@@ -100,9 +86,9 @@ addCapabilityToChannel() {
 
 }
 
-echo "Installing jq"
-apt-get update
-apt-get install -y jq
+# echo "Installing jq"
+# apt-get update
+# apt-get install -y jq
 
 sleep $DELAY
 
@@ -134,40 +120,30 @@ sleep $DELAY
 echo "Config update for /Channel on \"$CHANNEL_NAME\""
 addCapabilityToChannel $CHANNEL_NAME channel
 
-#Query on chaincode on Peer0/Org1
-echo "Querying chaincode on org1/peer0..."
-chaincodeQuery 0 1 90
+# #Query on chaincode on Peer0/Org1
+# echo "Querying chaincode on org1/peer0..."
+# chaincodeQuery 0 1 90
 
-#Invoke on chaincode on Peer0/Org1
-echo "Sending invoke transaction on org1/peer0..."
-chaincodeInvoke 0 1
+# #Invoke on chaincode on Peer0/Org1
+# echo "Sending invoke transaction on org1/peer0..."
+# chaincodeInvoke 0 1
 
-sleep $DELAY
+# sleep $DELAY
 
-#Query on chaincode on Peer0/Org1
-echo "Querying chaincode on org1/peer0..."
-chaincodeQuery 0 1 80
+# #Query on chaincode on Peer0/Org1
+# echo "Querying chaincode on org1/peer0..."
+# chaincodeQuery 0 1 80
 
-##Invoke on chaincode on Peer0/Org2
-echo "Sending invoke transaction on org2/peer0..."
-chaincodeInvoke 0 2
+# ##Invoke on chaincode on Peer0/Org2
+# echo "Sending invoke transaction on org2/peer0..."
+# chaincodeInvoke 0 2
 
-sleep $DELAY
+# sleep $DELAY
 
-#Query on chaincode on Peer0/Org2
-echo "Querying chaincode on org2/peer0..."
-chaincodeQuery 0 2 70
-
-echo
-echo "===================== All GOOD, End-2-End UPGRADE Scenario execution completed ===================== "
-echo
+# #Query on chaincode on Peer0/Org2
+# echo "Querying chaincode on org2/peer0..."
+# chaincodeQuery 0 2 70
 
 echo
-echo " _____   _   _   ____            _____   ____    _____ "
-echo "| ____| | \ | | |  _ \          | ____| |___ \  | ____|"
-echo "|  _|   |  \| | | | | |  _____  |  _|     __) | |  _|  "
-echo "| |___  | |\  | | |_| | |_____| | |___   / __/  | |___ "
-echo "|_____| |_| \_| |____/          |_____| |_____| |_____|"
 echo
-
 exit 0
