@@ -498,6 +498,7 @@ function getQueryRequest() {
             // json_args[userKey] = String(userKeyArg);
             // var string_args = JSON.stringify(json_args);
             testQueryArgs.push(json_args);
+        }
     }
 
     tx_id = client.newTransactionID();
