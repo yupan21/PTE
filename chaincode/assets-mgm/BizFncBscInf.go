@@ -226,7 +226,7 @@ func saveOrUpdateBizFncBscinfList(stub shim.ChaincodeStubInterface, args []strin
 				return shim.Error("Failed to get bizFncBscinf:" + err.Error())
 			} else if bizFncBscinfFromState == nil {
 				fncid++
-				bizFncBscinf1.FncJrnlId = strconv.Itoa(fncid)
+				bizFncBscinf1.FncJrnlId = bizFncBscinf1.FncJrnlId + strconv.Itoa(fncid)
 				bizFncBscinf1.ObjectType = "BizFncBscinf"
 				bizFncBscinf1.DelInd = "0" // 删除标志，初始值为0
 				bizFncBscinfToState, err := json.Marshal(bizFncBscinf1)

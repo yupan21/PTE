@@ -114,12 +114,16 @@ services:
 
   couchdb0:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
+    environment:
+      - ERL_MAX_PORTS=16384
     ports: 
       - 5984:5984
     container_name: couchdb0
 
   couchdb1:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
+    environment:
+      - ERL_MAX_PORTS=16384
     ports: 
       - 5985:5984
     container_name: couchdb1

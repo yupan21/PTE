@@ -106,15 +106,17 @@ services:
 
   couchdb2:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
+    environment:
+      - ERL_MAX_PORTS=4096
     ports: 
       - 5986:5984
     container_name: couchdb2
-    # command: sudo chmod 777 /docker-entrypoint*
 
   couchdb3:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
+    environment:
+      - ERL_MAX_PORTS=4096
     ports: 
       - 5987:5984
     container_name: couchdb3
-    # command: sudo chmod 777 /docker-entrypoint*
 
