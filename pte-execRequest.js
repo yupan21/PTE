@@ -214,7 +214,8 @@ var payLoadMin = 0;
 var payLoadMax = 0;
 var payLoadType = 'RANDOM'
 var arg0 = 0;
-var userKey = "fncJrnlId";
+var invoke_nums_per_time = parseInt(uiContent.uiContent.invoke_nums_per_time);
+var userKey = uiContent.uiContent.userKey;
 var userKeyArg = 0;
 // user case key
 var keyIdx = [];
@@ -339,7 +340,7 @@ function getMoveRequest() {
         for (i = 0; i < keyPayLoad.length; i++) {
             testInvokeArgs[keyPayLoad[i]] = String(r);
         }
-    } else if (ccType == 'user'){
+    } else if (ccType == 'user') {
         testInvokeArgs = [];
         userKeyArg++
         for (i = 0; i < uiContent.invoke.move.args.length; i++) {
@@ -355,15 +356,26 @@ function getMoveRequest() {
         userKeyArg++
         for (i = 0; i < uiContent.invoke.move.args.length; i++) {
             var list_args = uiContent.invoke.move.args[i]
-            if (list_args == 'a'){
+            if (list_args == 'a') {
                 list_args = String(txIDVar + '_' + userKeyArg + list_args);
             }
-            if (list_args == 'b'){
+            if (list_args == 'b') {
                 list_args = String(txIDVar + '_' + userKeyArg + list_args);
             }
             testInvokeArgs.push(list_args);
         }
         // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
+    } else if (ccType == 'list') {
+        testInvokeArgs = [];
+        for (n = 0; n < invoke_nums_per_time; n++) {
+            userKeyArg++
+            for (i = 0; i < uiContent.invoke.move.args.length; i++) {
+                var json_args = uiContent.invoke.move.args[i];
+                json_args[userKey] = String(txIDVar + '_' + userKeyArg);
+                var string_args = JSON.stringify(json_args);
+                testInvokeArgs.push(string_args);
+            }
+        }
     }
 
     tx_id = client.newTransactionID();
@@ -457,7 +469,7 @@ function getQueryRequest() {
                 testQueryArgs[keyIdx[i]] = queryMarbleName + '_' + txIDVar + '_' + arg0;
             }
         }
-    } else if (ccType == 'user'){
+    } else if (ccType == 'user') {
         testQueryArgs = [];
         userKeyArg++
         for (i = 0; i < uiContent.invoke.query.args.length; i++) {
@@ -466,18 +478,26 @@ function getQueryRequest() {
             // var string_args = JSON.stringify(json_args);
             testQueryArgs.push(json_args);
         }
-        // logger.info("[-- DEBUG --] testInvokeArgs:",testInvokeArgs)
+        // logger.info("[-- DEBUG --] testQueryArgs:",testQueryArgs)
         // logger.info("[-- DEBUG --] fcn:",uiContent.invoke.move.fcn)
     } else if (ccType == 'chaincode2chaincode') {
         testQueryArgs = [];
         for (i = 0; i < uiContent.invoke.query.args.length; i++) {
             var list_args = uiContent.invoke.query.args[i]
-            if(list_args == 'a') {
+            if (list_args == 'a') {
                 list_args = String(txIDVar + '_1' + list_args);
             }
             testQueryArgs.push(list_args);
         }
-        // logger.info("[-- DEBUG --] testInvokeArgs:",testQueryArgs)
+        // logger.info("[-- DEBUG --] testQueryArgs:",testQueryArgs)
+    } else if (ccType == 'list') {
+        testQueryArgs = [];
+        userKeyArg++
+        for (i = 0; i < uiContent.invoke.query.args.length; i++) {
+            var json_args = txIDVar + '_' + uiContent.invoke.query.args[i];
+            // json_args[userKey] = String(userKeyArg);
+            // var string_args = JSON.stringify(json_args);
+            testQueryArgs.push(json_args);
     }
 
     tx_id = client.newTransactionID();
