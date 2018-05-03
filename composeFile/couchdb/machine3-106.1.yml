@@ -106,14 +106,12 @@ services:
 
   couchdb2:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
-    environment:
     ports: 
       - 5986:5984
     container_name: couchdb2
 
   couchdb3:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
-    environment:
     ports: 
       - 5987:5984
     container_name: couchdb3
