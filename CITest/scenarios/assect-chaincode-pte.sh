@@ -3,7 +3,7 @@
 #
 
 testcasename='RMT-multi'
-networkCompose='106110upgrade'
+networkCompose='couchdb'
 CISconfigfilename='RMT-config-multi.json'
 fabric_version='x86_64-1.1.0'
 chaincode='assets-mgm'
