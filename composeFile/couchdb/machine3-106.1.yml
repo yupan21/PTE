@@ -109,14 +109,12 @@ services:
     ports: 
       - 5986:5984
     container_name: couchdb2
-    volumes:
-      - /data/docker-entrypoint.sh:/docker-entrypoint.sh
+    # command: sudo chmod 777 /docker-entrypoint*
 
   couchdb3:
     image: hyperledger/fabric-couchdb:$SUPPORT_TAG
     ports: 
       - 5987:5984
     container_name: couchdb3
-    volumes:
-      - /data/docker-entrypoint.sh:/docker-entrypoint.sh
+    # command: sudo chmod 777 /docker-entrypoint*
 

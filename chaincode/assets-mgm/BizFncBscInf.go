@@ -202,6 +202,7 @@ func saveOrUpdateBizFncBscinf(stub shim.ChaincodeStubInterface, args []string) p
 // 保存或更新bizFncBscinfList
 func saveOrUpdateBizFncBscinfList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var err error
+	fncid := 0
 	fmt.Println("- start saveOrUpdate bizFncBscinfList")
 
 	if len(args) < 1 {
@@ -224,6 +225,8 @@ func saveOrUpdateBizFncBscinfList(stub shim.ChaincodeStubInterface, args []strin
 			if err != nil {
 				return shim.Error("Failed to get bizFncBscinf:" + err.Error())
 			} else if bizFncBscinfFromState == nil {
+				fncid++
+				bizFncBscinf1.FncJrnlId = strconv.Itoa(fncid)
 				bizFncBscinf1.ObjectType = "BizFncBscinf"
 				bizFncBscinf1.DelInd = "0" // 删除标志，初始值为0
 				bizFncBscinfToState, err := json.Marshal(bizFncBscinf1)
@@ -233,7 +236,7 @@ func saveOrUpdateBizFncBscinfList(stub shim.ChaincodeStubInterface, args []strin
 				}
 
 				timestamp := time.Now().Format("2006-01-02 15:04:05")
-				fmt.Printf("- save successfully ! %v \n", timestamp)
+				fmt.Printf("- save %s successfully ! %v \n", bizFncBscinf1.FncJrnlId, timestamp)
 				//		fmt.Printf("- the key of record is : BizFncBscinf%v \n",bizFncBscinf1.FncJrnlId)
 				//		fmt.Printf("- the value of record is ： %v \n",string(bizFncBscinfToState))
 

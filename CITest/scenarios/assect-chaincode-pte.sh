@@ -70,6 +70,7 @@ node ./config.js $testcasename runDur 0
 node ./config.js $testcasename invokeType Move
 node ./config.js $testcasename invoke_nums_per_time 100
 node ./config.js $testcasename ccType user
+node ./config.js $testcasename invoke.move.fcn saveOrUpdateBizFncBscinf
 bash ./test_driver.sh -t RMT-multi
 ## ending case ----------------
 
