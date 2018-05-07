@@ -5,14 +5,14 @@ CHANNEL_NAME="$1"
 DELAY="$2"
 LANGUAGE="$3"
 TIMEOUT="$4"
-: ${CHANNEL_NAME:="testorgschannel1"}
+: ${CHANNEL_NAME:="golden-ticket"}
 : ${DELAY:="3"}
 : ${LANGUAGE:="golang"}
 : ${TIMEOUT:="10"}
 LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
 COUNTER=1
 MAX_RETRY=5
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/orderer.veredholdings.com/orderers/orderer0.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem
 export http_proxy=http://172.16.104.145:8118
 
 # import utils
@@ -51,7 +51,7 @@ echo "========= Submitting transaction from a different peer (peer0.org2) which 
 echo
 setGlobals 0 2
 set -x
-peer channel update -f org3_update_in_envelope.pb -c ${CHANNEL_NAME} -o orderer0.example.com:7050 --tls --cafile ${ORDERER_CA}
+peer channel update -f org3_update_in_envelope.pb -c ${CHANNEL_NAME} -o orderer0.veredholdings.com:7050 --tls --cafile ${ORDERER_CA}
 set +x
 
 echo
