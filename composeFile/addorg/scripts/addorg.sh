@@ -3,7 +3,7 @@
 
 export FABRIC_CFG_PATH=${PWD}
 # FABRIC_CFG_PATH is a path which configtx.yaml and crypto.yaml located
-WORKING_PATH=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/addorg/scripts
+WORKING_PATH=${PWD}
 cd $WORKING_PATH
 echo "cd $WORKING_PATH"
 
@@ -15,6 +15,11 @@ function addNewOrg () {
     generateChannelArtifacts
     createConfigTx
   fi
+  
+  cd crypto-config/peerOrganizations/org3.example.com/ca
+  ca2_keyfile=$(ls *_sk)
+  echo "the ca keyfile is $ca2_keyfile"
+  cd $WORKING_PATH
   # start org3 peers
   IMAGE_TAG=$fabric_version SUPPORT_TAG=$support_version CA2_SERVER_TLS_KEYFILE=$ca2_keyfile docker-compose -f $COMPOSE_FILE_ORG3 up -d 2>&1
 
@@ -48,9 +53,6 @@ function createConfigTx () {
   fi
 }
 
-# We use the cryptogen tool to generate the cryptographic material
-# (x509 certs) for the new org.  After we run the tool, the certs will
-# be parked in the BYFN folder titled ``crypto-config``.
 
 # Generates Org3 certs using cryptogen tool
 function generateCerts (){
@@ -66,7 +68,7 @@ function generateCerts (){
 
   (cd $WORKING_PATH
    set -x
-   cryptogen generate --config=../org3-crypto.yaml
+   cryptogen generate --config=./org3-crypto.yaml
    res=$?
    set +x
    if [ $res -ne 0 ]; then
@@ -74,7 +76,6 @@ function generateCerts (){
      exit 1
    fi
   )
-  echo
 }
 
 # Generate channel configuration transaction
@@ -98,7 +99,7 @@ function generateChannelArtifacts() {
      exit 1
    fi
   )
-  cp -r $WORKING_PATH/crypto-config/ MSPDir
+  cp -r $WORKING_PATH/crypto-config/ $MSPDir
   echo
 }
 
@@ -108,14 +109,13 @@ CLI_DELAY=3
 CHANNEL_NAME="testorgschannel1"
 COMPOSE_FILE_ORG3='../machine4-org3.yml'
 LANGUAGE=golang
-
+rm -rf crypto-config/
+rm -rf org3.json
 CRYPTO_CONFIG_DIR='/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools'
-MSPDir=$CRYPTO_CONFIG_DIR/cryptogen
+MSPDir='/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen'
 # org3 path: /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/peerOrganizations/org3.example.com
-ca2_keyfile=''
 fabric_version='x86_64-1.1.0'
 support_version='x86_64-0.4.6'
-
 echo "start adding new org"
 addNewOrg
 

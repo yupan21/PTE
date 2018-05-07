@@ -32,6 +32,7 @@ echo "========= Creating config transaction to add org3 to network =========== "
 echo
 
 echo "Installing jq"
+rm /var/lib/apt/lists/lock
 apt-get -y update && apt-get -y install jq
 unset http_proxy
 
