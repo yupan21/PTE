@@ -6,51 +6,51 @@
                 "name": "OrgOrderer",
                 "mspid": "OrgOrdererMSP",
                 "mspPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config",
-                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@veredholdings.com/msp",
+                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@orderer.veredholdings.com/msp",
                 "comName": "veredholdings.com",
                 "url": "grpcs://172.16.50.153:7050",
                 "server-hostname": "orderer0.orderer.veredholdings.com",
-                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer0.veredholdings.com/msp/tlscacerts/tlsca.veredholdings.com-cert.pem"
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer0.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem"
             },
             "orderer1.orderer.veredholdings.com": {
                 "name": "OrgOrderer",
                 "mspid": "OrgOrdererMSP",
                 "mspPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config",
-                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@veredholdings.com/msp",
+                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@orderer.veredholdings.com/msp",
                 "comName": "veredholdings.com",
                 "url": "grpcs://172.16.50.153:8050",
                 "server-hostname": "orderer1.orderer.veredholdings.com",
-                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer1.veredholdings.com/msp/tlscacerts/tlsca.veredholdings.com-cert.pem"
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer1.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem"
             },
             "orderer2.orderer.veredholdings.com": {
                 "name": "OrgOrderer",
                 "mspid": "OrgOrdererMSP",
                 "mspPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config",
-                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@veredholdings.com/msp",
+                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@orderer.veredholdings.com/msp",
                 "comName": "veredholdings.com",
                 "url": "grpcs://172.16.50.153:9050",
                 "server-hostname": "orderer2.orderer.veredholdings.com",
-                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer2.veredholdings.com/msp/tlscacerts/tlsca.veredholdings.com-cert.pem"
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer2.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem"
             },
             "orderer3.orderer.veredholdings.com": {
                 "name": "OrgOrderer",
                 "mspid": "OrgOrdererMSP",
                 "mspPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config",
-                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@veredholdings.com/msp",
+                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@orderer.veredholdings.com/msp",
                 "comName": "veredholdings.com",
                 "url": "grpcs://172.16.50.153:10050",
                 "server-hostname": "orderer3.orderer.veredholdings.com",
-                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer3.veredholdings.com/msp/tlscacerts/tlsca.veredholdings.com-cert.pem"
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer3.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem"
             },
             "orderer4.orderer.veredholdings.com": {
                 "name": "OrgOrderer",
                 "mspid": "OrgOrdererMSP",
                 "mspPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config",
-                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@veredholdings.com/msp",
+                "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/users/Admin@orderer.veredholdings.com/msp",
                 "comName": "veredholdings.com",
                 "url": "grpcs://172.16.50.153:11050",
                 "server-hostname": "orderer4.orderer.veredholdings.com",
-                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer4.veredholdings.com/msp/tlscacerts/tlsca.veredholdings.com-cert.pem"
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer4.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem"
             }
         },
         "bigtree": {

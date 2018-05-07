@@ -95,7 +95,7 @@ services:
     hostname: orderer0.orderer.veredholdings.com
     domainname: veredholdings.com
     container_name: orderer0.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer$IMAGE_TAG
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=DEBUG
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -123,7 +123,7 @@ services:
   orderer1.orderer.veredholdings.com:
     hostname: orderer1.orderer.veredholdings.com
     container_name: orderer1.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer$IMAGE_TAG
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -151,7 +151,7 @@ services:
   orderer2.orderer.veredholdings.com:
     hostname: orderer2.orderer.veredholdings.com
     container_name: orderer2.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer$IMAGE_TAG
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -179,7 +179,7 @@ services:
   orderer3.orderer.veredholdings.com:       # 新增
     hostname: orderer3.orderer.veredholdings.com
     container_name: orderer3.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer$IMAGE_TAG
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -208,7 +208,7 @@ services:
   orderer4.orderer.veredholdings.com:          # 新增
     hostname: orderer4.orderer.veredholdings.com
     container_name: orderer4.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer$IMAGE_TAG
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -616,5 +616,99 @@ services:
     ports:
       - 26051:7051
       - 26053:7053
+  # bosc
+  peer0.bosc.veredholdings.com:
+    hostname: peer0.bosc.veredholdings.com
+    container_name: peer0.bosc.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.bosc.veredholdings.com
+      - CORE_PEER_ADDRESS=peer0.bosc.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bosc.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBoscMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 27051:7051
+      - 27053:7053
+  
 
+  peer1.bosc.veredholdings.com:
+    hostname: peer1.bosc.veredholdings.com
+    container_name: peer1.bosc.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.bosc.veredholdings.com
+      - CORE_PEER_ADDRESS=peer1.bosc.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.bosc.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBoscMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer1.bosc.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer1.bosc.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 28051:7051
+      - 28053:7053
 
+  peer2.bosc.veredholdings.com:
+    hostname: peer2.bosc.veredholdings.com
+    container_name: peer2.bosc.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.bosc.veredholdings.com
+      - CORE_PEER_ADDRESS=peer2.bosc.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.bosc.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBoscMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer2.bosc.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer2.bosc.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 29051:7051
+      - 29053:7053
+
+  peer3.bosc.veredholdings.com:
+    hostname: peer3.bosc.veredholdings.com
+    container_name: peer3.bosc.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer3.bosc.veredholdings.com
+      - CORE_PEER_ADDRESS=peer3.bosc.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.bosc.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBoscMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer3.bosc.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer3.bosc.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 30051:7051
+      - 30053:7053
+
+  peer4.bosc.veredholdings.com:
+    hostname: peer4.bosc.veredholdings.com
+    container_name: peer4.bosc.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer4.bosc.veredholdings.com
+      - CORE_PEER_ADDRESS=peer4.bosc.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.bosc.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBoscMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer4.bosc.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bosc.veredholdings.com/peers/peer4.bosc.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 31051:7051
+      - 31053:7053

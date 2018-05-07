@@ -1,0 +1,153 @@
+version: '2'
+
+services:
+  ################# ca #####################
+  ca_bosc:
+    image: hyperledger/fabric-ca:$IMAGE_TAG
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-bosc
+      - FABRIC_CA_SERVER_TLS_ENABLED=${ENABLE_TLS}
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.bosc.veredholdings.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/$CA2_SERVER_TLS_KEYFILE
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.bosc.veredholdings.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/$CA2_SERVER_TLS_KEYFILE -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/peerOrganizations/bosc.veredholdings.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrgbosc
+
+  # org:bosc
+  peer0.bosc.veredholdings.com:
+    container_name: peer0.bosc.veredholdings.com
+    environment:                                           
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bosc0:5984
+    depends_on:                                   
+      - couchdb_bosc0
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.bosc.veredholdings.com
+    volumes:
+       - /data/peerdata/bosc/peer0_bosc:/var/hyperledger/production
+
+  peer1.bosc.veredholdings.com:
+    container_name: peer1.bosc.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bosc1:5984
+    depends_on:
+      - couchdb_bosc1
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.bosc.veredholdings.com
+    volumes:
+       - /data/peerdata/bosc/peer1_bosc:/var/hyperledger/production
+
+  peer2.bosc.veredholdings.com:
+    container_name: peer2.bosc.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bosc2:5984
+    depends_on:
+      - couchdb_bosc2
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer2.bosc.veredholdings.com
+    volumes:
+       - /data/peerdata/bosc/peer2_bosc:/var/hyperledger/production
+
+  peer3.bosc.veredholdings.com:
+    container_name: peer3.bosc.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bosc3:5984
+    depends_on:
+      - couchdb_bosc3
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer3.bosc.veredholdings.com
+    volumes:
+       - /data/peerdata/bosc/peer3_bosc:/var/hyperledger/production
+
+  peer4.bosc.veredholdings.com:
+    container_name: peer4.bosc.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bosc4:5984
+    depends_on:
+      - couchdb_bosc4
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer4.bosc.veredholdings.com
+    volumes:
+       - /data/peerdata/bosc/peer4_bosc:/var/hyperledger/production
+
+  ################# couchdb #####################
+  couchdb_bosc0:
+    restart: unless-stopped
+    container_name: couchdb_bosc0
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bosc/bosc0_couchdb:/opt/couchdb/data
+
+  couchdb_bosc1:
+    restart: unless-stopped
+    container_name: couchdb_bosc1
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bosc/bosc1_couchdb:/opt/couchdb/data
+
+
+  couchdb_bosc2:
+    restart: unless-stopped
+    container_name: couchdb_bosc2
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bosc/bosc2_couchdb:/opt/couchdb/data
+
+
+  couchdb_bosc3:
+    restart: unless-stopped
+    container_name: couchdb_bosc3
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bosc/bosc3_couchdb:/opt/couchdb/data
+
+
+  couchdb_bosc4:
+    restart: unless-stopped
+    container_name: couchdb_bosc4
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bosc/bosc4_couchdb:/opt/couchdb/data
+
+  
+  bosccli:
+    container_name: bosccli
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true
+    environment:
+      - GODEBUG=netdns=go
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # - CORE_LOGGING_LEVEL=INFO
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_ID=bosccli
+      - CORE_PEER_ADDRESS=peer0.bocs.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBoscMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+    depends_on:
+      - peer0.bocs.veredholdings.com
+      - peer1.bocs.veredholdings.com

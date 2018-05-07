@@ -13,19 +13,19 @@
 #
 ################################################################################
 Organizations:
-    - &PeerOrg3
+    - &OrgBosc
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: PeerOrg3MSP
+        Name: OrgBoscMSP
 
         # ID to load the MSP definition as
-        ID: PeerOrg3MSP
+        ID: OrgBoscMSP
 
-        MSPDir: crypto-config/peerOrganizations/org3.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/bosc.veredholdings.com/msp
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org3.example.com
+            - Host: peer0.bosc.veredholdings.com
               Port: 7051
