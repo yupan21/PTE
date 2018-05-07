@@ -1,5 +1,5 @@
 # Hyperledger Fabric部署文档
-该文档包括两个部分，首先是整体fabric环境部署，涉及到fabric单机、多机网络的搭建和chaincode的部署，其次是压测环境的部署。
+该文档包括两个部分，首先是整体fabric环境部署，涉及到fabric单机、多机网络的搭建的部署。
 
 ## Getting Started
 通过以下两个文档了解一个如何从头来部署hyperledger fabric区块链，文档描述了获取部署fabric所需的证书生成工具，docker镜像和一个简单的网络结构。
@@ -158,16 +158,22 @@ byfn的其他参数（可用来测试其他场景示例）：
 ##使用nodesdk进行部署hyperledger fabric
 在本次实例中通过fabric-sample生成的证书来部署
 
++ 获取fabric-sample sdk
+    cd /opt/go/src/github.com/hyperledger
+    git clone https://github.com/hyperledger/fabric-sdk-node.git
+    cd fabric-sdk-node
+    npm install
+
 + 将证书文件复制过去
 
-        cd /opt/go/src/fabric-sdk-node/test/fixtures/channel
-        cp -r /opt/go/src/fabric-samples/first-network/crypto-config .
-        cp -ri /opt/go/src/fabric-samples/first-network/channel-artifacts/* .
+        cd /opt/go/src/github.com/fabric-sdk-node/test/fixtures/channel
+        cp -r /opt/go/src/github.com/fabric-samples/first-network/crypto-config .
+        cp -ri /opt/go/src/github.com/fabric-samples/first-network/channel-artifacts/* .
 
 + 填写config.json文件（位置根据具体的证书位置来填写）
 
 
-        vi /opt/go/src/fabric-sdk-node/test/integration/e2e/config.json
+        vi /opt/go/src/github.com/fabric-sdk-node/test/integration/e2e/config.json
 
         -                       "tls_cacerts": "../../fixtures/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tlscacerts/example.com-cert.pem"
         +                       "tls_cacerts": "../../fixtures/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
@@ -205,6 +211,54 @@ byfn的其他参数（可用来测试其他场景示例）：
 + 使用`invoke-transaction`和`query`的时候需要根据自己的chaincode的规则替换invoke和query值。
 + 详细sdk的文档主要见[hyperledger fabric node sdk](https://fabric-sdk-node.github.io)
 
+
+## 多机网络部署
+多机网络部署存在多种方法，这里仅讨论通过给容器添加hosts完成部署
+
++ 使用[networklaunch工具](https://github.com/hyperledger/fabric-test/tree/master/tools/NL)来进行生成证书和生成docker-compose文件等操作，注意该工具仅能够应用于1.1.0的fabric版本。同时在生成完配置文件之后会自动部署一个单机网络。所以我们需要注释掉`gen_network.sh`中`docker-compose -f docker-compose.yml up -d $tmpOrd`等的命令。
++ 编写docker-compose文件
+    - 按照生成的docker-compose.yml文件来分割成不通host里面需要部署的节点。需要修改的部分为：
+    1. 在每个peer中添加extra_hosts参数，指向需要进行连接的host，详细的联通方式查看[Transaction Flow](https://hyperledger-fabric.readthedocs.io/en/release-1.1/txflow.html)。
+    2. 去除depends_on的对于没有在该主机的容器的参数。比如在某个部署peer的机器上不需要depends on orderer节点
+    3. 注意启动顺序kafka/zk集群-orderer-couchdb-peer
+    4. 注意保证ca证书的正确填写。
+    5. 将生成的证书分发到各个需要部署的节点，注意保证路径的一致
+
+            scp -i ~/.ssh/id_rsa -r <本地主机文件> root@<远程主机ip>:/远程主机文件路径
+
+    6. 在其中一个client主机上通过ssh来起多机网络，示例如下
+
+            HOST1=远程主机一
+            HOST2=远程主机二
+            networkCompose=docker-compose文件夹
+            HOST1COMPOSE=主机一的部署容器
+            HOST2COMPOSE=主机二的部署容器
+            NL_DIR=networklaunch工具路径
+            # cleanup the network and restart ------------
+            function clean_network(){
+                echo "Connecting to $1 to cleanup the network."
+                ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR; \
+                    ./cleanNetwork.sh example.com; \
+                    rm -rf /tmp/* "
+            }
+            rm -rf /tmp/*
+            clean_network $HOST1
+            clean_network $HOST2
+            # cleanup the network ------------
+
+            function startup_network() {
+                echo "Connecting to $1 to startup the network."
+                echo "Startup $2"
+                ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR/$networkCompose; \
+                    docker-compose -f $2 up -d "
+            }
+            # startup the network ------------
+            startup_network $HOST1 $HOST1COMPOSE
+            startup_network $HOST2 $HOST2COMPOSE
+    7. 测试创建channel，join channel，install chaincode，instantiate chaincode可以通过之前提到的node sdk的方法来进行（注意需要修改配置文件位对应的机器）。
+
+
 ## Rereference
 
-+ 查看[架构设计](https://hyperledger-fabric.readthedocs.io/en/release-1.1/architecture.html)可获取有关hyperledger fabric
++ 查看[架构设计](https://hyperledger-fabric.readthedocs.io/en/release-1.1/architecture.html)可了解有关hyperledger fabric交易流程的文档
++ 查看[fabric test](https://github.com/hyperledger/fabric-test)了解压测部署

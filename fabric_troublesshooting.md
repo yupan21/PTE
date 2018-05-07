@@ -61,7 +61,7 @@
                 netstat -tnlp 
             命令下看到的容器对外的协议是tcp6的情况是实际上tcp6由docker0的NAT机制进行管理，同时存在tcp的对外访问方式。
 
-+ 如果在起container或者使用configtxgen，configtxlator等工具的时候出现如下类似错误：
++ 如果起container或者使用configtxgen，configtxlator等工具的时候出现如下类似错误：
 
         [signal SIGSEGV: segmentation violation code....]
 
@@ -72,14 +72,32 @@
     来解决，如果是使用configtxgen，configtxlator等工具则需要再其命令前直接添加`GODEBUG=netdns=go`
 
 + 在client端对fabric网络进行操作的时候，出现Connection refuse容易存在多种故障原因：
-    - 检查防火墙
+    - 检查防火墙是否屏蔽
+    - 检查代理是否开启
 
 + 出现couchdb的错误
+
+    + panic错误
 
         CouchDB error: [couchdb] handleRequest -> DEBU 2c45 HTTP Request: GET /chain_0008/testChaincode%00key_000000222?attachments=true HTTP/1.1 | Host: 127.0.0.1:5984 | User-Agent: Go-http-client/1.1 | Accept: multipart/related | Accept-Encoding: gzip | | couchDBReturn= panic: Error:Get EOF
 
     等类似错误是是由于系统的文件读取的上限。可通过修改`ulimit -n`的参数来实现，如在`/etc/profile`中添加`ulimit -n 40000`的参数并`source`该文件
 
+    + 404错误
+
+        当并发过多的时候，会出现peer的容器down掉，然后couchdb 出现插入数据为404的log，目前的处理方案是修改
+
+            sysctl -w net.ipv4.tcp_timestamps=1
+            sysctl -w net.ipv4.tcp_tw_recycle=1
+        
+
 + chaincode instanstiate成功，但是log中出现`cannot find the local peer`的问题是可能是由于：
     - 本地网络连接不通，尝试在chaincode的container中ping和wget所对应的peer。如果发现是走的代理路线，则可能需要通过`unset https_proxy http_proxy`或者通过添加`no_proxy=<host peer ip>`来过滤和排除代理的干扰。或者直接停止代理。注意在一些机器上，无法通过常规线路来访问ubuntu的仓库，也需要代理才能够访问。
     - docker网络问题，chaincode没有加入到docker0网桥，检查peer的环境变量`CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE`有没有设置对。
+
++ log中出现`docker-entrypoint.sh permission denied`，可选的错误解决方案为：
+    - 通过重新拉取`docker rmi -f <出现错误的image>； docker pull <该image>`
+    - 通过添加command获取权限，在command里面添加`sudo chmod 777 ./docker-entrypoint.sh`
+    - 通过本地获取docker-entrypoint.sh的权限并挂载到容器中，在volume中添加。
+
++ 如果在fabric-sdk-node装npm的出现npy错误，需要使用yum 安装build-essential 和gcc等库保证编译成功
