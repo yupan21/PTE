@@ -3,7 +3,7 @@ version: '2'
 services:
   ############### kafka #############
   zookeeper0:
-    image: hyperledger/fabric-zookeeper
+    image: hyperledger/fabric-zookeeper:
     environment:
       - ZOO_MY_ID=1
       - ZOO_SERVERS=server.1=zookeeper0:2888:3888:participant server.2=zookeeper1:2888:3888:participant server.3=zookeeper2:2888:3888:participant
@@ -95,7 +95,7 @@ services:
     hostname: orderer0.orderer.veredholdings.com
     domainname: veredholdings.com
     container_name: orderer0.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=DEBUG
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -123,7 +123,7 @@ services:
   orderer1.orderer.veredholdings.com:
     hostname: orderer1.orderer.veredholdings.com
     container_name: orderer1.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -151,7 +151,7 @@ services:
   orderer2.orderer.veredholdings.com:
     hostname: orderer2.orderer.veredholdings.com
     container_name: orderer2.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -179,7 +179,7 @@ services:
   orderer3.orderer.veredholdings.com:       # 新增
     hostname: orderer3.orderer.veredholdings.com
     container_name: orderer3.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -208,7 +208,7 @@ services:
   orderer4.orderer.veredholdings.com:          # 新增
     hostname: orderer4.orderer.veredholdings.com
     container_name: orderer4.orderer.veredholdings.com
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer$IMAGE_TAG
     environment:
       - ORDERER_GENERAL_LOGLEVEL=ERROR
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0

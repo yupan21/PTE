@@ -90,7 +90,7 @@ function startup_network() {
     echo "Startup $2"
     ssh root@$1 -i ~/.ssh/id_rsa " \
         cd $NL_DIR/$networkCompose; \
-        SUPPORT_TAG=$support_version IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
+        ENABLE_TLS=true SUPPORT_TAG=$support_version IMAGE_TAG=$fabric_version docker-compose -f $2 up -d "
 }
 
 # startup the network ------------
@@ -101,6 +101,7 @@ startup_network $HOST1 $HOST1COMPOSE
 
 
 # start channel -------------
+sleep 20
 cd $CISCRIPT_DIR
 bash test_driver.sh -m $testcasename -p -c $chaincode
 # start channel -------------

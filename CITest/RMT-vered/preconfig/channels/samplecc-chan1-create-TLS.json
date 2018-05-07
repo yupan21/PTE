@@ -14,7 +14,7 @@
     "TLS": "enabled",
     "channelOpt": {
         "name": "golden-ticket",
-        "channelTX": "/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/golden-ticket.tx",
+        "channelTX": "/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/channel-artifacts/golden-ticket.tx",
         "action":  "create",
         "orgName": [
             "bigtree"

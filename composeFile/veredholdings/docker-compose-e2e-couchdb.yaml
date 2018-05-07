@@ -3,7 +3,7 @@ version: '2'
 services:
   ################# ca #####################
   ca_bigtree:
-    image: hyperledger/fabric-ca
+    image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-bigtree
@@ -18,7 +18,7 @@ services:
     container_name: ca_peerOrgBigtree
 
   ca_factoring:
-    image: hyperledger/fabric-ca
+    image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-factoring
@@ -33,7 +33,7 @@ services:
     container_name: ca_peerOrgFactoring
 
   ca_core:
-    image: hyperledger/fabric-ca
+    image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-core
@@ -48,7 +48,7 @@ services:
     container_name: ca_peerOrgCore
 
   ca_supply:
-    image: hyperledger/fabric-ca
+    image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-supply
