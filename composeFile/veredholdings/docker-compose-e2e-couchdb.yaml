@@ -1,0 +1,606 @@
+version: '2'
+
+services:
+  ################# ca #####################
+  ca_bigtree:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-bigtree
+      - FABRIC_CA_SERVER_TLS_ENABLED=${ENABLE_TLS}
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.bigtree.veredholdings.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/27acc182275144101033fcbbbb9e68824ffe9a448f4406c309c9da1824949756_sk
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.bigtree.veredholdings.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/27acc182275144101033fcbbbb9e68824ffe9a448f4406c309c9da1824949756_sk -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/peerOrganizations/bigtree.veredholdings.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrgBigtree
+
+  ca_factoring:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-factoring
+      - FABRIC_CA_SERVER_TLS_ENABLED=${ENABLE_TLS}
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.factoring.veredholdings.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/8ad2e97129532bc96c89a3061855b94dce811b8fe7d39e0507f616ab8c131da2_sk
+    ports:
+      - "8054:7054"
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.factoring.veredholdings.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/8ad2e97129532bc96c89a3061855b94dce811b8fe7d39e0507f616ab8c131da2_sk -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/peerOrganizations/factoring.veredholdings.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrgFactoring
+
+  ca_core:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-core
+      - FABRIC_CA_SERVER_TLS_ENABLED=${ENABLE_TLS}
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.core.veredholdings.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/91e27e96e76855f0ad1572978963c962709750b370f25c9afc8da5b2fb12bb3b_sk
+    ports:
+      - "9054:7054"
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.core.veredholdings.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/91e27e96e76855f0ad1572978963c962709750b370f25c9afc8da5b2fb12bb3b_sk -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/peerOrganizations/core.veredholdings.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrgCore
+
+  ca_supply:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-supply
+      - FABRIC_CA_SERVER_TLS_ENABLED=${ENABLE_TLS}
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.supply.veredholdings.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/80f4750d5850a2cc95b39d6ef766cac2727ff7895d537267d0621e0638744252_sk
+    ports:
+      - "10054:7054"
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.supply.veredholdings.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/80f4750d5850a2cc95b39d6ef766cac2727ff7895d537267d0621e0638744252_sk -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/peerOrganizations/supply.veredholdings.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrgSupply
+
+################# kafka #####################
+  zookeeper0:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: zookeeper0
+    container_name: zookeeper0
+
+  zookeeper1:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: zookeeper1
+    container_name: zookeeper1
+
+  zookeeper2:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: zookeeper2
+    container_name: zookeeper2
+
+  kafka0:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: kafka0
+    container_name: kafka0
+    depends_on:
+      - zookeeper0
+      - zookeeper1
+      - zookeeper2
+
+  kafka1:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: kafka1
+    container_name: kafka1
+    depends_on:
+      - zookeeper0
+      - zookeeper1
+      - zookeeper2
+
+  kafka2:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: kafka2
+    container_name: kafka2
+    depends_on:
+      - zookeeper0
+      - zookeeper1
+      - zookeeper2
+
+  kafka3:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: kafka3
+    container_name: kafka3
+    depends_on:
+      - zookeeper0
+      - zookeeper1
+      - zookeeper2
+
+  kafka4:                      #  新加
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: kafka4
+    container_name: kafka4
+    depends_on:
+      - zookeeper0
+      - zookeeper1
+      - zookeeper2
+
+################# order #####################
+  orderer0.orderer.veredholdings.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer0.orderer.veredholdings.com
+    container_name: orderer0.orderer.veredholdings.com
+    depends_on:
+      - kafka0
+      - kafka1
+      - kafka2
+
+  orderer1.orderer.veredholdings.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer1.orderer.veredholdings.com
+    container_name: orderer1.orderer.veredholdings.com
+    depends_on:
+      - kafka0
+      - kafka1
+      - kafka2
+
+  orderer2.orderer.veredholdings.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer2.orderer.veredholdings.com
+    container_name: orderer2.orderer.veredholdings.com
+    depends_on:
+      - kafka0
+      - kafka1
+      - kafka2
+
+  orderer3.orderer.veredholdings.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer3.orderer.veredholdings.com
+    container_name: orderer3.orderer.veredholdings.com
+    depends_on:
+      - kafka0
+      - kafka1
+      - kafka2
+
+  orderer4.orderer.veredholdings.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer4.orderer.veredholdings.com
+    container_name: orderer4.orderer.veredholdings.com
+    depends_on:
+      - kafka0
+      - kafka1
+      - kafka2
+
+################# peer #####################
+  # org:bigtree
+  peer0.bigtree.veredholdings.com:
+    container_name: peer0.bigtree.veredholdings.com
+    environment:                                           # 增加环境变量
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bigtree0:5984
+    depends_on:                                            # 增减couchdb依赖
+      - couchdb_bigtree0
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.bigtree.veredholdings.com
+    volumes:
+       - /data/peerdata/bigtree/peer0_bigtree:/var/hyperledger/production
+
+  peer1.bigtree.veredholdings.com:
+    container_name: peer1.bigtree.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bigtree1:5984
+    depends_on:
+      - couchdb_bigtree1
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.bigtree.veredholdings.com
+    volumes:
+       - /data/peerdata/bigtree/peer1_bigtree:/var/hyperledger/production
+
+  peer2.bigtree.veredholdings.com:
+    container_name: peer2.bigtree.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bigtree2:5984
+    depends_on:
+      - couchdb_bigtree2
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer2.bigtree.veredholdings.com
+    volumes:
+       - /data/peerdata/bigtree/peer2_bigtree:/var/hyperledger/production
+
+  peer3.bigtree.veredholdings.com:
+    container_name: peer3.bigtree.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bigtree3:5984
+    depends_on:
+      - couchdb_bigtree3
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer3.bigtree.veredholdings.com
+    volumes:
+       - /data/peerdata/bigtree/peer3_bigtree:/var/hyperledger/production
+
+  peer4.bigtree.veredholdings.com:
+    container_name: peer4.bigtree.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_bigtree4:5984
+    depends_on:
+      - couchdb_bigtree4
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer4.bigtree.veredholdings.com
+    volumes:
+       - /data/peerdata/bigtree/peer4_bigtree:/var/hyperledger/production
+
+  # org:factoring
+  peer0.factoring.veredholdings.com:
+    container_name: peer0.factoring.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_factoring0:5984
+    depends_on:
+      - couchdb_factoring0
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.factoring.veredholdings.com
+    volumes:
+       - /data/peerdata/factoring/peer0_factoring:/var/hyperledger/production
+
+  peer1.factoring.veredholdings.com:
+    container_name: peer1.factoring.veredholdings.com
+    environment:
+       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_factoring1:5984
+    depends_on:
+       - couchdb_factoring1
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.factoring.veredholdings.com
+    volumes:
+       - /data/peerdata/factoring/peer1_factoring:/var/hyperledger/production  
+
+  peer2.factoring.veredholdings.com:
+    container_name: peer2.factoring.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_factoring2:5984
+    depends_on:
+      - couchdb_factoring2
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer2.factoring.veredholdings.com
+    volumes:
+       - /data/peerdata/factoring/peer2_factoring:/var/hyperledger/production   
+
+  peer3.factoring.veredholdings.com:
+    container_name: peer3.factoring.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_factoring3:5984
+    depends_on:
+      - couchdb_factoring3
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer3.factoring.veredholdings.com
+    volumes:
+       - /data/peerdata/factoring/peer3_factoring:/var/hyperledger/production 
+
+  peer4.factoring.veredholdings.com:
+    container_name: peer4.factoring.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_factoring4:5984
+    depends_on:
+      - couchdb_factoring4
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer4.factoring.veredholdings.com
+    volumes:
+       - /data/peerdata/factoring/peer4_factoring:/var/hyperledger/production
+
+  # org:core
+  peer0.core.veredholdings.com:
+    container_name: peer0.core.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_core0:5984
+    depends_on:
+      - couchdb_core0
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.core.veredholdings.com
+    volumes:
+       - /data/peerdata/core/peer0_core:/var/hyperledger/production
+
+  peer1.core.veredholdings.com:
+    container_name: peer1.core.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_core1:5984
+    depends_on:
+      - couchdb_core1
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.core.veredholdings.com
+    volumes:
+       - /data/peerdata/core/peer1_core:/var/hyperledger/production
+  
+
+  peer2.core.veredholdings.com:
+    container_name: peer2.core.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_core2:5984
+    depends_on:
+      - couchdb_core2
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer2.core.veredholdings.com
+    volumes:
+       - /data/peerdata/core/peer2_core:/var/hyperledger/production
+  
+
+  peer3.core.veredholdings.com:
+    container_name: peer3.core.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_core3:5984
+    depends_on:
+      - couchdb_core3
+    extends:
+     file:  base/docker-compose-base.yaml
+     service: peer3.core.veredholdings.com
+    volumes:
+       - /data/peerdata/core/peer3_core:/var/hyperledger/production
+
+
+  peer4.core.veredholdings.com:
+    container_name: peer4.core.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_core4:5984
+    depends_on:
+      - couchdb_core4
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer4.core.veredholdings.com
+    volumes:
+       - /data/peerdata/core/peer4_core:/var/hyperledger/production
+
+
+  # org:supply
+  peer0.supply.veredholdings.com:
+    container_name: peer0.supply.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_supply0:5984
+    depends_on:
+      - couchdb_supply0
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.supply.veredholdings.com
+    volumes:
+       - /data/peerdata/supply/peer0_supply:/var/hyperledger/production
+
+
+  peer1.supply.veredholdings.com:
+    container_name: peer1.supply.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_supply1:5984
+    depends_on:
+      - couchdb_supply1
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.supply.veredholdings.com
+    volumes:
+       - /data/peerdata/supply/peer1_supply:/var/hyperledger/production  
+
+  peer2.supply.veredholdings.com:
+    container_name: peer2.supply.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_supply2:5984
+    depends_on:
+      - couchdb_supply2
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer2.supply.veredholdings.com
+    volumes:
+       - /data/peerdata/supply/peer2_supply:/var/hyperledger/production   
+
+  peer3.supply.veredholdings.com:
+    container_name: peer3.supply.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_supply3:5984
+    depends_on:
+      - couchdb_supply3
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer3.supply.veredholdings.com
+    volumes:
+       - /data/peerdata/supply/peer3_supply:/var/hyperledger/production 
+
+  peer4.supply.veredholdings.com:
+    container_name: peer4.supply.veredholdings.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_supply4:5984
+    depends_on:
+      - couchdb_supply4
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer4.supply.veredholdings.com
+    volumes:
+       - /data/peerdata/supply/peer4_supply:/var/hyperledger/production
+
+  ################# couchdb #####################
+  couchdb_bigtree0:
+    restart: unless-stopped
+    container_name: couchdb_bigtree0
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bigtree/bigtree0_couchdb:/opt/couchdb/data
+
+  couchdb_bigtree1:
+    restart: unless-stopped
+    container_name: couchdb_bigtree1
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bigtree/bigtree1_couchdb:/opt/couchdb/data
+
+
+  couchdb_bigtree2:
+    restart: unless-stopped
+    container_name: couchdb_bigtree2
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bigtree/bigtree2_couchdb:/opt/couchdb/data
+
+
+  couchdb_bigtree3:
+    restart: unless-stopped
+    container_name: couchdb_bigtree3
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bigtree/bigtree3_couchdb:/opt/couchdb/data
+
+
+  couchdb_bigtree4:
+    restart: unless-stopped
+    container_name: couchdb_bigtree4
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/bigtree/bigtree4_couchdb:/opt/couchdb/data
+
+
+  couchdb_factoring0:
+    restart: unless-stopped
+    container_name: couchdb_factoring0
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/factoring/factoring0_couchdb:/opt/couchdb/data
+
+
+  couchdb_factoring1:
+    restart: unless-stopped
+    container_name: couchdb_factoring1
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/factoring/factoring1_couchdb:/opt/couchdb/data
+
+  couchdb_factoring2:
+    restart: unless-stopped
+    container_name: couchdb_factoring2
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/factoring/factoring2_couchdb:/opt/couchdb/data
+
+  couchdb_factoring3:
+    restart: unless-stopped
+    container_name: couchdb_factoring3
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/factoring/factoring3_couchdb:/opt/couchdb/data
+
+  couchdb_factoring4:
+    restart: unless-stopped
+    container_name: couchdb_factoring4
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/factoring/factoring4_couchdb:/opt/couchdb/data
+
+  couchdb_core0:
+    restart: unless-stopped
+    container_name: couchdb_core0
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/core/core0_couchdb:/opt/couchdb/data
+
+  couchdb_core1:
+    restart: unless-stopped
+    container_name: couchdb_core1
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/core/core1_couchdb:/opt/couchdb/data
+
+
+  couchdb_core2:
+    restart: unless-stopped
+    container_name: couchdb_core2
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/core/core2_couchdb:/opt/couchdb/data
+
+
+  couchdb_core3:
+    restart: unless-stopped
+    container_name: couchdb_core3
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/core/core3_couchdb:/opt/couchdb/data
+
+
+  couchdb_core4:
+    restart: unless-stopped
+    container_name: couchdb_core4
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/core/core4_couchdb:/opt/couchdb/data
+
+
+  couchdb_supply0:
+    restart: unless-stopped
+    container_name: couchdb_supply0
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/supply/supply0_couchdb:/opt/couchdb/data
+
+
+  couchdb_supply1:
+    restart: unless-stopped
+    container_name: couchdb_supply1
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/supply/supply1_couchdb:/opt/couchdb/data
+
+  couchdb_supply2:
+    restart: unless-stopped
+    container_name: couchdb_supply2
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/supply/supply2_couchdb:/opt/couchdb/data
+
+  couchdb_supply3:
+    restart: unless-stopped
+    container_name: couchdb_supply3
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/supply/supply3_couchdb:/opt/couchdb/data
+
+  couchdb_supply4:
+    restart: unless-stopped
+    container_name: couchdb_supply4
+    image: hyperledger/fabric-couchdb
+    volumes:
+       - /data/couchdbdata/supply/supply4_couchdb:/opt/couchdb/data
+
+ 

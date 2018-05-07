@@ -1,0 +1,620 @@
+version: '2'
+
+services:
+  ############### kafka #############
+  zookeeper0:
+    image: hyperledger/fabric-zookeeper
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=zookeeper0:2888:3888:participant server.2=zookeeper1:2888:3888:participant server.3=zookeeper2:2888:3888:participant
+
+  zookeeper1:
+    image: hyperledger/fabric-zookeeper
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=server.1=zookeeper0:2888:3888:participant server.2=zookeeper1:2888:3888:participant server.3=zookeeper2:2888:3888:participant
+
+  zookeeper2:
+    image: hyperledger/fabric-zookeeper
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=server.1=zookeeper0:2888:3888:participant server.2=zookeeper1:2888:3888:participant server.3=zookeeper2:2888:3888:participant
+
+  kafka0:
+    image: hyperledger/fabric-kafka
+    environment:
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_BROKER_ID=0
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MESSAGE_MAX_BYTES=103809024
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=103809024
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
+    ports:
+      - 9092:9092
+
+  kafka1:
+    image: hyperledger/fabric-kafka
+    environment:
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_BROKER_ID=1
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MESSAGE_MAX_BYTES=103809024
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=103809024
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
+    ports:
+      - 9094:9092
+
+  kafka2:
+    image: hyperledger/fabric-kafka
+    environment:
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_BROKER_ID=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MESSAGE_MAX_BYTES=103809024
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=103809024
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
+    ports:
+      - 9096:9092
+
+  kafka3:
+    image: hyperledger/fabric-kafka
+    environment:
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_BROKER_ID=3
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MESSAGE_MAX_BYTES=103809024
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=103809024
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
+    ports:
+      - 9098:9092
+
+  kafka4:         # 新加
+    image: hyperledger/fabric-kafka
+    environment:
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_BROKER_ID=4
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MESSAGE_MAX_BYTES=103809024
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=103809024
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
+    ports:
+      - 9100:9092
+
+  ############### order #############
+  orderer0.orderer.veredholdings.com:
+    hostname: orderer0.orderer.veredholdings.com
+    domainname: veredholdings.com
+    container_name: orderer0.orderer.veredholdings.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrgOrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_KAFKA_RETRY_PERIOD=3s
+      - ORDERER_KAFKA_RETRY_STOP=10s
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_TLS_ENABLED=${ENABLE_TLS}
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: /bin/bash -c 'sleep 10 && orderer'
+    volumes:
+       - ../channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer0.orderer.veredholdings.com/msp:/var/hyperledger/orderer/msp
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer0.orderer.veredholdings.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 7050:7050
+
+  orderer1.orderer.veredholdings.com:
+    hostname: orderer1.orderer.veredholdings.com
+    container_name: orderer1.orderer.veredholdings.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=ERROR
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrgOrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_KAFKA_RETRY_PERIOD=3s
+      - ORDERER_KAFKA_RETRY_STOP=10s
+      # enabled TLS
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_TLS_ENABLED=${ENABLE_TLS}
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: /bin/bash -c 'sleep 10  && orderer'
+    volumes:
+       - ../channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer1.orderer.veredholdings.com/msp:/var/hyperledger/orderer/msp
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer1.orderer.veredholdings.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 8050:7050
+
+  orderer2.orderer.veredholdings.com:
+    hostname: orderer2.orderer.veredholdings.com
+    container_name: orderer2.orderer.veredholdings.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=ERROR
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrgOrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_KAFKA_RETRY_PERIOD=3s
+      - ORDERER_KAFKA_RETRY_STOP=10s
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_TLS_ENABLED=${ENABLE_TLS}
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: /bin/bash -c 'sleep 10 && orderer'
+    volumes:
+       - ../channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer2.orderer.veredholdings.com/msp:/var/hyperledger/orderer/msp
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer2.orderer.veredholdings.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 9050:7050
+
+  orderer3.orderer.veredholdings.com:       # 新增
+    hostname: orderer3.orderer.veredholdings.com
+    container_name: orderer3.orderer.veredholdings.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=ERROR
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrgOrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_KAFKA_RETRY_PERIOD=3s
+      - ORDERER_KAFKA_RETRY_STOP=10s
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_TLS_ENABLED=${ENABLE_TLS}
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: /bin/bash -c 'sleep 10 && orderer'
+    volumes:
+       - ../channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer3.orderer.veredholdings.com/msp:/var/hyperledger/orderer/msp
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer3.orderer.veredholdings.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 10050:7050
+
+
+  orderer4.orderer.veredholdings.com:          # 新增
+    hostname: orderer4.orderer.veredholdings.com
+    container_name: orderer4.orderer.veredholdings.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=ERROR
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrgOrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_KAFKA_RETRY_PERIOD=3s
+      - ORDERER_KAFKA_RETRY_STOP=10s
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_TLS_ENABLED=${ENABLE_TLS}
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: /bin/bash -c 'sleep 10 && orderer'
+    volumes:
+       - ../channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer4.orderer.veredholdings.com/msp:/var/hyperledger/orderer/msp
+       - ../crypto-config/ordererOrganizations/orderer.veredholdings.com/orderers/orderer4.orderer.veredholdings.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 11050:7050
+
+
+  ############### peer #############
+  peer0.bigtree.veredholdings.com:
+    hostname: peer0.bigtree.veredholdings.com
+    container_name: peer0.bigtree.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.bigtree.veredholdings.com
+      - CORE_PEER_ADDRESS=peer0.bigtree.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bigtree.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBigtreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7051:7051
+      - 7053:7053
+  
+
+  peer1.bigtree.veredholdings.com:
+    hostname: peer1.bigtree.veredholdings.com
+    container_name: peer1.bigtree.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.bigtree.veredholdings.com
+      - CORE_PEER_ADDRESS=peer1.bigtree.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.bigtree.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBigtreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer1.bigtree.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer1.bigtree.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 8051:7051
+      - 8053:7053
+
+  peer2.bigtree.veredholdings.com:
+    hostname: peer2.bigtree.veredholdings.com
+    container_name: peer2.bigtree.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.bigtree.veredholdings.com
+      - CORE_PEER_ADDRESS=peer2.bigtree.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.bigtree.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBigtreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer2.bigtree.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer2.bigtree.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 9051:7051
+      - 9053:7053
+
+  peer3.bigtree.veredholdings.com:
+    hostname: peer3.bigtree.veredholdings.com
+    container_name: peer3.bigtree.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer3.bigtree.veredholdings.com
+      - CORE_PEER_ADDRESS=peer3.bigtree.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.bigtree.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBigtreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer3.bigtree.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer3.bigtree.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 10051:7051
+      - 10053:7053
+
+  peer4.bigtree.veredholdings.com:
+    hostname: peer4.bigtree.veredholdings.com
+    container_name: peer4.bigtree.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer4.bigtree.veredholdings.com
+      - CORE_PEER_ADDRESS=peer4.bigtree.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.bigtree.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgBigtreeMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer4.bigtree.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer4.bigtree.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 11051:7051
+      - 11053:7053
+
+  peer0.factoring.veredholdings.com:
+    hostname: peer0.factoring.veredholdings.com
+    container_name: peer0.factoring.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.factoring.veredholdings.com
+      - CORE_PEER_ADDRESS=peer0.factoring.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.factoring.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgFactoringMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 12051:7051
+      - 12053:7053
+
+  peer1.factoring.veredholdings.com:
+    hostname: peer1.factoring.veredholdings.com
+    container_name: peer1.factoring.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.factoring.veredholdings.com
+      - CORE_PEER_ADDRESS=peer1.factoring.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.factoring.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgFactoringMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer1.factoring.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer1.factoring.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 13051:7051
+      - 13053:7053
+
+  peer2.factoring.veredholdings.com:
+    hostname: peer2.factoring.veredholdings.com
+    container_name: peer2.factoring.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.factoring.veredholdings.com
+      - CORE_PEER_ADDRESS=peer2.factoring.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.factoring.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgFactoringMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer2.factoring.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer2.factoring.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 14051:7051
+      - 14053:7053
+
+  peer3.factoring.veredholdings.com:
+    hostname: peer3.factoring.veredholdings.com
+    container_name: peer3.factoring.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer3.factoring.veredholdings.com
+      - CORE_PEER_ADDRESS=peer3.factoring.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.factoring.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgFactoringMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer3.factoring.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer3.factoring.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 15051:7051
+      - 15053:7053
+
+  peer4.factoring.veredholdings.com:
+    hostname: peer4.factoring.veredholdings.com
+    container_name: peer4.factoring.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer4.Factoring.veredholdings.com
+      - CORE_PEER_ADDRESS=peer4.factoring.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.factoring.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgFactoringMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer4.factoring.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer4.factoring.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 16051:7051
+      - 16053:7053
+
+
+  peer0.core.veredholdings.com:
+    hostname: peer0.core.veredholdings.com
+    container_name: peer0.core.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.core.veredholdings.com
+      - CORE_PEER_ADDRESS=peer0.core.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.core.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgCoreMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer0.core.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer0.core.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 17051:7051
+      - 17053:7053
+
+  peer1.core.veredholdings.com:
+    hostname: peer1.core.veredholdings.com
+    container_name: peer1.core.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.core.veredholdings.com
+      - CORE_PEER_ADDRESS=peer1.core.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.core.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgCoreMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer1.core.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer1.core.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 18051:7051
+      - 18053:7053
+
+  peer2.core.veredholdings.com:
+    hostname: peer2.core.veredholdings.com
+    container_name: peer2.core.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.core.veredholdings.com
+      - CORE_PEER_ADDRESS=peer2.core.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.core.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgCoreMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer2.core.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer2.core.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 19051:7051
+      - 19053:7053
+
+  peer3.core.veredholdings.com:
+    hostname: peer3.core.veredholdings.com
+    container_name: peer3.core.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer3.core.veredholdings.com
+      - CORE_PEER_ADDRESS=peer3.core.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.core.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgCoreMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer3.core.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer3.core.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 20051:7051
+      - 20053:7053
+
+  peer4.core.veredholdings.com:
+    hostname: peer4.core.veredholdings.com
+    container_name: peer4.core.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer4.core.veredholdings.com
+      - CORE_PEER_ADDRESS=peer4.core.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.core.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgCoreMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer4.core.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/core.veredholdings.com/peers/peer4.core.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 21051:7051
+      - 21053:7053
+
+  peer0.supply.veredholdings.com:
+    hostname: peer0.supply.veredholdings.com
+    container_name: peer0.supply.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.supply.veredholdings.com
+      - CORE_PEER_ADDRESS=peer0.supply.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.supply.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgSupplyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer0.supply.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer0.supply.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 22051:7051
+      - 22053:7053
+
+  peer1.supply.veredholdings.com:
+    hostname: peer1.supply.veredholdings.com
+    container_name: peer1.supply.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.supply.veredholdings.com
+      - CORE_PEER_ADDRESS=peer1.supply.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.supply.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgSupplyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer1.supply.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer1.supply.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 23051:7051
+      - 23053:7053
+
+  peer2.supply.veredholdings.com:
+    hostname: peer2.supply.veredholdings.com
+    container_name: peer2.supply.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.supply.veredholdings.com
+      - CORE_PEER_ADDRESS=peer2.supply.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.supply.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgSupplyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer2.supply.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer2.supply.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 24051:7051
+      - 24053:7053
+
+  peer3.supply.veredholdings.com:
+    hostname: peer3.supply.veredholdings.com
+    container_name: peer3.supply.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer3.supply.veredholdings.com
+      - CORE_PEER_ADDRESS=peer3.supply.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.supply.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgSupplyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer3.supply.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer3.supply.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 25051:7051
+      - 25053:7053
+
+  peer4.supply.veredholdings.com:
+    hostname: peer4.supply.veredholdings.com
+    container_name: peer4.supply.veredholdings.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer4.supply.veredholdings.com
+      - CORE_PEER_ADDRESS=peer4.supply.veredholdings.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.supply.veredholdings.com:7051
+      - CORE_PEER_LOCALMSPID=OrgSupplyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer4.supply.veredholdings.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer4.supply.veredholdings.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 26051:7051
+      - 26053:7053
+
+
