@@ -1,6 +1,8 @@
 #!/bin/bash
 #
+
 export FABRIC_CFG_PATH=${PWD}
+# FABRIC_CFG_PATH is a path which configtx.yaml and crypto.yaml located
 WORKING_PATH=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/addorg/scripts
 cd $WORKING_PATH
 echo "cd $WORKING_PATH"
@@ -28,21 +30,6 @@ function addNewOrg () {
   docker exec Org3cli ./scripts/step2org3.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to have Org3 peers join network"
-    exit 1
-  fi
-  echo
-  echo "###############################################################"
-  echo "##### Upgrade chaincode to have Org3 peers on the network #####"
-  echo "###############################################################"
-  docker exec cli ./scripts/step3org3.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT
-  if [ $? -ne 0 ]; then
-    echo "ERROR !!!! Unable to add Org3 peers on network"
-    exit 1
-  fi
-  # finish by running the test
-  docker exec Org3cli ./scripts/testorg3.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT
-  if [ $? -ne 0 ]; then
-    echo "ERROR !!!! Unable to run test"
     exit 1
   fi
 }
@@ -79,7 +66,7 @@ function generateCerts (){
 
   (cd $WORKING_PATH
    set -x
-   cryptogen generate --config=../org3-crypto.yaml --output=$MSPDir/crypto-config
+   cryptogen generate --config=../org3-crypto.yaml
    res=$?
    set +x
    if [ $res -ne 0 ]; then
@@ -103,7 +90,7 @@ function generateChannelArtifacts() {
   (cd $WORKING_PATH
    export FABRIC_CFG_PATH=$PWD
    set -x
-   configtxgen -printOrg Org3MSP > ../channel-artifacts/org3.json
+   configtxgen -printOrg PeerOrg3 > ./org3.json
    res=$?
    set +x
    if [ $res -ne 0 ]; then
@@ -111,7 +98,7 @@ function generateChannelArtifacts() {
      exit 1
    fi
   )
-  cp -r crypto-config/ordererOrganizations $WORKING_PATH/crypto-config/
+  cp -r $WORKING_PATH/crypto-config/ MSPDir
   echo
 }
 
@@ -119,7 +106,7 @@ function generateChannelArtifacts() {
 CLI_TIMEOUT=10
 CLI_DELAY=3
 CHANNEL_NAME="testorgschannel1"
-COMPOSE_FILE_ORG3='machine4-org3.yml'
+COMPOSE_FILE_ORG3='../machine4-org3.yml'
 LANGUAGE=golang
 
 CRYPTO_CONFIG_DIR='/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools'
@@ -132,6 +119,8 @@ support_version='x86_64-0.4.6'
 echo "start adding new org"
 addNewOrg
 
+echo "done."
+### 
 # Obtain CONTAINER_IDS and remove them
 function clearContainers () {
   CONTAINER_IDS=$(docker ps -aq)

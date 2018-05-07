@@ -17,8 +17,8 @@ HOST2COMPOSE=machine2-org1.yml
 HOST3=172.16.50.153
 HOST3COMPOSE=machine3-org2.yml
 
-# if you change you host compose file, make sure you use nodejs to modify you SCFILEs
 Scenarios_DIR=${PWD}
+
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
