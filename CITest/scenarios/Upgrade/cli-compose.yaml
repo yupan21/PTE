@@ -10,7 +10,6 @@ services:
     environment:
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      #- CORE_LOGGING_LEVEL=DEBUG
       - CORE_LOGGING_LEVEL=INFO
       - CORE_PEER_ID=cli
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
@@ -26,7 +25,6 @@ services:
       - /var/run/:/host/var/run/
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
       - ./:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-      # - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     extra_hosts:
       - "orderer0.example.com:172.16.50.153"
       - "orderer1.example.com:172.16.50.153"

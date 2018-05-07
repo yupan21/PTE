@@ -2,13 +2,10 @@
 echo
 CHANNEL_NAME="$1"
 DELAY="$2"
-LANGUAGE="$3"
-TIMEOUT="$4"
 GODEBUG=netdns=go
 : ${CHANNEL_NAME:="testorgschannel1"}
 : ${DELAY:="1"}
 : ${LANGUAGE:="golang"}
-: ${TIMEOUT:="10"}
 ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 export http_proxy=http://172.16.50.151:8118
 unset http_proxy https_proxy
@@ -119,30 +116,6 @@ sleep $DELAY
 #Config update for /Channel
 echo "Config update for /Channel on \"$CHANNEL_NAME\""
 addCapabilityToChannel $CHANNEL_NAME channel
-
-# #Query on chaincode on Peer0/Org1
-# echo "Querying chaincode on org1/peer0..."
-# chaincodeQuery 0 1 90
-
-# #Invoke on chaincode on Peer0/Org1
-# echo "Sending invoke transaction on org1/peer0..."
-# chaincodeInvoke 0 1
-
-# sleep $DELAY
-
-# #Query on chaincode on Peer0/Org1
-# echo "Querying chaincode on org1/peer0..."
-# chaincodeQuery 0 1 80
-
-# ##Invoke on chaincode on Peer0/Org2
-# echo "Sending invoke transaction on org2/peer0..."
-# chaincodeInvoke 0 2
-
-# sleep $DELAY
-
-# #Query on chaincode on Peer0/Org2
-# echo "Querying chaincode on org2/peer0..."
-# chaincodeQuery 0 2 70
 
 echo
 echo
