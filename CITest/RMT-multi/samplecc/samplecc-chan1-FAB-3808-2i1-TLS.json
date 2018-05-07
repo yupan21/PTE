@@ -39,7 +39,7 @@
         "listener": "Transaction",
         "timeout": "240000"
     },
-    "ccType": "list",
+    "ccType": "user",
     "invoke_nums_per_time": "2",
     "userKey":"fncJrnlId",
     "ccOpt": {

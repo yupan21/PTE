@@ -18,7 +18,7 @@
         "name":  "golden-ticket",
         "action":  "create",
         "orgName": [
-            "org1"
+            "bigtree"
         ]
     },
     "burstOpt": {

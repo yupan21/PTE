@@ -17,7 +17,7 @@
         "channelTX": "/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools/cryptogen/crypto-config/ordererOrganizations/golden-ticket.tx",
         "action":  "create",
         "orgName": [
-            "org1"
+            "bigtree"
         ]
     },
     "burstOpt": {
@@ -35,8 +35,8 @@
         "devFreq": "0"
     },
     "listOpt": {
-        "org1": ["peer1"],
-        "org2": ["peer1"]
+        "bigtree": ["peer1.bigtree.veredholdings.com"],
+        "factoring": ["peer1.factoring.veredholdings.com"]
     },
     "ccType": "ccchecker",
     "ccOpt": {

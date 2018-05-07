@@ -58,7 +58,7 @@ for n in 1 5 10 15 20 ; do
 
     # running test-----------------
     cd $CISCRIPT_DIR
-    node ./config.js $testcasename chaincodeID sample_cc11
+    node ./config.js $testcasename chaincodeID sample_cc
     node ./config.js $testcasename nProcPerOrg $n
     node ./config.js $testcasename nRequest 0
     node ./config.js $testcasename runDur 600

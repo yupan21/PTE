@@ -5,17 +5,17 @@ unset http_proxy https_proxy
 
 testcasename='RMT-vered'
 networkCompose='veredholdings'
-CISconfigfilename='RMT-config-multi.json'
-fabric_version='x86_64-1.1.0'
+CISconfigfilename='veredholdings.json'
+fabric_version='x86_64-1.0.6'
 support_version='x86_64-0.4.6'
 chaincode='assets-mgm'
 
 HOST1=172.16.50.153
-HOST1COMPOSE=machine1-orderer.yml
-HOST2=172.16.50.151
-HOST2COMPOSE=machine2-org1.yml
-HOST3=172.16.50.153
-HOST3COMPOSE=machine3-org2.yml
+HOST1COMPOSE='docker-compose-e2e-couchdb.yaml'
+# HOST2=172.16.50.151
+# HOST2COMPOSE=machine2-org1.yml
+# HOST3=172.16.50.153
+# HOST3COMPOSE=machine3-org2.yml
 
 Scenarios_DIR=${PWD}
 
@@ -31,26 +31,26 @@ SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/
 # scfile needs for PTE test
 
 # config scfiles -------------
-function config_scfile() {
-    cd $CISCRIPT_DIR 
-    node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:7050
-    # node ./config_sc.js $CISconfigfilename orderer.orderer1.url grpcs://$HOST1:4789
-    # node ./config_sc.js $CISconfigfilename orderer.orderer2.url grpcs://$HOST1:7946
+# function config_scfile() {
+#     cd $CISCRIPT_DIR 
+#     node ./config_sc.js $CISconfigfilename orderer.orderer0.url grpcs://$HOST1:7050
+#     # node ./config_sc.js $CISconfigfilename orderer.orderer1.url grpcs://$HOST1:4789
+#     # node ./config_sc.js $CISconfigfilename orderer.orderer2.url grpcs://$HOST1:7946
 
-    node ./config_sc.js $CISconfigfilename org1.ca.url https://$HOST2:7054
-    node ./config_sc.js $CISconfigfilename org1.peer1.requests grpcs://$HOST2:7061
-    node ./config_sc.js $CISconfigfilename org1.peer1.events grpcs://$HOST2:6051
-    node ./config_sc.js $CISconfigfilename org1.peer2.requests grpcs://$HOST2:7062
-    node ./config_sc.js $CISconfigfilename org1.peer2.events grpcs://$HOST2:6052
+#     node ./config_sc.js $CISconfigfilename org1.ca.url https://$HOST2:7054
+#     node ./config_sc.js $CISconfigfilename org1.peer1.requests grpcs://$HOST2:7061
+#     node ./config_sc.js $CISconfigfilename org1.peer1.events grpcs://$HOST2:6051
+#     node ./config_sc.js $CISconfigfilename org1.peer2.requests grpcs://$HOST2:7062
+#     node ./config_sc.js $CISconfigfilename org1.peer2.events grpcs://$HOST2:6052
 
-    node ./config_sc.js $CISconfigfilename org2.ca.url https://$HOST3:7055
-    node ./config_sc.js $CISconfigfilename org2.peer1.requests grpcs://$HOST3:7063
-    node ./config_sc.js $CISconfigfilename org2.peer1.events grpcs://$HOST3:6053
-    node ./config_sc.js $CISconfigfilename org2.peer2.requests grpcs://$HOST3:7064
-    node ./config_sc.js $CISconfigfilename org2.peer2.events grpcs://$HOST3:6054
-}
-echo "Configing PTE SCfiles"
-config_scfile
+#     node ./config_sc.js $CISconfigfilename org2.ca.url https://$HOST3:7055
+#     node ./config_sc.js $CISconfigfilename org2.peer1.requests grpcs://$HOST3:7063
+#     node ./config_sc.js $CISconfigfilename org2.peer1.events grpcs://$HOST3:6053
+#     node ./config_sc.js $CISconfigfilename org2.peer2.requests grpcs://$HOST3:7064
+#     node ./config_sc.js $CISconfigfilename org2.peer2.events grpcs://$HOST3:6054
+# }
+# echo "Configing PTE SCfiles"
+# config_scfile
 # config scfiles ----------------
 
 # sendingCI scfiles and copy compose files ----------------
@@ -65,8 +65,8 @@ function sendingCIcompose(){
 echo "Copying file to $NL_DIR"
 yes | cp -r ../../composeFile/* $NL_DIR
 sendingCIcompose $HOST1
-sendingCIcompose $HOST2
-sendingCIcompose $HOST3
+# sendingCIcompose $HOST2
+# sendingCIcompose $HOST3
 # sendingCI scfiles and copy compose files ----------------
 
 
@@ -80,8 +80,8 @@ function clean_network(){
 }
 rm -rf /tmp/*
 clean_network $HOST1
-clean_network $HOST2
-clean_network $HOST3
+# clean_network $HOST2
+# clean_network $HOST3
 # cleanup the network ------------
 
 
@@ -95,8 +95,8 @@ function startup_network() {
 
 # startup the network ------------
 startup_network $HOST1 $HOST1COMPOSE
-startup_network $HOST2 $HOST2COMPOSE
-startup_network $HOST3 $HOST3COMPOSE
+# startup_network $HOST2 $HOST2COMPOSE
+# startup_network $HOST3 $HOST3COMPOSE
 # startup the network ------------
 
 

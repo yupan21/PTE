@@ -15,7 +15,7 @@
     "channelOpt": {
         "name": "golden-ticket",
         "action": "create",
-        "orgName": ["org1"]
+        "orgName": ["bigtree"]
     },
     "burstOpt": {
         "burstFreq0": "500",
@@ -32,14 +32,14 @@
         "devFreq": "0"
     },
     "listOpt": {
-        "org1": ["peer1"],
-        "org2": ["peer1"]
+        "bigtree": ["peer1.bigtree.veredholdings.com"],
+        "factoring": ["peer1.factoring.veredholdings.com"]
     },
     "eventOpt": {
         "listener": "Transaction",
         "timeout": "240000"
     },
-    "ccType": "list",
+    "ccType": "user",
     "invoke_nums_per_time": "2",
     "userKey":"fncJrnlId",
     "ccOpt": {
