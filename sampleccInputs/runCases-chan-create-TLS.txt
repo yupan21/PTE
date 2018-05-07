@@ -1,3 +1,0 @@
-sdk=node sampleccInputs/samplecc-chan1-create-TLS.json
-sdk=node sampleccInputs/samplecc-chan2-create-TLS.json
-sdk=node sampleccInputs/samplecc-chan3-create-TLS.json
