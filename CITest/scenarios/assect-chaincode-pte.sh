@@ -12,11 +12,11 @@ chaincode='assets-mgm'
 
 
 HOST1=172.16.50.153
-HOST1COMPOSE=machine1-kafka-3orderer-1kfka-1zk.yml
+HOST1COMPOSE=machine1-106.1.yml
 HOST2=172.16.50.151
-HOST2COMPOSE=machine2-kafka-2peer-1ca.yml
+HOST2COMPOSE=machine2-106.1.yml
 HOST3=172.16.50.153
-HOST3COMPOSE=machine3-kafka-2peer-1ca.yml
+HOST3COMPOSE=machine3-106.1.yml
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
