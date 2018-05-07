@@ -6,7 +6,6 @@ export FABRIC_CFG_PATH=${PWD}
 WORKING_PATH=${PWD}
 cd $WORKING_PATH
 echo "cd $WORKING_PATH"
-
 # the main function to addneworg
 function addNewOrg () {
   # generate artifacts if they don't exist
@@ -46,6 +45,7 @@ function createConfigTx () {
   echo "###############################################################"
   echo "####### Generate and submit config tx to add bosc #############"
   echo "###############################################################"
+  docker-compose -f '../cli.yaml' up -d
   docker exec cli scripts/step1bosc.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to create config tx"
@@ -91,7 +91,7 @@ function generateChannelArtifacts() {
   (cd $WORKING_PATH
    export FABRIC_CFG_PATH=$PWD
    set -x
-   configtxgen -printOrg OrgBosc > ./bosc.json
+   configtxgen -printOrg OrgBoscMSP > ./bosc.json
    res=$?
    set +x
    if [ $res -ne 0 ]; then
@@ -99,7 +99,7 @@ function generateChannelArtifacts() {
      exit 1
    fi
   )
-  cp -r $WORKING_PATH/crypto-config/ $CRYPTO_CONFIG_DIR
+  cp -r ./crypto-config ../
   echo
 }
 
@@ -110,6 +110,7 @@ CHANNEL_NAME="testorgschannel1"
 COMPOSE_FILE_bosc='../bocs.yaml'
 LANGUAGE=golang
 rm -rf crypto-config/
+rm -rf ../crypto-config/peerOrganizations/bosc.veredholdings.com
 rm -rf bosc.json
 CRYPTO_CONFIG_DIR='/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config'
 fabric_version='x86_64-1.0.6'
