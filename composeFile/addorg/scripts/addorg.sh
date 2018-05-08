@@ -91,7 +91,7 @@ function generateChannelArtifacts() {
   (cd $WORKING_PATH
    export FABRIC_CFG_PATH=$PWD
    set -x
-   configtxgen -printOrg PeerOrg3 > ./org3.json
+   configtxgen -printOrg PeerOrg3MSP > ./org3.json
    res=$?
    set +x
    if [ $res -ne 0 ]; then

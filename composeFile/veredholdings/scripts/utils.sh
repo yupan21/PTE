@@ -20,8 +20,8 @@ setGlobals () {
 	ORG=$2
 	if [ $ORG -eq 1 ] ; then
 		CORE_PEER_LOCALMSPID="OrgBigtreeMSP"
-    CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/server.crt
-    CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/server.key
+    # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/server.crt
+    # CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/server.key
 		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/ca.crt
 		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/users/Admin@bigtree.veredholdings.com/msp
 		if [ $PEER -eq 0 ]; then
@@ -31,8 +31,8 @@ setGlobals () {
 		fi
 	elif [ $ORG -eq 2 ] ; then
 		CORE_PEER_LOCALMSPID="OrgFactoringMSP"
-    CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/server.crt
-    CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/server.key
+    # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/server.crt
+    # CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/server.key
 		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/ca.crt
 		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/users/Admin@factoring.veredholdings.com/msp
 		if [ $PEER -eq 0 ]; then
@@ -43,8 +43,8 @@ setGlobals () {
 
 	elif [ $ORG -eq 3 ] ; then
 		CORE_PEER_LOCALMSPID="OrgBoscMSP"
-    CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/server.crt
-    CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/server.key
+    # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/server.crt
+    # CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/server.key
 		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/ca.crt
 		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/users/Admin@bosc.veredholdings.com/msp
 		if [ $PEER -eq 0 ]; then

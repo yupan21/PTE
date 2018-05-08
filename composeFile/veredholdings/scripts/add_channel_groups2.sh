@@ -54,6 +54,9 @@ echo "========= Submitting transaction from a different peer (peer0.org2) which 
 echo
 setGlobals 0 2
 set -x
+CORE_PEER_LOCALMSPID="OrgOrdererMSP" \
+CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/orderer.veredholdings.com/orderers/orderer0.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem \
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/orderer.veredholdings.com/users/Admin@orderer.veredholdings.com/msp \
 peer channel update -f bosc_update_in_envelope.pb -c ${CHANNEL_NAME} -o orderer0.orderer.veredholdings.com:7050 --tls --cafile ${ORDERER_CA}
 set +x
 

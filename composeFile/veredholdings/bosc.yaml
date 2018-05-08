@@ -132,7 +132,6 @@ services:
       - GODEBUG=netdns=go
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      # - CORE_LOGGING_LEVEL=INFO
       - CORE_LOGGING_LEVEL=DEBUG
       - CORE_PEER_ID=bosccli
       - CORE_PEER_ADDRESS=peer0.bocs.veredholdings.com:7051
@@ -149,5 +148,5 @@ services:
       - /opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
       - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
     depends_on:
-      - peer0.bocs.veredholdings.com
-      - peer1.bocs.veredholdings.com
+      - peer0.bosc.veredholdings.com
+      - peer1.bosc.veredholdings.com
