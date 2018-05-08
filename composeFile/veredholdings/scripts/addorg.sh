@@ -15,7 +15,7 @@ function addNewOrg () {
     createConfigTx
   fi
   
-  cd crypto-config/peerOrganizations/bocs.veredholdings.com/ca
+  cd ./crypto-config/peerOrganizations/bosc.veredholdings.com/ca
   ca2_keyfile=$(ls *_sk)
   echo "the ca keyfile is $ca2_keyfile"
   cd $WORKING_PATH
@@ -109,7 +109,7 @@ function generateChannelArtifacts() {
 CLI_TIMEOUT=10
 CLI_DELAY=3
 CHANNEL_NAME="golden-ticket"
-COMPOSE_FILE_bosc='../bocs.yaml'
+COMPOSE_FILE_bosc='../bosc.yaml'
 LANGUAGE=golang
 rm -rf crypto-config/
 rm -rf ../crypto-config/peerOrganizations/bosc.veredholdings.com
