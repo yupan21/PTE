@@ -71,11 +71,11 @@ fetchChannelConfig() {
     peer channel fetch config config_block.pb -o orderer0.orderer.veredholdings.com:7050 -c $CHANNEL --tls --cafile $ORDERER_CA
     set +x
   fi
-
-  echo "Decoding config block to JSON and isolating config to ${OUTPUT}"
-  set -x
-  GODEBUG=netdns=go configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > "${OUTPUT}"
-  set +x
+  cp config_block.pb ./scripts/
+  # echo "Decoding config block to JSON and isolating config to ${OUTPUT}"
+  # set -x
+  # GODEBUG=netdns=go configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > "${OUTPUT}"
+  # set +x
 }
 
 # signConfigtxAsPeerOrg <org> <configtx.pb>

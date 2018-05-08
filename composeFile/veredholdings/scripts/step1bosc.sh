@@ -13,7 +13,7 @@ LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
 COUNTER=1
 MAX_RETRY=5
 ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/orderer.veredholdings.com/orderers/orderer0.orderer.veredholdings.com/msp/tlscacerts/tlsca.orderer.veredholdings.com-cert.pem
-export http_proxy=http://172.16.104.145:8118
+# export http_proxy=http://172.16.104.145:8118
 
 # import utils
 . scripts/utils.sh
@@ -22,10 +22,10 @@ echo
 echo "========= Creating config transaction to add bosc to network =========== "
 echo
 
-echo "Installing jq"
-rm /var/lib/apt/lists/lock
-apt-get -y update && apt-get -y install jq
-unset http_proxy
+# echo "Installing jq"
+# rm /var/lib/apt/lists/lock
+# apt-get -y update && apt-get -y install jq
+# unset http_proxy
 
 # Fetch the config for the channel, writing it to config.json
 fetchChannelConfig ${CHANNEL_NAME} config.json

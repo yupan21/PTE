@@ -16,15 +16,20 @@ ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrga
 # export http_proxy=http://172.16.104.145:8118
 
 # import utils
-. scripts/utils.sh
+. ./utils.sh
 
+
+echo "Decoding config block to JSON and isolating config to ${OUTPUT}"
+set -x
+OUTPUT=config.json GODEBUG=netdns=go \
+configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > "${OUTPUT}"
+set +x
 # Modify the configuration to append the new org
 set -x
-jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"BoscMSP":.[1]}}}}}' config.json ./scripts/bosc.json > modified_config.json
+jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"BoscMSP":.[1]}}}}}' config.json ./bosc.json > modified_config.json
 set +x
-
-# # Compute a config update, based on the differences between config.json and modified_config.json, write it as a transaction to bosc_update_in_envelope.pb
-# createConfigUpdate ${CHANNEL_NAME} config.json modified_config.json bosc_update_in_envelope.pb
+# Compute a config update, based on the differences between config.json and modified_config.json, write it as a transaction to bosc_update_in_envelope.pb
+createConfigUpdate ${CHANNEL_NAME} config.json modified_config.json bosc_update_in_envelope.pb
 
 # echo
 # echo "========= Config transaction to add bosc to network created ===== "

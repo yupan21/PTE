@@ -19,7 +19,7 @@ ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrga
 . scripts/utils.sh
 
 echo
-echo "========= Creating config transaction to add bosc to network =========== "
+echo "========= Add channel groups2=========== "
 echo
 
 # echo "Installing jq"
@@ -35,8 +35,11 @@ echo
 # jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"BoscMSP":.[1]}}}}}' config.json ./scripts/bosc.json > modified_config.json
 # set +x
 
-# Compute a config update, based on the differences between config.json and modified_config.json, write it as a transaction to bosc_update_in_envelope.pb
-createConfigUpdate ${CHANNEL_NAME} config.json modified_config.json bosc_update_in_envelope.pb
+cp ./scripts/*.json ./
+cp ./scripts/*.pb ./
+
+# # Compute a config update, based on the differences between config.json and modified_config.json, write it as a transaction to bosc_update_in_envelope.pb
+# createConfigUpdate ${CHANNEL_NAME} config.json modified_config.json bosc_update_in_envelope.pb
 
 echo
 echo "========= Config transaction to add bosc to network created ===== "
