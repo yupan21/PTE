@@ -34,8 +34,7 @@
         "devFreq": "0"
     },
     "listOpt": {
-        "bigtree": ["peer1.bigtree.veredholdings.com"],
-        "factoring": ["peer1.factoring.veredholdings.com"]
+        "bosc": ["peer1.bosc.veredholdings.com"]
     },
     "ccType": "ccchecker",
     "ccOpt": {
