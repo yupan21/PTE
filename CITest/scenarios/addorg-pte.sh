@@ -63,7 +63,7 @@ for n in 1 5 10 15 20 ; do
     node ./config.js $testcasename nRequest 0
     node ./config.js $testcasename runDur 600
     node ./config.js $testcasename invokeType Move
-    bash ./test_driver.sh -t RMT-multi
+    bash ./test_driver.sh -t $testcasename
     ## ending case ----------------
 
 
