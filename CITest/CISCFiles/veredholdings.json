@@ -228,6 +228,50 @@
                 "server-hostname": "peer4.supply.veredholdings.com",
                 "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/peerOrganizations/supply.veredholdings.com/tlsca/tlsca.supply.veredholdings.com-cert.pem"
             }
+        },
+        "bosc": {
+            "name": "OrgBosc",
+            "mspid": "OrgBoscMSP",
+            "mspPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config",
+            "adminPath": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/peerOrganizations/bosc.veredholdings.com/users/Admin@bosc.veredholdings.com/msp",
+            "comName": "veredholdings.com",
+            "ordererID": "orderer0.orderer.veredholdings.com",
+            "ca": {
+                "url": "https://172.16.50.153:11054",
+                "name": "ca_bosc"
+            },
+            "username": "admin",
+            "secret": "adminpw",
+            "peer0.bosc.veredholdings.com": {
+                "requests": "grpcs://172.16.50.153:27051",
+                "events": "grpcs://172.16.50.153:27053",
+                "server-hostname": "peer0.bosc.veredholdings.com",
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/peerOrganizations/bosc.veredholdings.com/tlsca/tlsca.bosc.veredholdings.com-cert.pem"
+            },
+            "peer1.bosc.veredholdings.com": {
+                "requests": "grpcs://172.16.50.153:28051",
+                "events": "grpcs://172.16.50.153:28053",
+                "server-hostname": "peer1.bosc.veredholdings.com",
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/peerOrganizations/bosc.veredholdings.com/tlsca/tlsca.bosc.veredholdings.com-cert.pem"
+            },
+            "peer2.bosc.veredholdings.com": {
+                "requests": "grpcs://172.16.50.153:29051",
+                "events": "grpcs://172.16.50.153:29053",
+                "server-hostname": "peer2.bosc.veredholdings.com",
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/peerOrganizations/bosc.veredholdings.com/tlsca/tlsca.bosc.veredholdings.com-cert.pem"
+            },
+            "peer3.bosc.veredholdings.com": {
+                "requests": "grpcs://172.16.50.153:30051",
+                "events": "grpcs://172.16.50.153:30053",
+                "server-hostname": "peer3.bosc.veredholdings.com",
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/peerOrganizations/bosc.veredholdings.com/tlsca/tlsca.bosc.veredholdings.com-cert.pem"
+            },
+            "peer4.bosc.veredholdings.com": {
+                "requests": "grpcs://172.16.50.153:31051",
+                "events": "grpcs://172.16.50.153:31053",
+                "server-hostname": "peer4.bosc.veredholdings.com",
+                "tls_cacerts": "src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config/peerOrganizations/bosc.veredholdings.com/tlsca/tlsca.bosc.veredholdings.com-cert.pem"
+            }
         }
     }
 }
