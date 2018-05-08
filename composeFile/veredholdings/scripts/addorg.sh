@@ -111,9 +111,10 @@ CLI_DELAY=3
 CHANNEL_NAME="golden-ticket"
 COMPOSE_FILE_bosc='../bosc.yaml'
 LANGUAGE=golang
-rm -rf crypto-config/
+rm -rf ./*.pb
+rm -rf ./*.json
+rm -rf ./crypto-config/
 rm -rf ../crypto-config/peerOrganizations/bosc.veredholdings.com
-rm -rf bosc.json
 CRYPTO_CONFIG_DIR='/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/crypto-config'
 fabric_version='x86_64-1.0.6'
 support_version='x86_64-0.4.6'

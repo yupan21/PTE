@@ -76,6 +76,8 @@ function clean_network(){
     ssh root@$1 -i ~/.ssh/id_rsa "cd $NL_DIR; \
         ./cleanNetwork.sh example.com; \
         rm -rf /data/ledgers_backup/*; \
+        rm -rf /data/couchdbdata/*/*; \
+        rm -rf /data/peerdata/*/*; \
         rm -rf /tmp/* "
 }
 rm -rf /tmp/*

@@ -21,7 +21,8 @@ ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrga
 
 echo "Decoding config block to JSON and isolating config to ${OUTPUT}"
 set -x
-OUTPUT=config.json GODEBUG=netdns=go \
+OUTPUT=config.json 
+GODEBUG=netdns=go \
 configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > "${OUTPUT}"
 set +x
 # Modify the configuration to append the new org
