@@ -20,6 +20,7 @@ setGlobals () {
 	ORG=$2
 	if [ $ORG -eq 1 ] ; then
 		CORE_PEER_LOCALMSPID="OrgBigtreeMSP"
+    unset CORE_PEER_TLS_CERT_FILE CORE_PEER_TLS_KEY_FILE
     # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/server.crt
     # CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/server.key
 		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/ca.crt
@@ -31,11 +32,12 @@ setGlobals () {
 		fi
 	elif [ $ORG -eq 2 ] ; then
 		CORE_PEER_LOCALMSPID="OrgFactoringMSP"
+    unset CORE_PEER_TLS_CERT_FILE CORE_PEER_TLS_KEY_FILE
     # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/server.crt
     # CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/server.key
 		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/ca.crt
 		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/factoring.veredholdings.com/users/Admin@factoring.veredholdings.com/msp
-		if [ $PEER -eq 0 ]; then
+    if [ $PEER -eq 0 ]; then
 			CORE_PEER_ADDRESS=peer0.factoring.veredholdings.com:7051
 		else
 			CORE_PEER_ADDRESS=peer1.factoring.veredholdings.com:7051
@@ -43,6 +45,7 @@ setGlobals () {
 
 	elif [ $ORG -eq 3 ] ; then
 		CORE_PEER_LOCALMSPID="OrgBoscMSP"
+    unset CORE_PEER_TLS_CERT_FILE CORE_PEER_TLS_KEY_FILE
     # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/server.crt
     # CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/server.key
 		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/ca.crt
@@ -82,6 +85,7 @@ fetchChannelConfig() {
   # set -x
   # GODEBUG=netdns=go configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > "${OUTPUT}"
   # set +x
+  # cp config.json ./scripts/
 }
 
 # signConfigtxAsPeerOrg <org> <configtx.pb>

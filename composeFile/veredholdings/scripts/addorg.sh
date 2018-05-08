@@ -20,7 +20,7 @@ function addNewOrg () {
   echo "the ca keyfile is $ca2_keyfile"
   cd $WORKING_PATH
   # start bosc peers
-  ENABLE_TLS=true IMAGE_TAG=$fabric_version SUPPORT_TAG=$support_version CA2_SERVER_TLS_KEYFILE=$ca2_keyfile docker-compose -f $COMPOSE_FILE_bosc up -d 2>&1
+  # ENABLE_TLS=true IMAGE_TAG=$fabric_version SUPPORT_TAG=$support_version CA2_SERVER_TLS_KEYFILE=$ca2_keyfile docker-compose -f $COMPOSE_FILE_bosc up -d 2>&1
 
   # start joing bosc
   if [ $? -ne 0 ]; then
