@@ -1,13 +1,13 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "sample_cc",
+    "chaincodeID": "sample_ccnew",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "FALSE",
     "transMode": "Constant",
     "transType": "Invoke",
     "invokeType": "Move",
-    "targetPeers": "OrgAnchor",
+    "targetPeers": "list",
     "nProcPerOrg": "1",
     "nRequest": "1",
     "runDur": "0",
@@ -32,7 +32,7 @@
         "devFreq": "0"
     },
     "listOpt": {
-        "bigtree": ["peer1.bigtree.veredholdings.com"]
+        "bosc": ["peer1.bosc.veredholdings.com"]
     },
     "eventOpt": {
         "listener": "Transaction",
@@ -59,7 +59,7 @@
             "args": ["1"]
         },
         "move": {
-            "fcn": "saveOrUpdateBizFncBscinfList",
+            "fcn": "saveOrUpdateBizFncBscinf",
             "args": [{
                 "id": 1,
                 "fncJrnlId": "1",

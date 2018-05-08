@@ -44,16 +44,17 @@ bash test_driver.sh -m $testcasename -p -c $chaincode
 # ./start_record.sh $HOST1 $HOST2
 # # start recording ---------------
 
-# # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js $testcasename nProcPerOrg 1
-# node ./config.js $testcasename nRequest 10
-# node ./config.js $testcasename runDur 0
-# # node ./config.js $testcasename ccOpt.payLoadMin 256
-# # node ./config.js $testcasename ccOpt.payLoadMax 256
-# node ./config.js $testcasename invokeType Move
-# bash ./test_driver.sh -t $testcasename
-# ## ending case ----------------
+# running test-----------------
+# if not specific the json file, config.js will default modify samplecc/samplecc-chan1-FAB-3808-2i1-TLS.json
+cd $CISCRIPT_DIR
+node ./config.js $testcasename nProcPerOrg 1
+node ./config.js $testcasename nRequest 10
+node ./config.js $testcasename runDur 0
+# node ./config.js $testcasename ccOpt.payLoadMin 256
+# node ./config.js $testcasename ccOpt.payLoadMax 256
+node ./config.js $testcasename invokeType Move
+bash ./test_driver.sh -t $testcasename
+## ending case ----------------
 
 # # end recording -----------------
 # cd $PROCESS_CPU_DIR
