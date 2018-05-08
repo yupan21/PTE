@@ -20,7 +20,7 @@ function addNewOrg () {
   echo "the ca keyfile is $ca2_keyfile"
   cd $WORKING_PATH
   # start bosc peers
-  IMAGE_TAG=$fabric_version SUPPORT_TAG=$support_version CA2_SERVER_TLS_KEYFILE=$ca2_keyfile docker-compose -f $COMPOSE_FILE_bosc up -d 2>&1
+  ENABLE_TLS=true IMAGE_TAG=$fabric_version SUPPORT_TAG=$support_version CA2_SERVER_TLS_KEYFILE=$ca2_keyfile docker-compose -f $COMPOSE_FILE_bosc up -d 2>&1
 
   # start joing bosc
   if [ $? -ne 0 ]; then
@@ -47,6 +47,8 @@ function createConfigTx () {
   echo "###############################################################"
   docker-compose -f '../cli.yaml' up -d
   docker exec cli scripts/step1bosc.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT
+  bash add_channel_groups1.sh
+  docker exec cli scripts/add_channel_groups2.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to create config tx"
     exit 1
@@ -106,7 +108,7 @@ function generateChannelArtifacts() {
 ############### running parameters ###############
 CLI_TIMEOUT=10
 CLI_DELAY=3
-CHANNEL_NAME="testorgschannel1"
+CHANNEL_NAME="golden-ticket"
 COMPOSE_FILE_bosc='../bocs.yaml'
 LANGUAGE=golang
 rm -rf crypto-config/
