@@ -1,6 +1,6 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "sample_cc",
+    "chaincodeID": "sample_ccnew",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",

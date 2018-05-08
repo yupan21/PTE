@@ -18,7 +18,7 @@ HOST1COMPOSE='docker-compose-e2e-couchdb.yaml'
 # HOST3COMPOSE=machine3-org2.yml
 
 Scenarios_DIR=${PWD}
-
+PTE_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE
 PROCESS_CPU_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/process_cpu-log
 # directory above is used to process system record
 CRYPTO_CONFIG_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric/common/tools
@@ -30,6 +30,8 @@ NL_DIR=/opt/go/src/github.com/hyperledger/fabric-test/tools/NL
 SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/CISCFiles
 # scfile needs for PTE test
 
+
+scp -i ~/.ssh/id_rsa -r root@$HOST1:$PTE_DIR/composeFile/$networkCompose/crypto-config $PTE_DIR/composeFile/$networkCompose/
 # start channel -------------
 cd $CISCRIPT_DIR
 bash test_driver.sh -m $testcasename -p -c $chaincode
