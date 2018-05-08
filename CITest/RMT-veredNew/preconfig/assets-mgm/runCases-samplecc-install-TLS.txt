@@ -1,0 +1,1 @@
+sdk=node CITest/RMT-veredNew/preconfig/assets-mgm/samplecc-chan1-install1-TLS.json

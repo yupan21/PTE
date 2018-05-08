@@ -42,8 +42,19 @@ setGlobals () {
 		else
 			CORE_PEER_ADDRESS=peer1.factoring.veredholdings.com:7051
 		fi
-
 	elif [ $ORG -eq 3 ] ; then
+		CORE_PEER_LOCALMSPID="OrgCoreMSP"
+    unset CORE_PEER_TLS_CERT_FILE CORE_PEER_TLS_KEY_FILE
+    # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/core.veredholdings.com/peers/peer0.core.veredholdings.com/tls/server.crt
+    # CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/core.veredholdings.com/peers/peer0.core.veredholdings.com/tls/server.key
+		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/core.veredholdings.com/peers/peer0.core.veredholdings.com/tls/ca.crt
+		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/core.veredholdings.com/users/Admin@core.veredholdings.com/msp
+    if [ $PEER -eq 0 ]; then
+			CORE_PEER_ADDRESS=peer0.core.veredholdings.com:7051
+		else
+			CORE_PEER_ADDRESS=peer1.core.veredholdings.com:7051
+		fi
+	elif [ $ORG -eq 4 ] ; then
 		CORE_PEER_LOCALMSPID="OrgBoscMSP"
     unset CORE_PEER_TLS_CERT_FILE CORE_PEER_TLS_KEY_FILE
     # CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bosc.veredholdings.com/peers/peer0.bosc.veredholdings.com/tls/server.crt

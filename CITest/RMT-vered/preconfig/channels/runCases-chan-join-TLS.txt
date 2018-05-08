@@ -1,4 +1,3 @@
 sdk=node CITest/RMT-vered/preconfig/channels/samplecc-chan1-join1-TLS.json
 sdk=node CITest/RMT-vered/preconfig/channels/samplecc-chan1-join2-TLS.json
 sdk=node CITest/RMT-vered/preconfig/channels/samplecc-chan1-join3-TLS.json
-sdk=node CITest/RMT-vered/preconfig/channels/samplecc-chan1-join4-TLS.json

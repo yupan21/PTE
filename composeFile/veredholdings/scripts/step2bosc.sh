@@ -23,7 +23,7 @@ ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrga
 echo "Fetching channel config block from orderer..."
 set -x
 setOrdererGlobals
-setGlobals 0 3
+setGlobals 0 4
 peer channel fetch 0 $CHANNEL_NAME.block -o orderer0.orderer.veredholdings.com:7050 -c $CHANNEL_NAME --tls --cafile $ORDERER_CA >&log.txt
 res=$?
 set +x

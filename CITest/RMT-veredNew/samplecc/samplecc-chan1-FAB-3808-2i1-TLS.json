@@ -1,0 +1,116 @@
+{
+    "channelID": "_ch1",
+    "chaincodeID": "sample_cc",
+    "chaincodeVer": "v0",
+    "logLevel": "ERROR",
+    "invokeCheck": "FALSE",
+    "transMode": "Constant",
+    "transType": "Invoke",
+    "invokeType": "Move",
+    "targetPeers": "OrgAnchor",
+    "nProcPerOrg": "1",
+    "nRequest": "1",
+    "runDur": "0",
+    "TLS": "enabled",
+    "channelOpt": {
+        "name": "golden-ticket",
+        "action": "create",
+        "orgName": ["bosc"]
+    },
+    "burstOpt": {
+        "burstFreq0": "500",
+        "burstDur0": "3000",
+        "burstFreq1": "2000",
+        "burstDur1": "10000"
+    },
+    "mixOpt": {
+        "mixFreq": "3000"
+    },
+    "constantOpt": {
+        "recHist": "noHIST",
+        "constFreq": "0",
+        "devFreq": "0"
+    },
+    "listOpt": {
+        "bigtree": ["peer1.bigtree.veredholdings.com"]
+    },
+    "eventOpt": {
+        "listener": "Transaction",
+        "timeout": "240000"
+    },
+    "ccType": "user",
+    "invoke_nums_per_time": "2",
+    "userKey":"fncJrnlId",
+    "ccOpt": {
+        "keyIdx": [1],
+        "keyPayLoad": [2],
+        "keyStart": "0",
+        "payLoadMin": "1024",
+        "payLoadMax": "1024"
+    },
+    "deploy": {
+        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/assets-mgm",
+        "fcn": "init",
+        "args": []
+    },
+    "invoke": {
+        "query": {
+            "fcn": "queryBizFncBscinfByFncJrnlId",
+            "args": ["1"]
+        },
+        "move": {
+            "fcn": "saveOrUpdateBizFncBscinfList",
+            "args": [{
+                "id": 1,
+                "fncJrnlId": "1",
+                "ctrId": "1",
+                "pdId": "1",
+                "pdNm": "1",
+                "cstId": "1",
+                "cstNm": "1",
+                "cntprId": "1",
+                "ctrAmt": 1,
+                "ctrCcyCd": "1",
+                "ctrStDt": 1,
+                "ctrExpDt": 1,
+                "ctrAvlAmt": 1,
+                "ctrArUseAmt": 1,
+                "coreAvlLmt": 1,
+                "coreArUseLmt": 1,
+                "lndAvlLmt": 1,
+                "lndArUseLmt": 1,
+                "ntwId": "1",
+                "ntwNm": "1",
+                "hgstCanFncAmt": 1,
+                "blTpCd": "1",
+                "fncImtCd": "1",
+                "rmrk": "1",
+                "opin": "1",
+                "rcvPymtStCd": "1",
+                "rspbPsnId": "1",
+                "hdlInstId": "1",
+                "hdlDt": 1,
+                "fnsStCd": "1",
+                "pcsStCd": "1",
+                "workItemId": "1",
+                "bsnModeCd": "1",
+                "prmtEntrstdPyInd": "1",
+                "poolSt": "1",
+                "gldSt": "1",
+                "dtSrc": "1",
+                "createTime": 1,
+                "createUser": "1",
+                "updateTime": 1,
+                "updateUser": "1",
+                "expdId": "1",
+                "delInd": "1",
+                "tenantId": "1",
+                "version": 1,
+                "flowNm": "1"
+              }]
+        }
+    },
+    "SCFile": [{
+        "ServiceCredentials": "CITest/CISCFiles/veredholdings.json"
+    }]
+}

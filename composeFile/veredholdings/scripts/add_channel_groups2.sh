@@ -50,12 +50,15 @@ echo
 # usage orgNum pb
 signConfigtxAsPeerOrg 1 bosc_update_in_envelope.pb
 
+# usage orgNum pb
+signConfigtxAsPeerOrg 2 bosc_update_in_envelope.pb
+
 echo
 echo "========= Submitting transaction from a different peer (peer0.org2) which also signs it ========= "
 echo
 # usage peerNum orgNum
 # ordererLocalMsp=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/orderer.veredholdings.com/orderers/orderer0.orderer.veredholdings.com/msp
-setGlobals 0 2
+setGlobals 0 3
 set -x
 # ORDERER_GENERAL_LOCALMSPID=OrgOrdererMSP \
 # ORDERER_GENERAL_LOCALMSPDIR=$ordererLocalMsp \
