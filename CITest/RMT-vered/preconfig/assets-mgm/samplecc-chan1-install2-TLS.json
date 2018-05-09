@@ -8,8 +8,6 @@
     "transType": "install",
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
-    "nOrderer": "1",
-    "nPeer": "4",
     "nProcPerOrg": "4",
     "nRequest": "1000",
     "runDur": "600",
@@ -18,7 +16,7 @@
         "name":  "golden-ticket",
         "action":  "create",
         "orgName": [
-            "factoring"
+            "factoring","supply"
         ]
     },
     "burstOpt": {

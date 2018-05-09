@@ -257,6 +257,220 @@ byfn的其他参数（可用来测试其他场景示例）：
             startup_network $HOST2 $HOST2COMPOSE
     7. 测试创建channel，join channel，install chaincode，instantiate chaincode可以通过之前提到的node sdk的方法来进行（注意需要修改配置文件位对应的机器）。
 
++ 重要的证书文件说明
+    一个简单的树状证书文件示例
+
+        crypto-config #根目录，orderer的msppath配置路径
+        ├── ordererOrganizations
+        │   └── example.com
+        │       ├── ca
+        │       │   ├── 1cf1f8d9f9008abc91ebe5f137d6c321dba7899b8ca91631534b2ffc4dcc867f_sk
+        │       │   └── ca.example.com-cert.pem
+        │       ├── msp
+        │       │   ├── admincerts
+        │       │   │   └── Admin@example.com-cert.pem
+        │       │   ├── cacerts
+        │       │   │   └── ca.example.com-cert.pem
+        │       │   └── tlscacerts
+        │       │       └── tlsca.example.com-cert.pem
+        │       ├── orderers
+        │       │   └── orderer.example.com
+        │       │       ├── msp #orderer的ORDERER_GENERAL_LOCALMSPDIR配置路径
+        │       │       │   ├── admincerts
+        │       │       │   │   └── Admin@example.com-cert.pem
+        │       │       │   ├── cacerts
+        │       │       │   │   └── ca.example.com-cert.pem
+        │       │       │   ├── keystore
+        │       │       │   │   └── 561420c2faf9e817f160aa0a52f85a6457caa63a19525784ca4d00c5f93b7740_sk
+        │       │       │   ├── signcerts
+        │       │       │   │   └── orderer.example.com-cert.pem
+        │       │       │   └── tlscacerts
+        │       │       │       └── tlsca.example.com-cert.pem
+        │       │       └── tls 
+        │       │           ├── ca.crt# ORDERER_GENERAL_TLS_ROOTCAS配置路径，注意这里是用数组排列的[,]用逗号分割无空格，默认为一个即直接在路径
+        │       │           ├── server.crt# orderer的ORDERER_GENERAL_TLS_CERTIFICATE配置路径
+        │       │           └── server.key# orderer的ORDERER_GENERAL_TLS_PRIVATEKEY配置路径
+        │       ├── tlsca
+        │       │   ├── 1e0b6d246fa61fc688fadb32da308bdf3e1ed8bb0cfb1fa5b445219bbf58f345_sk
+        │       │   └── tlsca.example.com-cert.pem
+        │       └── users # orderer的user路径
+        │           └── Admin@example.com
+        │               ├── msp # orderer的adminpath路径位置和CORE_PEER_MSPCONFIGPATH的路径
+        │               │   ├── admincerts
+        │               │   │   └── Admin@example.com-cert.pem
+        │               │   ├── cacerts
+        │               │   │   └── ca.example.com-cert.pem
+        │               │   ├── keystore
+        │               │   │   └── 262b0476d89757e4ec0577c08088117a2eebc9b667d2cd2544879f4c4cb07864_sk
+        │               │   ├── signcerts
+        │               │   │   └── Admin@example.com-cert.pem
+        │               │   └── tlscacerts # orderer的ca路径位置，在peer和orderer中ORDERER_CA环境变量的路径和CORE_PEER_TLS_ROOTCERT_FILE的路径
+        │               │       └── tlsca.example.com-cert.pem
+        │               └── tls
+        │                   ├── ca.crt
+        │                   ├── client.crt
+        │                   └── client.key
+        └── peerOrganizations
+            ├── org1.example.com
+            │   ├── ca
+            │   │   ├── 97057df554320e472b96da233e9aa52c2f7ce6cdc6ca39d5ed6262e8440e0d03_sk
+            │   │   └── ca.org1.example.com-cert.pem
+            │   ├── msp
+            │   │   ├── admincerts
+            │   │   │   └── Admin@org1.example.com-cert.pem
+            │   │   ├── cacerts
+            │   │   │   └── ca.org1.example.com-cert.pem
+            │   │   └── tlscacerts
+            │   │       └── tlsca.org1.example.com-cert.pem
+            │   ├── peers
+            │   │   ├── peer0.org1.example.com
+            │   │   │   ├── msp
+            │   │   │   │   ├── admincerts
+            │   │   │   │   │   └── Admin@org1.example.com-cert.pem
+            │   │   │   │   ├── cacerts
+            │   │   │   │   │   └── ca.org1.example.com-cert.pem
+            │   │   │   │   ├── keystore
+            │   │   │   │   │   └── 70781eed0c954d98457563141136210e2007e591f4ce0c54059c3ebd8080bbd5_sk
+            │   │   │   │   ├── signcerts
+            │   │   │   │   │   └── peer0.org1.example.com-cert.pem
+            │   │   │   │   └── tlscacerts
+            │   │   │   │       └── tlsca.org1.example.com-cert.pem
+            │   │   │   └── tls
+            │   │   │       ├── ca.crt # peer0的CORE_PEER_TLS_ROOTCERT_FILE的环境变量配置路径
+            │   │   │       ├── server.crt # 这里用来填写CORE_PEER_TLS_CERT_FILE的环境变量配置
+            │   │   │       └── server.key # 这里填写CORE_PEER_TLS_KEY_FILE的的环境变量配置
+            │   │   └── peer1.org1.example.com
+            │   │       ├── msp 
+            │   │       │   ├── admincerts
+            │   │       │   │   └── Admin@org1.example.com-cert.pem
+            │   │       │   ├── cacerts
+            │   │       │   │   └── ca.org1.example.com-cert.pem
+            │   │       │   ├── keystore
+            │   │       │   │   └── b8713eeb033906d3f597c7c62da71e036b2356d74f02db6672fa74a5bc10ec67_sk
+            │   │       │   ├── signcerts
+            │   │       │   │   └── peer1.org1.example.com-cert.pem
+            │   │       │   └── tlscacerts
+            │   │       │       └── tlsca.org1.example.com-cert.pem
+            │   │       └── tls 
+            │   │           ├── ca.crt
+            │   │           ├── server.crt
+            │   │           └── server.key
+            │   ├── tlsca
+            │   │   ├── 2eff25a52afc3fb221309e1309480dfb41817527c8d764e74c557e474d21ae91_sk
+            │   │   └── tlsca.org1.example.com-cert.pem #填写tls_cacerts的路径
+            │   └── users
+            │       ├── Admin@org1.example.com
+            │       │   ├── msp #org1的CORE_PEER_MSPCONFIGPATH路径这里是admin的权限
+            │       │   │   ├── admincerts
+            │       │   │   │   └── Admin@org1.example.com-cert.pem
+            │       │   │   ├── cacerts
+            │       │   │   │   └── ca.org1.example.com-cert.pem
+            │       │   │   ├── keystore
+            │       │   │   │   └── 029b91cf4cc0fb71d156e8f2bd5b38b5915d62473c94398be2e361da9526927e_sk
+            │       │   │   ├── signcerts
+            │       │   │   │   └── Admin@org1.example.com-cert.pem
+            │       │   │   └── tlscacerts
+            │       │   │       └── tlsca.org1.example.com-cert.pem
+            │       │   └── tls
+            │       │       ├── ca.crt 
+            │       │       ├── client.crt
+            │       │       └── client.key
+            │       └── User1@org1.example.com
+            │           ├── msp
+            │           │   ├── admincerts
+            │           │   │   └── User1@org1.example.com-cert.pem
+            │           │   ├── cacerts
+            │           │   │   └── ca.org1.example.com-cert.pem
+            │           │   ├── keystore
+            │           │   │   └── c111a575570ebd5868208aa8c2f9d65db3686772bcd532fb04e56d9d24a7d9aa_sk
+            │           │   ├── signcerts
+            │           │   │   └── User1@org1.example.com-cert.pem
+            │           │   └── tlscacerts
+            │           │       └── tlsca.org1.example.com-cert.pem
+            │           └── tls
+            │               ├── ca.crt # org1的CORE_PEER_TLS_ROOTCERT_FILE的环境变量配置路径
+            │               ├── client.crt
+            │               └── client.key
+            └── org2.example.com
+                ├── ca
+                │   ├── 744a803cad095530eeca4cc9516eaedf353bdc1d15b10951a42e99fa6ebb39d4_sk
+                │   └── ca.org2.example.com-cert.pem
+                ├── msp
+                │   ├── admincerts
+                │   │   └── Admin@org2.example.com-cert.pem
+                │   ├── cacerts
+                │   │   └── ca.org2.example.com-cert.pem
+                │   └── tlscacerts
+                │       └── tlsca.org2.example.com-cert.pem
+                ├── peers
+                │   ├── peer0.org2.example.com
+                │   │   ├── msp
+                │   │   │   ├── admincerts
+                │   │   │   │   └── Admin@org2.example.com-cert.pem
+                │   │   │   ├── cacerts
+                │   │   │   │   └── ca.org2.example.com-cert.pem
+                │   │   │   ├── keystore
+                │   │   │   │   └── 1120c679527710e7a37f48770549e7d005eb30ebe5020ba0153088785e5f9fe8_sk
+                │   │   │   ├── signcerts
+                │   │   │   │   └── peer0.org2.example.com-cert.pem
+                │   │   │   └── tlscacerts
+                │   │   │       └── tlsca.org2.example.com-cert.pem
+                │   │   └── tls
+                │   │       ├── ca.crt
+                │   │       ├── server.crt
+                │   │       └── server.key
+                │   └── peer1.org2.example.com
+                │       ├── msp
+                │       │   ├── admincerts
+                │       │   │   └── Admin@org2.example.com-cert.pem
+                │       │   ├── cacerts
+                │       │   │   └── ca.org2.example.com-cert.pem
+                │       │   ├── keystore
+                │       │   │   └── 9b0e72ad3d023846a7cdfc6235633c39b8552e30f6a1266e92ea21b8a1724adc_sk
+                │       │   ├── signcerts
+                │       │   │   └── peer1.org2.example.com-cert.pem
+                │       │   └── tlscacerts
+                │       │       └── tlsca.org2.example.com-cert.pem
+                │       └── tls
+                │           ├── ca.crt
+                │           ├── server.crt
+                │           └── server.key
+                ├── tlsca
+                │   ├── d8daa7e1cd2acb504c1ac52ff2dab42c955b2a1d9f00c856c9fd5f7e5f98f0e0_sk
+                │   └── tlsca.org2.example.com-cert.pem #填写tls_cacerts的路径
+                └── users 
+                    ├── Admin@org2.example.com
+                    │   ├── msp #org2的CORE_PEER_MSPCONFIGPATH路径这里是admin的权限
+                    │   │   ├── admincerts
+                    │   │   │   └── Admin@org2.example.com-cert.pem
+                    │   │   ├── cacerts
+                    │   │   │   └── ca.org2.example.com-cert.pem
+                    │   │   ├── keystore
+                    │   │   │   └── 9e57e5c24f856bb1bced92c4a5ddb133ba73c23105a28e942e253b2248d20d7b_sk
+                    │   │   ├── signcerts
+                    │   │   │   └── Admin@org2.example.com-cert.pem
+                    │   │   └── tlscacerts
+                    │   │       └── tlsca.org2.example.com-cert.pem
+                    │   └── tls
+                    │       ├── ca.crt
+                    │       ├── client.crt
+                    │       └── client.key
+                    └── User1@org2.example.com
+                        ├── msp
+                        │   ├── admincerts
+                        │   │   └── User1@org2.example.com-cert.pem
+                        │   ├── cacerts
+                        │   │   └── ca.org2.example.com-cert.pem
+                        │   ├── keystore
+                        │   │   └── 75a4237a80b4caa06d0b3289e7c7674a3986dfae39593d8d0a9d55b5960bf82f_sk
+                        │   ├── signcerts
+                        │   │   └── User1@org2.example.com-cert.pem
+                        │   └── tlscacerts
+                        │       └── tlsca.org2.example.com-cert.pem
+                        └── tls
+                            ├── ca.crt
+                            ├── client.crt
+                            └── client.key
 
 ## Rereference
 

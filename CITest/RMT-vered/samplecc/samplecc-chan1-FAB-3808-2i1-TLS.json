@@ -60,7 +60,7 @@
             "args": ["1"]
         },
         "move": {
-            "fcn": "saveOrUpdateBizFncBscinfList",
+            "fcn": "saveOrUpdateBizFncBscinf",
             "args": [{
                 "id": 1,
                 "fncJrnlId": "1",

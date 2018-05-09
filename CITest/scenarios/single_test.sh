@@ -1,1 +1,0 @@
-bash test_driver.sh -m LOC-dev -p -c $chaincode

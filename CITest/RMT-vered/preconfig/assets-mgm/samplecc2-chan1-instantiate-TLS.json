@@ -18,7 +18,7 @@
         "name":  "golden-ticket",
         "action":  "create",
         "orgName": [
-            "bigtree"
+            "factoring"
         ]
     },
     "burstOpt": {
@@ -42,7 +42,7 @@
         "payLoadMax": "1024"
     },
     "deploy": {
-        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/samplecc/go",
+        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/assets-mgm",
         "fcn": "init",
         "args": []
     },

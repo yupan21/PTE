@@ -100,4 +100,5 @@
     - 通过添加command获取权限，在command里面添加`sudo chmod 777 ./docker-entrypoint.sh`
     - 通过本地获取docker-entrypoint.sh的权限并挂载到容器中，在volume中添加。
 
-+ 如果在fabric-sdk-node装npm的出现npy错误，需要使用yum 安装build-essential 和gcc等库保证编译成功
++ 如果在fabric-sdk-node装npm的出现npy错误，需要使用yum 安装build-essential和gcc等库保证编译成功
++ 在进行`peer update`的操作的时候，需要保证写在genesis block里面的大多数组织（大于一半）的成员的签名才能够完成，否则出现（BAD_REQUEST）等情况。注意不是加入用户channel的组织，而是系统channel。
