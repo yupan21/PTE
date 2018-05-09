@@ -68,10 +68,15 @@ var chaincode_ver = uiContent.chaincodeVer;
 logger.info('Nid: %d, chaincode_id: %s, chaincode_ver: %s', Nid, chaincode_id, chaincode_ver);
 
 var channelOpt = uiContent.channelOpt;
-var instantiatePeers = []
-for (i = 0; i < uiContent.instantiatePeers.length; i++) {
-    instantiatePeers.push(uiContent.instantiatePeers[i]);
+if (uiContent.instantiatePeers === undefined) {
+    var instantiatePeers = []
+} else {
+    for (i = 0; i < uiContent.instantiatePeers.length; i++) {
+        var instantiatePeers = []
+        instantiatePeers.push(uiContent.instantiatePeers[i]);
+    }
 }
+
 var channelName = channelOpt.name;
 var channelOrgName = [];
 for (i = 0; i < channelOpt.orgName.length; i++) {
@@ -541,6 +546,7 @@ function buildChaincodeProposal(client, the_user, type, upgrade, transientMap) {
 //instantiate chaincode
 function chaincodeInstantiate(channel, client, org) {
     var cryptoSuite = hfc.newCryptoSuite();
+    orgName = ORGS[org].name;
     cryptoSuite.setCryptoKeyStore(hfc.newCryptoKeyStore({
         path: testUtil.storePathForOrg(Nid, orgName)
     }));
@@ -554,6 +560,7 @@ function chaincodeInstantiate(channel, client, org) {
     var ivar = 0
     for (ivar = 0; ivar < channelOrgName.length; ivar++) {
         var orgInstantiate = channelOrgName[ivar];
+        logger.info('[chaincodeInstantiate] instantiatePeers=', instantiatePeers);
         if(instantiatePeers.length > 1){
             channelAddPeerAll(channel, client, orgInstantiate);
         } else {
