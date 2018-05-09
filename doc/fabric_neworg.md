@@ -7,7 +7,7 @@
 
 + 该命令包括分发composeFile里面的veredholdings的所有文件到需要部署的主机
 + 清除待部署主机的原有docker网络
-    - 注意:使用了`docker rm -f $(docker ps -aq)``docker rmi $(docker images | grep "dev" | awk '{print $3}')`
+    - 注意:使用了`docker rm -f $(docker ps -aq)`和`docker rmi $(docker images | grep "dev" | awk '{print $3}')`
 
             rm -rf /data/ledgers_backup/*
             rm -rf /data/couchdbdata/*/* #注意这里包括有douchdb的数据，挂载到本地的，测试环境需要清理

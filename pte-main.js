@@ -71,10 +71,7 @@ var channelOpt = uiContent.channelOpt;
 if (uiContent.instantiatePeers === undefined) {
     var instantiatePeers = []
 } else {
-    for (i = 0; i < uiContent.instantiatePeers.length; i++) {
-        var instantiatePeers = []
-        instantiatePeers.push(uiContent.instantiatePeers[i]);
-    }
+    var instantiatePeers = uiContent.instantiatePeers
 }
 
 var channelName = channelOpt.name;

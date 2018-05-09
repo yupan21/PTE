@@ -102,3 +102,6 @@
 
 + 如果在fabric-sdk-node装npm的出现npy错误，需要使用yum 安装build-essential和gcc等库保证编译成功
 + 在进行`peer update`的操作的时候，需要保证写在genesis block里面的大多数组织（大于一半）的成员的签名才能够完成，否则出现（BAD_REQUEST）等情况。注意不是加入用户channel的组织，而是系统channel。
++ 1.0.6和1.1.0的fabric image所用的go的版本不一样，存在一些chaincode不能够正确的instantiate的问题，比如`undefined: sort.Slice`
++ chincode之间invoke的时候，需要在同一个peer之内才能够相互invoke，否则还是找不到这个chaincode
++ chaincode的名字和channel的名字不能用`-`来分割，否则会出现错误

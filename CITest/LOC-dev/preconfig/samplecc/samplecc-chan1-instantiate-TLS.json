@@ -1,6 +1,6 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "chaincode-bsnRule",
+    "chaincodeID": "bsnRule",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",

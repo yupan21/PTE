@@ -1,6 +1,6 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "chaincode-receivable",
+    "chaincodeID": "receivable",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",
@@ -42,7 +42,7 @@
         "payLoadMax": "1024"
     },
     "deploy": {
-        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/chaincode-receivable",
+        "chaincodePath": "github.com/hyperledger/fabric-test/chaincodes/receivable",
         "fcn": "init",
         "args": []
     },
