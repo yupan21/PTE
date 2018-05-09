@@ -93,14 +93,15 @@ bash test_driver.sh -m $testcasename -p -c $chaincode
 # # start recording ---------------
 
 # # running test-----------------
-# cd $CISCRIPT_DIR
-# node ./config.js $testcasename nProcPerOrg 1
-# node ./config.js $testcasename nRequest 10
-# node ./config.js $testcasename runDur 0
-# # node ./config.js $testcasename ccOpt.payLoadMin 256
-# # node ./config.js $testcasename ccOpt.payLoadMax 256
-# node ./config.js $testcasename invokeType Move
-# bash ./test_driver.sh -t $testcasename
+for n in 1 ; do 
+    cd $CISCRIPT_DIR
+    node ./config.js $testcasename nProcPerOrg $n
+    node ./config.js $testcasename nRequest 10
+    node ./config.js $testcasename runDur 0
+    node ./config.js $testcasename invokeType Move
+    bash ./test_driver.sh -t $testcasename
+    ## ending case ----------------
+done 
 # ## ending case ----------------
 
 # # end recording -----------------

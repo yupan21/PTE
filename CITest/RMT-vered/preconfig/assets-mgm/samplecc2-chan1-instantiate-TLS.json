@@ -19,7 +19,7 @@
         "name":  "golden-ticket",
         "action":  "create",
         "orgName": [
-            "supply","core"
+            "core"
         ]
     },
     "burstOpt": {

@@ -7,7 +7,7 @@
     "transMode": "Constant",
     "transType": "Invoke",
     "invokeType": "Move",
-    "targetPeers": "OrgAnchor",
+    "targetPeers": "list",
     "nProcPerOrg": "1",
     "nRequest": "1",
     "runDur": "0",

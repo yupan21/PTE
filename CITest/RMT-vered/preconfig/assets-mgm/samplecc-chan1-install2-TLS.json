@@ -16,7 +16,7 @@
         "name":  "golden-ticket",
         "action":  "create",
         "orgName": [
-            "factoring","supply"
+            "factoring"
         ]
     },
     "burstOpt": {
