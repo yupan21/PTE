@@ -34,9 +34,6 @@ SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/
 NEWORG_SCRIPTS=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/scripts
 
 function addorg(){
-    ssh root@$HOST1 "cd $NEWORG_SCRIPTS; \
-    bash addorg.sh
-    "
     scp -i ~/.ssh/id_rsa -r root@$HOST1:$PTE_DIR/composeFile/$networkCompose/crypto-config $PTE_DIR/composeFile/$networkCompose/
     # start channel -------------
     cd $CISCRIPT_DIR
