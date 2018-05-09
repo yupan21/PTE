@@ -6,11 +6,12 @@
     "invokeCheck": "TRUE",
     "transMode": "Simple",
     "transType": "instantiate",
+    "instantiatePeers":[0,1,2,3,4],
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
     "nOrderer": "1",
     "nPeer": "4",
-    "nProcPerOrg": "4",
+    "nProcPerOrg": "1",
     "nRequest": "1000",
     "runDur": "600",
     "TLS": "enabled",
@@ -18,7 +19,7 @@
         "name":  "golden-ticket",
         "action":  "create",
         "orgName": [
-            "factoring"
+            "supply","core"
         ]
     },
     "burstOpt": {

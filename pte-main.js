@@ -68,6 +68,10 @@ var chaincode_ver = uiContent.chaincodeVer;
 logger.info('Nid: %d, chaincode_id: %s, chaincode_ver: %s', Nid, chaincode_id, chaincode_ver);
 
 var channelOpt = uiContent.channelOpt;
+var instantiatePeers = []
+for (i = 0; i < uiContent.instantiatePeers.length; i++) {
+    instantiatePeers.push(uiContent.instantiatePeers[i]);
+}
 var channelName = channelOpt.name;
 var channelOrgName = [];
 for (i = 0; i < channelOpt.orgName.length; i++) {
@@ -301,6 +305,40 @@ function channelAddPeer1(channel, client, org) {
     return targets;
 }
 
+function channelAddPeerAll(channel, client, org) {
+    logger.info('[channelAddPeerAll] channel name: %s, org: %s', channel.getName(), org);
+    var peerTmp;
+    var targets = [];
+
+    for (let key in ORGS[org]) {
+        if (ORGS[org].hasOwnProperty(key)) {
+            for (var ipeer = 0; ipeer < instantiatePeers.length; ipeer++) {
+                if (key.indexOf('peer') === instantiatePeers[ipeer]) {
+                    if (TLS.toUpperCase() == 'ENABLED') {
+                        let data = fs.readFileSync(path.resolve(goPath, ORGS[org][key]['tls_cacerts']));
+                        peerTmp = client.newPeer(
+                            ORGS[org][key].requests, {
+                                pem: Buffer.from(data).toString(),
+                                'ssl-target-name-override': ORGS[org][key]['server-hostname']
+                            }
+                        );
+                        targets.push(peerTmp);
+                        channel.addPeer(peerTmp);
+                    } else {
+                        peerTmp = client.newPeer(ORGS[org][key].requests);
+                        targets.push(peerTmp);
+                        channel.addPeer(peerTmp);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    logger.debug('[channelAddPeerAll] org: %s, channel peers: ', org, channel.getPeers());
+
+    return targets;
+}
+
 function channelAddPeerEventJoin(channel, client, org) {
     logger.info('[channelAddPeerEvent] channel name: ', channel.getName());
     var eh;
@@ -516,7 +554,11 @@ function chaincodeInstantiate(channel, client, org) {
     var ivar = 0
     for (ivar = 0; ivar < channelOrgName.length; ivar++) {
         var orgInstantiate = channelOrgName[ivar];
-        channelAddPeer1(channel, client, orgInstantiate);
+        if(instantiatePeers.length > 1){
+            channelAddPeerAll(channel, client, orgInstantiate);
+        } else {
+            channelAddPeer1(channel, client, orgInstantiate);
+        }
     }
     let eventHubs = channelAddEvent(channel, client, org);
     //printChainInfo(channel);
