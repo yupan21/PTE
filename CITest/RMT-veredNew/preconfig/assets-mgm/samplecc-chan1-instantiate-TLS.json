@@ -1,11 +1,12 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "sample_ccnew",
+    "chaincodeID": "sample_ccNew",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "TRUE",
     "transMode": "Simple",
     "transType": "instantiate",
+    "instantiatePeers":[0,1,2,3,4],
     "invokeType": "Move",
     "targetPeers": "OrgAnchor",
     "nOrderer": "1",

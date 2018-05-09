@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 #
+
 unset http_proxy https_proxy
 
 testcasename='RMT-veredNew'
@@ -30,12 +31,19 @@ NL_DIR=/opt/go/src/github.com/hyperledger/fabric-test/tools/NL
 SCFILES_DIR=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/CITest/CISCFiles
 # scfile needs for PTE test
 
+NEWORG_SCRIPTS=/opt/go/src/github.com/hyperledger/fabric-test/fabric-sdk-node/test/PTE/composeFile/veredholdings/scripts
 
-scp -i ~/.ssh/id_rsa -r root@$HOST1:$PTE_DIR/composeFile/$networkCompose/crypto-config $PTE_DIR/composeFile/$networkCompose/
-# start channel -------------
-cd $CISCRIPT_DIR
-bash test_driver.sh -m $testcasename -p -c $chaincode
-# start channel -------------
+function addorg(){
+    ssh root@$HOST1 -i ~/.ssh/id_rsa "cd $NEWORG_SCRIPTS \
+    bash addorg.sh
+    "
+    scp -i ~/.ssh/id_rsa -r root@$HOST1:$PTE_DIR/composeFile/$networkCompose/crypto-config $PTE_DIR/composeFile/$networkCompose/
+    # start channel -------------
+    cd $CISCRIPT_DIR
+    bash test_driver.sh -m $testcasename -p -c $chaincode
+    # start channel -------------
+}
+addorg
 
 # # -------------------------------------------------------------------
 # # -------------------------------------------------------------------
@@ -49,8 +57,8 @@ bash test_driver.sh -m $testcasename -p -c $chaincode
 for n in 1 ; do 
     cd $CISCRIPT_DIR
     node ./config.js $testcasename nProcPerOrg $n
-    node ./config.js $testcasename nRequest 0
-    node ./config.js $testcasename runDur 600
+    node ./config.js $testcasename nRequest 100
+    node ./config.js $testcasename runDur 0
     node ./config.js $testcasename invokeType Move
     bash ./test_driver.sh -t $testcasename
     ## ending case ----------------

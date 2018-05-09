@@ -96,7 +96,7 @@ bash test_driver.sh -m $testcasename -p -c $chaincode
 for n in 1 ; do 
     cd $CISCRIPT_DIR
     node ./config.js $testcasename nProcPerOrg $n
-    node ./config.js $testcasename nRequest 10
+    node ./config.js $testcasename nRequest 100
     node ./config.js $testcasename runDur 0
     node ./config.js $testcasename invokeType Move
     bash ./test_driver.sh -t $testcasename

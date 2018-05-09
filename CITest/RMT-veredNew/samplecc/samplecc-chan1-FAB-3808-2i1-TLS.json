@@ -1,6 +1,6 @@
 {
     "channelID": "_ch1",
-    "chaincodeID": "sample_ccnew",
+    "chaincodeID": "sample_ccNew",
     "chaincodeVer": "v0",
     "logLevel": "ERROR",
     "invokeCheck": "FALSE",
@@ -32,7 +32,9 @@
         "devFreq": "0"
     },
     "listOpt": {
-        "bosc": ["peer1.bosc.veredholdings.com"]
+        "bosc": ["peer1.bosc.veredholdings.com"],
+        "bigtree": ["peer1.bigtree.veredholdings.com"],
+        "factoring": ["peer1.factoring.veredholdings.com"]
     },
     "eventOpt": {
         "listener": "Transaction",

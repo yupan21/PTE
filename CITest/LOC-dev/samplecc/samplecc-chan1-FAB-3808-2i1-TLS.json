@@ -60,24 +60,6 @@
         "move": {
             "fcn": "createReceivableInfo",
             "args": [{
-                "businessRuleId": "",
-                "productId": "",
-                "dataSource": "",
-                "buyerSocialCreditCode": "",
-                "sellerSocialCreditCode": "",
-                "docTypeCode": "",
-                "docId": "",
-                "faceAmount": "0",
-                "balance": "0",
-                "currencyCode": "",
-                "startDate": 0,
-                "expireDate": 0,
-                "tradeContractId": "",
-                "transferMark": "",
-                "confirmMark": "",
-                "establishedGoldTicketMark": "",
-                "goldBalance": "0",
-                "effectiveStatusCode": "",
                 "checkStatus": ""
               }]
         }
