@@ -22,6 +22,7 @@
     vi /etc/profile #写入下面两行，不要注释
     # export PATH=$PATH:/usr/local/go/bin
     # export GOPATH=/opt/go
+    # export GOROOT=$(which go)
     source /etc/profile
     echo $PATH
     go version

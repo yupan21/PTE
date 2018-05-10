@@ -32,3 +32,7 @@
 进入PTE/CITtest/scenarios，运行`veredholdings-pte.sh`来测试是否能够添加org
 
 + 该命令包括对使用PTE安装chaincode，instantiate chaincode和运行100笔交易
+
+# 注意
++ addorg里面的CRYPTO_CONFIG_DIR路径是使用fabric-test的绝对路径，注意修改
++ 注意文件相对位置，veredholdings里面的文件相对位置不能改变，否则大多数路径需要修改
